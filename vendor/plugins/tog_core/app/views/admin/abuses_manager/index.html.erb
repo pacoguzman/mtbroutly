@@ -1,0 +1,35 @@
+<div class="titleB"><%=I18n.t("tog_core.admin.abuses.title")%></div>
+<table class="tableE">
+  <thead>
+    <tr>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.abuse")%></th>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.subject")%></th>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.description")%></th>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.email")%></th>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.created_at")%></th>
+      <th scope="col"><%=I18n.t("tog_core.admin.abuses.model.url")%></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td colspan="6" class="info_results">
+        <span class="info_items"><%= page_entries_info @abuses %></span>
+        <span class="pages_navigation right">
+          <%= will_paginate @abuses, :container => false %>
+        </span>
+        </td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% for abuse in @abuses %>
+    <tr<%= cycle(' class="pair"','') -%>>
+      <td><strong><%= link_to "##{abuse.id}", admin_abuses_show_path(abuse) %></strong></td>
+      <td><%= abuse.title %></td>
+      <td><%= truncate(abuse.description) %></td>
+      <td><%= abuse.email %></td>
+      <td><%= abuse.created_at %></td>                                                              
+      <td><%= link_to abuse.referer, abuse.referer %></td>                                                              
+    </tr>
+    <% end %>
+  </tbody>
+</table>

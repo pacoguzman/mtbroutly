@@ -1,0 +1,99 @@
+es:
+  interface:
+    admin:
+      groups: Grupos
+    member:
+      my_groups: Mis grupos
+    site:
+      profile: Gente
+      groups: Grupos
+  tog_social:
+    plugin_name: Social
+    plugin_description: Gestión de objetos sociales básicos (perfiles, grupos y amistades)
+    cancel: Cancelar
+    back: Volver    
+    msg_yes: Si
+    msg_no: No
+    sharings: 
+      share: Compartir '{{name}}' 
+      share_with: Compartir con '{{name}}'    
+      shared_ok: Objeto compartido con el grupo "{{name}}"!
+      shared_nok: Este objeto ya estaba compartido con el grupo "{{name}}"!           
+    profiles:
+      member:
+        updated: Su perfíl se ha actualizado con éxito
+      helper:
+        photo_for_user: Foto de {{name}}
+        follow_user: Seguir a {{name}}
+        unfollow_user: Dejar de seguir a {{name}}
+        add_friend: Añadir a {{name}} a tu lista de amigos
+        remove_friend: Eliminar a {{name}} de tu lista de amigos        
+    groups:
+      model:
+        name: Nombre
+        created_by: Creado por
+        private: Privado
+        moderated: Moderado
+        active: Activo
+        icon: Icono
+        created_at: Creado el
+        updated_at: Actualizado el        
+      site:
+        share: Compartir con tus grupos
+        share_title: Compartir con el grupo '{{name}}'        
+        already_member: Ya eres un miembro de este grupo.
+        not_member: No eres un miembro de este grupo.
+        request_received: Su petición ha sido recibida. Los moderadores del grupo tomarán una decisión en breve.
+        request_waiting: Su petición de unirse al grupo está siendo procesada. Por favor tenga un poco de paciencia.
+        welcome: Bienvenido al grupo '{{name}}'. Disfrute su participación!
+        leaved: Has dejado de pertenecer a este grupo
+        last_moderator: Eres el último moderador de este grupo.No puedes abandonarlo hasta que nomines a un nuevo moderador
+        not_found: Error. Este grupo no está activo o no existe
+        unactive: Error. Este grupo no está activo
+      member:
+        created: Grupo creado con éxito.
+        pending: Tu grupo ha sido creado pero está pendiente de aprobación por un administrador
+        updated: Grupo '{{name}}' actualizado con éxito"
+        user_doesnt_exist: El usuario no existe
+        user_rejected: El usuario '{{name}}' ha sido rechazado para este grupo
+        user_accepted: El usuario '{{name}}' ha sido aceptado para este grupo
+        error: Oooops. Algo ha ido mal
+        not_moderator: No eres un moderador de este grupo
+        mail:
+          activation_request:
+            subject: Solicitud de nuevo grupo '{{group_name}}'
+            content: "<p>El usuario '{{user_name}}' ha solicitado la creación de un nuevo grupo llamado '{{group_name}}'.</p><p><a href=\"{{activation_url}}\">{{activation_url}}</a></p>"
+      admin:
+        groups: Grupos
+        deleted: Grupo eliminado
+        activated: El grupo está ahora activo
+        edit_group: Editar grupo  
+        activate: Activar
+        group_details: Detalles del grupo
+        memberships: Membresías
+        moderators: Moderadores
+        members: Miembros
+        pending_members: Miembros pendientes
+        delete_group: Eliminar grupo
+        please_wait: Por favor espere...                
+    friendships: 
+      member:
+        not_found: No existe ningún usuario con el id '{{id}}'
+        followed: Ahora sigues a '{{user_name}}'
+        unfollowed: Has dejado de seguir a '{{user_name}}'        
+        friend:
+          added: "Has añadido a {{friend_name}} como tu contacto"
+          confirmed: "Has confirmado a {{friend_name}} como tu contacto"
+        mail:
+          follow:
+            subject: "¡{{user_name}} te está siguiendo!"
+            content: "Hola {{friend_name}}, <p>{{user_name}} te está siguiendo.</p> <p>Consulta el perfil de {{user_name}} aquí: <br/><a href='{{user_profile_url}}'>{{user_profile_url}}</a></p>"
+          unfollow:
+            subject: "¡{{user_name}} ha dejado de seguirte!"
+            content: "Hola {{friend_name}}, <p>{{user_name}} ha dejado de seguirte.</p> <p>Consulta el perfil de {{user_name}} aquí: <br/><a href='{{user_profile_url}}'>{{user_profile_url}}</a></p>"
+          add_friend:
+            subject: "¡Eres el contacto más reciente de {{user_name}}!"
+            content: "Hola {{friend_name}}, <p>{{user_name}} te ha añadido como contacto.</p> <p>Puedes ver el perfil de {{user_name}} aquí: <br/><a href='{{user_profile_url}}'>{{user_profile_url}}</a></p> <p>Para añadirlo como contacto visita: <br/><a href='{{confirm_url}}'>{{confirm_url}}</a>"
+          confirm_friend:
+            subject: "¡{{user_name}} te ha confirmado como contacto!"
+            content: "Hola {{friend_name}}, <p>{{user_name}} también te ha añadido como contacto.</p> <p>Puedes ver el perfil de {{user_name}} aquí: <br/><a href='{{user_profile_url}}'>{{user_profile_url}}</a></p>"

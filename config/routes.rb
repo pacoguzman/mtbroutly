@@ -1,4 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
+  map.routes_from_plugin 'tog_mail'
+
+  map.routes_from_plugin 'tog_social'
+
+  map.routes_from_plugin 'tog_user'
+
+  map.routes_from_plugin 'tog_core'
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

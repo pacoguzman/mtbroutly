@@ -1,0 +1,47 @@
+<div class="titleB">Signup</div>
+<p>
+    <span class="fontsmaller">Already registered? <%= link_to "Click here to login", login_path %>.</span>  
+</p>
+
+<br />
+<%= error_messages_for :user %>
+<% form_for :user, :url => users_path, :html => {:id => "f_signup", :name => "f_signup" } do |f| -%>
+  <fieldset>
+    <div class="fields">
+      <p>
+          <% unless config["plugins.tog_user.email_as_login"] %>
+            <label for="login">Login</label>
+            <%= f.text_field :login, :class => "fieldbox", :size => "40" %>
+          <% end %>
+      </p>
+
+      <p>
+        <label for="email">Email</label>
+        <%= f.text_field :email, :class => "fieldbox", :size => "40" %>
+      </p>
+
+      <p>
+        <label for="pass">Password</label>
+        <%= f.password_field :password, :class => "fieldbox", :size => "40" %>
+      </p>
+
+      <p>
+        <label for="repass">Repeat password</label>
+        <%= f.password_field :password_confirmation, :class => "fieldbox", :size => "40" %>
+      </p>  
+
+       <% if config["plugins.tog_user.captcha_enabled"] %>
+          <p>
+            <label for="code">Type the two words</label>
+            <%= recaptcha_tags(:display =>{:lang => config["plugins.tog_core.language.default"]}) %>
+          </p>
+       <% end %>
+    </div>
+  </fieldset>
+
+  <br />
+  <div class="actions">
+    <%= submit_tag 'Sign up!', :class => "button mainaction" %>
+  </div>
+     
+<% end -%>

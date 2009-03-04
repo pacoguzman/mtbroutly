@@ -1,0 +1,43 @@
+<table class="tableE">
+  <caption><%= I18n.t("tog_user.admin.login_details") %></caption>
+  <tbody>
+  <tr>
+      <th scope="row"><%=I18n.t("tog_user.model.name")%></th>
+      <td nowrap="nowrap"><%=f.text_field :login, :class=>"fieldbox" %></td>
+  </tr>
+  <tr>
+      <th scope="row"><%=I18n.t("tog_user.model.password")%></th>
+      <td nowrap="nowrap"><%= f.password_field :password, :class=>"fieldbox" %></td>
+  </tr>
+  <tr>
+      <th scope="row"><%=I18n.t("tog_user.model.password_confirmation")%></th>
+      <td nowrap="nowrap">
+        <%= f.password_field :password_confirmation, :class=>"fieldbox" %>
+        <br />
+        <span class="helpinfo"><%=I18n.t("tog_user.model.change_password_explanation")%></span>
+      </td>
+  </tr>
+  <tr>
+      <th scope="row"></th>
+      <td nowrap="nowrap">
+        <%= f.check_box :admin %> <%=I18n.t("tog_user.model.admin_user")%>
+      </td>
+  </tr>
+</tbody></table>
+<table class="tableE">
+  <caption><%= I18n.t("tog_user.admin.personal_details") %></caption>
+  <tbody>
+  <tr>
+      <th scope="row"><%=I18n.t("tog_user.model.email")%></th>
+      <td nowrap="nowrap"><%= f.text_field :email, :class=>"fieldbox" %></td>
+  </tr>
+  <tr>
+      <th scope="row"><%=I18n.t("tog_user.model.state")%></th>
+      <td nowrap="nowrap">
+        <strong class="highlight"><%= I18n.t("tog_user.model.states.#{@user.current_state}") %></strong>
+        <br/>
+        <%= I18n.t("tog_user.admin.change") %>:
+        <%= select_state_tag(@user) %>
+      </td>
+  </tr>
+</tbody></table>

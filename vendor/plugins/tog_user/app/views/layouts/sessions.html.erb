@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>tog</title>
+<meta name="language" content="en" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="title" content="tog"/>
+<meta name="title" content="tog" />
+<meta name="description" content="XXXXX XXXX XXXX" />
+<meta name="keywords" content="xxx, xxxxxx, xxxx" />
+<meta name="author" content="Linking Paths" />
+
+<link rel="icon" href="/tog_core/images/favicon.ico" />
+
+<link href="/tog_core/stylesheets/template.css" rel="stylesheet" media="screen" type="text/css" />
+<link href="/tog_core/stylesheets/style.css"    rel="stylesheet" media="screen" type="text/css" />
+<link href="/tog_core/stylesheets/pages.css"    rel="stylesheet" media="screen" type="text/css" />
+
+<!--[if lt IE 7.]>
+<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/ie6.css" />
+<![endif]-->
+
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/ie7.css" />
+<![endif]-->
+
+<script type="text/javascript">
+// <![CDATA[
+    if(navigator.userAgent.indexOf('Mac') != -1) document.write ('<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/mac.css" />');
+// ]]>
+</script>
+
+<%= inject_autodiscovery %>
+<%= inject_js %>
+<%= inject_css %>
+
+
+<link rel="start" type="text/html" href="/" title="Página de inicio" />
+
+</head>
+
+<body>
+    <div id="container">
+
+        <div id="header" class="clearfix">
+            <div id="header_content">
+                <h1 id="logo"><a href="/"><img src="/tog_core/images/template/logo.gif" alt="toginstallation.com" /></a></h1>
+
+                <div id="header_options">
+                    <ul>
+                        <%if logged_in? -%>
+                          <li>Hello <%= current_user.login %></li>
+                          <li><%= link_to 'My info', member_dashboard_path %></li>
+                          <li class="last"><a href="/logout">Log-out</a></li>
+                        <%else -%>
+                          <li><a href="/signup">Sign up</a></li>
+                          <li class="last"><a href="/login">Log-in</a></li>
+                        <%end -%>
+                    </ul>
+                </div> <!-- /#header_options -->
+
+
+                <div id="menu" class="clearfix">
+                        <ul>
+                          <%=links_for_navigation :site %>
+                        </ul>
+                </div>  <!-- #menu -->
+
+                <div id="header_search">
+                  <%= render :partial => "shared/search_form" %>
+                </div> <!-- /#header_search -->
+
+            </div> <!-- /#header_content -->
+        </div>  <!-- /#header -->
+
+        <div id="pagebody">
+
+            <%= render_flash_messages %>
+
+            <div class="<%= columns_distribution %> clearfix">
+              <div class="left_col">
+
+                <%= yield %>
+
+              </div> <!-- /.left_col -->
+              <div class="right_col">
+
+                <%= yield :sidebar %>
+
+              </div> <!-- /.right_col -->
+            </div> <!-- /.col_60_40 -->
+
+        </div><!-- /#pagebody -->
+
+        <%= render :partial => "shared/footer" %>
+
+    </div> <!-- #container -->
+</body>
+</html>

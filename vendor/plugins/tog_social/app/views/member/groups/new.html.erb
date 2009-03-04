@@ -1,0 +1,44 @@
+<div class="titleB">Create group</div>
+<br />
+
+<% if @group && !@group.errors.empty? -%>
+<div class="error">
+  <%= error_messages_for :group %>
+</div>
+<% end -%>
+
+<% form_for(:group, :url=>member_groups_path, :html=>{:multipart=>true}) do |f| %>
+  <fieldset>
+    <legend>Group details</legend>
+    <div class="fields">
+      <p>
+        <label for="group_name">Name</label>
+        <%= f.text_field :name, :class=>"fieldbox", :size => 35 %>
+      </p>
+      <p>
+        <label for="group_description">Description</label>
+        <%= f.text_area :description, :class => 'fieldbox', :size => '60x10' %>
+      </p>
+      <p>
+        <label for="group_tag_list">Tags</label>
+        <%= f.text_field :tag_list, :class => 'fieldbox', :size => 35 %><br/>
+        <span class="helpinfo">Separated by commas</span>
+      </p>
+      <p>
+        <label for="group_image">Image</label>
+        <%= file_field "group", "image" %>
+      </p>
+      <p>
+        <label for="group_private" class="nolabel">Private <%= f.check_box :private %></label><br/>
+        <span class="helpinfo">A private group won't appear in listings.</span>
+      </p>
+      <p>
+        <label for="group_moderated" class="nolabel">Moderated  <%= f.check_box :moderated %></label><br/>
+        <span class="helpinfo">In a moderated group each join request should be approved by one of group's moderators.</span>
+      </p>
+    </div>
+    <div class="actions">
+      <%= submit_tag 'Create', :class => "button mainaction" %>
+    </div>
+  </fieldset>
+<% end %>
