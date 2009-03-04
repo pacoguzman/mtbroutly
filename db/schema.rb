@@ -9,7 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090304205818) do
+ActiveRecord::Schema.define(:version => 20090304210447) do
+
+  create_table "abuses", :force => true do |t|
+    t.string   "email"
+    t.string   "title"
+    t.string   "referer"
+    t.string   "description"
+    t.boolean  "confirmed",     :default => false
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+  end
 
   create_table "comments", :force => true do |t|
     t.string   "title",            :limit => 50, :default => ""
@@ -21,5 +32,13 @@ ActiveRecord::Schema.define(:version => 20090304205818) do
   end
 
   add_index "comments", ["user_id"], :name => "fk_comments_user"
+
+  create_table "ratings", :force => true do |t|
+    t.integer "rating"
+    t.integer "rateable_id",   :null => false
+    t.string  "rateable_type", :null => false
+  end
+
+  add_index "ratings", ["rateable_id", "rating"], :name => "index_ratings_on_rateable_id_and_rating"
 
 end
