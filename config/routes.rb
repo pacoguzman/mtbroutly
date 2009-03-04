@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :routes
+
+  map.resources :waypoints
+
   map.routes_from_plugin 'tog_mail'
 
   map.routes_from_plugin 'tog_social'

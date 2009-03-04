@@ -1,0 +1,33 @@
+<p>
+  <b>Address:</b>
+  <%=h @waypoint.address %>
+</p>
+
+<p>
+  <b>Lat:</b>
+  <%=h @waypoint.lat %>
+</p>
+
+<p>
+  <b>Lng:</b>
+  <%=h @waypoint.lng %>
+</p>
+
+<p>
+  <b>Alt:</b>
+  <%=h @waypoint.alt %>
+</p>
+
+<p>
+  <b>Locatable:</b>
+  <%=h @waypoint.locatable %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @waypoint.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_waypoint_path(@waypoint) %> |
+<%= link_to 'Back', waypoints_path %>

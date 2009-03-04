@@ -1,0 +1,18 @@
+<p>
+  <b>Title:</b>
+  <%=h @route.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @route.description %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @route.user %>
+</p>
+
+
+<%= link_to 'Edit', edit_route_path(@route) %> |
+<%= link_to 'Back', routes_path %>

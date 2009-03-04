@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090304211106) do
+ActiveRecord::Schema.define(:version => 20090304215853) do
 
   create_table "abuses", :force => true do |t|
     t.string   "email"
@@ -198,6 +198,14 @@ ActiveRecord::Schema.define(:version => 20090304211106) do
 
   add_index "ratings", ["rateable_id", "rating"], :name => "index_ratings_on_rateable_id_and_rating"
 
+  create_table "routes", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -225,6 +233,18 @@ ActiveRecord::Schema.define(:version => 20090304211106) do
     t.datetime "deleted_at"
     t.string   "state",                                   :default => "passive"
     t.boolean  "admin",                                   :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "waypoints", :force => true do |t|
+    t.string   "address",        :limit => 100
+    t.decimal  "lat",                           :precision => 15, :scale => 10
+    t.decimal  "lng",                           :precision => 15, :scale => 10
+    t.decimal  "alt",                           :precision => 5,  :scale => 10
+    t.integer  "locatable_id"
+    t.string   "locatable_type"
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

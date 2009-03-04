@@ -1,0 +1,30 @@
+<h1>Listing waypoints</h1>
+
+<table>
+  <tr>
+    <th>Address</th>
+    <th>Lat</th>
+    <th>Lng</th>
+    <th>Alt</th>
+    <th>Locatable</th>
+    <th>Position</th>
+  </tr>
+
+<% for waypoint in @waypoints %>
+  <tr>
+    <td><%=h waypoint.address %></td>
+    <td><%=h waypoint.lat %></td>
+    <td><%=h waypoint.lng %></td>
+    <td><%=h waypoint.alt %></td>
+    <td><%=h waypoint.locatable %></td>
+    <td><%=h waypoint.position %></td>
+    <td><%= link_to 'Show', waypoint %></td>
+    <td><%= link_to 'Edit', edit_waypoint_path(waypoint) %></td>
+    <td><%= link_to 'Destroy', waypoint, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New waypoint', new_waypoint_path %>
