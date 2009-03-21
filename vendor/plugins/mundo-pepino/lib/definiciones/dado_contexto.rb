@@ -18,8 +18,6 @@ end
 
 Dado /^(?:que tenemos )?(?:el|la|los|las|el\/la|los\/las) (?:siguientes? )?(.+):$/ do |modelo, tabla|
   model = unquote(modelo).to_model
-  puts modelo
-  puts model
   add_resource model, translated_hashes(tabla.raw, :model => model), :force_creation => true
 end 
 
@@ -41,6 +39,7 @@ Dado /^que dich[oa]s? (.+) tienen? como (.+) ['"](.+)["'](?:.+)?$/i do |modelo, 
       resources.each_with_index do |r, i| 
         r.update_attribute field, real_value_for(values[i])
       end
+      pile_up res
     else
       raise MundoPepino::FieldNotMapped.new(campo)
     end
@@ -49,24 +48,22 @@ end
 
 Dado /^que dich[oa]s? (.+) tienen? (un|una|dos|tres|cuatro|cinco|\d+) (.+?)(?: (?:llamad[oa]s? )?['"](.+)["'])?$/i do |modelo_padre, numero, modelo_hijos, nombres|
   if mentioned = last_mentioned_of(modelo_padre.to_unquoted)
-    #children_model = modelo_hijos.to_unquoted.to_model
-    children_model = unquote(modelo_hijos).to_model
+    children_model = modelo_hijos.to_unquoted.to_model
     resources = (mentioned.is_a?(Array) ? mentioned : [mentioned])
     resources.each do |resource|
       attribs = names_for_simple_creation(children_model, 
         numero.to_number, nombres, parent_options(resource, children_model))
       add_resource children_model, attribs, :force_creation => nombres.nil?
     end
+    pile_up mentioned
   end
 end
 
-Dado /^que dich[o|a]s? (.+) tienen? (?:el|la|los|las) siguientes? (.+):$/i do |modelo_padre, modelo_hijos, tabla|
+Dado /^que dich[ao]s? (.+) tienen? (?:el|la|los|las) siguientes? (.+):$/i do |modelo_padre, modelo_hijos, tabla|
   if mentioned = last_mentioned_of(modelo_padre.to_unquoted)
-    #children_model = modelo_hijos.to_unquoted.to_model
-    children_model = unquote(modelo_hijos).to_model
+    children_model = modelo_hijos.to_unquoted.to_model
     resources = (mentioned.is_a?(Array) ? mentioned : [mentioned])
     resources.each do |resource|
-      puts translated_hashes(tabla.raw, parent_options(resource, children_model)).inspect
       add_resource children_model, 
         translated_hashes(tabla.raw, parent_options(resource, children_model))
     end

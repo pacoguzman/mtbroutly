@@ -153,7 +153,6 @@ class MundoPepino < Cucumber::Rails::World
   def create(model, raw_attributes = {})
     through = raw_attributes.delete(:through)
     attributes = parsed_attributes(raw_attributes)
-    puts "attributes #{attributes.inspect}"
     obj = if defined?(FixtureReplacement)
       self.send "create_#{model.name.underscore}", attributes
     elsif defined?(Machinist)
@@ -169,7 +168,7 @@ class MundoPepino < Cucumber::Rails::World
     obj
   end
 
-  def find_or_create(model_or_modelo, attributes = {}, options = {})
+  def find_or_create(model_or_modelo, attributes = {}, options = {}) 
     model = if model_or_modelo.is_a?(String)
       model_or_modelo.to_model
     else
@@ -185,7 +184,6 @@ class MundoPepino < Cucumber::Rails::World
           attribs[key] = value
         end
       end
-      puts "attribs #{attribs.inspect}"
       if ((options[:force_creation].nil? || !options[:force_creation])  &&
           obj = model.find(:first, :conditions => conditions_from_attributes(attribs)))
         if(through = attribs[:through])
@@ -212,9 +210,6 @@ class MundoPepino < Cucumber::Rails::World
     else
       attribs
     end
-    puts "model #{model}"
-    puts "attributes #{attributes.inspect}"
-    puts "options #{options.inspect}"
     res = if attributes.size == 1
       find_or_create(model, attributes.first, options)
     else
@@ -243,8 +238,10 @@ class MundoPepino < Cucumber::Rails::World
   
   def pile_up(mentioned)
     @resources ||= []
-    mentioned.class.send :include, Mencionado
-    @resources.unshift mentioned
+    if mentioned != last_mentioned
+      mentioned.class.send :include, Mencionado
+      @resources.unshift mentioned
+    end
     mentioned
   end
 
@@ -349,7 +346,7 @@ class MundoPepino < Cucumber::Rails::World
   # Cucumber::Model::Table's hashes traduciendo nombres de campo
   def translated_hashes(step_table, options = {})
     base_hash = base_hash_for(options)
-    header = step_table[0].map do |campo|
+    header = step_table[0].map do |campo| 
       field_for(options[:model], campo) || campo 
     end
     step_table[1..-1].map do |row|
@@ -497,7 +494,7 @@ class MundoPepino < Cucumber::Rails::World
   end
 
   def parent_options(parent, child)
-   options = {:parent => parent, :model => child}
+   options = {:parent => parent}
     # polymorphic associations
     if reflections = parent.class.reflect_on_association(child.table_name.to_sym)
       if reflections.options[:as]

@@ -11,6 +11,14 @@ Cuando /^(?:que )?visito (?:el|la) #{pagina_re} de ([\w]+|['"][\w ]+["'])$/i do 
   end
 end
 
+Cuando /^(?:que )?visito (?:el|la) #{pagina_re} del (.+) ['"](.+)["']$/i do |modelo, nombre|
+  if resource = last_mentioned_of(modelo, nombre)
+    do_visit eval("#{resource.class.name.underscore}_path(resource)")
+  else
+    raise MundoPepino::ModelNotMapped.new(modelo)
+  end
+end
+
 Cuando /^(?:que )?visito la p[áa]gina de ([\w\/]+) (?:de )?(.+)$/i do |accion, modelo|
   model = modelo.to_unquoted.to_model or raise(MundoPepino::ModelNotMapped.new(modelo))
   action = accion.to_crud_action or raise(MundoPepino::CrudActionNotMapped.new(accion))
@@ -18,11 +26,11 @@ Cuando /^(?:que )?visito la p[áa]gina de ([\w\/]+) (?:de )?(.+)$/i do |accion, 
   do_visit eval("#{action}_#{model.name.downcase}_path")
 end
 
-Cuando /^(?:que )?visito su (?:p[áa]gina|portada)$/i do 
+Cuando /^(?:que )?visito su (?:p[áa]gina|portada)$/i do
   do_visit last_mentioned_url
 end
 
-negative_lookahead = '(?:la|el) \w+ de |su p[aá]gina|su portada'
+negative_lookahead = '(?:la|el) \w+ del? |su p[aá]gina|su portada'
 Cuando /^(?:que )?visito (?!#{negative_lookahead})(.+)$/i do |pagina|
   do_visit pagina.to_unquoted.to_url
 end
