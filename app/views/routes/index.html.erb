@@ -1,24 +1,12 @@
-<h1>Listing routes</h1>
+<% content_for :sidebar do %>
+  <p><%= link_to 'Create new route', new_member_route_path,  {:class => "button add", :title => "Create a new route"} if logged_in? %></p>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>User</th>
-  </tr>
+  <%= render :partial => "search_one_click" %>
+  <%= render :partial => "search_form" %>
 
-<% for route in @routes %>
-  <tr>
-    <td><%=h route.title %></td>
-    <td><%=h route.description %></td>
-    <td><%=h route.user %></td>
-    <td><%= link_to 'Show', route %></td>
-    <td><%= link_to 'Edit', edit_route_path(route) %></td>
-    <td><%= link_to 'Destroy', route, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+  <%= render :partial => 'tag_cloud_routes' %>
 <% end %>
-</table>
 
-<br />
-
-<%= link_to 'New route', new_route_path %>
+<%= render :partial => "routes", :object => @routes, 
+  :locals => {:routes_title => @routes_title, :id_route_list => "route_list",
+  :route_partial => "route"} %>

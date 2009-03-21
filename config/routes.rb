@@ -1,14 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :routes
 
+  # No lo enlazamos con users, ya que sus rutas ya están definidas en tog_user
+  map.resources :routes, :path_prefix => "users/:user_id", :name_prefix => "user_",
+    :only => :index, :collection => {:your_favorites => :get, :created_by_you => :get,
+    :close_to_you => :get}
+  #PENDING Fijar la acción search de las rutas
+  map.resources :routes, :only => [:show, :index],
+    :collection => { :search => :get, :newest => :get, :highlighted => :get },
+    :member => { :big => :get, :rate => :post }
   map.resources :waypoints
 
   map.routes_from_plugin 'tog_mail'
-
   map.routes_from_plugin 'tog_social'
-
   map.routes_from_plugin 'tog_user'
-
   map.routes_from_plugin 'tog_core'
 
   # The priority is based upon order of creation: first created -> highest priority.

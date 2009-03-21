@@ -3,6 +3,14 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  
+#  #TODO el meta language en función del lenguaje de la página
+#  #TODO los valores por defecto que hagan referencia al nombre final de la aplicación
+#  meta  :title        => "MTBRoutes",
+#    :description  => "MTBRoutes community",
+#    :keywords     => "mtb, routes, route, mountain bike, bike, bikes",
+#    :author => "Riding to NoWhere",
+#    :language => "en"
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store

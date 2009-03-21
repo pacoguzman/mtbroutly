@@ -1,0 +1,19 @@
+<% include_javascript "scriptaculous" %>
+<% include_javascript "starbox" %>
+<% include_stylesheet "starbox" %>
+
+<div class="portlet portletI">
+  <h2><span>Rating</span></h2>
+
+  <div id="rating_block">
+    <%= render :partial => "shared/rates", :locals => {:rated => rated} %>
+    <%= render :partial => "shared/rate_form", :locals => {:rated => rated} %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  //<![CDATA[
+  <%= javascript_rating(rated) %>
+  //]]>
+</script>
+

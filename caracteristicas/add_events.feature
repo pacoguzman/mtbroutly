@@ -1,0 +1,1 @@
+Característica: Gestión de Eventos sobre rutas  Para [Beneficio]  Como member  Quiero [característica/comportamiento]

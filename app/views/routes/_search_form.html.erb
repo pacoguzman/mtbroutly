@@ -1,0 +1,52 @@
+<% include_stylesheet "/livepipe-ui/stylesheets/livepipe_window.css" %>
+<% include_javascript "/livepipe-ui/javascripts/livepipe.js" %>
+<% include_javascript "/livepipe-ui/javascripts/window.js" %>
+
+<div class="portletE">
+  <h2><%= t "search.title" %></h2>
+  <div class="portlet_content">
+    <% form_for :search, :url => search_routes_path, :html => {:method => :get} do |f| %>
+      <p>
+        <%= f.label :keywords %><br />
+        <%= f.text_field :keywords %>
+      </p>
+      <p>
+        <%= f.label :where %>
+        <%= link_to "(?)", "#where_help", :id => "where_help_link" %>
+        <div id="where_help" style="display:none; font-size: 0.8em; background-color:#EDF3FD;">
+          You can do a complex search by using an easy syntax:
+          <ul>
+            <li><b>in 'city'</b> - Example: in San Francisco</li>
+            <li><b>around 'region'</b> - Example: around California</li>
+            <li><b>in 'n' kms or miles</b> - Examples: in 9 kms - in 9 miles (from home, the one you have in your profile)</li>
+            <li><b>in 'n' kms or miles of 'city'</b> - Examples: in 25 kms of San Francisco  - in 25 miles of San Francisco </li>
+            <li><b>near</b> - close to you (the one you have in your profile)</li>
+            <li><b>near 'city'</b> - Example: near San Francisco</li>
+          </ul>
+        </div>
+        <%= f.text_field :where %>
+      </p>
+      <p>
+        <%= f.label :distance %><br />
+        <select id="search_distance" name="search[distance]">
+          <%= options_for_select({"Any" => "0", "less than 10 kms" => "1",
+              "between 10 and 25 kms" => "2","between 25 and 50 kms" => "3","more than 50 kms" => "4"},"0") %>
+        </select>
+      </p>
+      <p><%= f.submit t("search.submit") %></p>
+    <% end %>
+  </div>
+</div>
+<% javascript_tag do -%>
+  new Control.Window('where_help_link',{
+  hover: true,
+  opacity: 0.8,
+  position: 'relative',
+  width: 450,
+  offsetTop: -180,
+  height: 180,
+  className: 'simple_window',
+  closeOnClick: true
+  });
+
+<% end -%>

@@ -1,3 +1,3 @@
 class Waypoint < ActiveRecord::Base
-  belongs_to :locatable, :polymorphib => true
+  belongs_to :locatable, :polymorphic => true
 end

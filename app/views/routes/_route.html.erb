@@ -1,0 +1,27 @@
+<div class="detail detail1 clearfix" id="<%= dom_id(route) %>"
+     style="background-color:<%= cycle("#edf3fd","ffffff")%>">
+  <%#= instance_variable_get(:"@map_#{route.id}").to_html %>
+  <div class="image" style="padding:5px 0px 0px 5px">
+    <%##= link_to static_map(route), route_path(route) %>
+    <%#= instance_variable_get(:"@map_#{route.id}").div(:width => 320,:height => 180) %>
+  </div>
+  <div class="title" style="padding-top:5px"><%= link_to "#{sanitize textilize_without_paragraph(route.title)}", route_path(route), :title => "#{sanitize(route.title)}" %></div>
+  <div class="subtitle">Updated <%= distance_of_time_in_words_to_now route.updated_at %> ago...</div>
+  <div class="summary">
+    By: <%= link_to icon_for_profile(route.owner.profile, 'tiny'), profile_path(route.owner.profile) %>
+    <strong><%= link_to route.owner.login, profile_path(route.owner.profile) %></strong>
+  </div>
+  <div id="actions">
+    <%#= link_to "Edit Group", edit_member_group_path(membership.group) -%>  <%#= link_to "#{membership.group.pending_members.size} members waiting for approval", member_group_pending_members_path(membership.group) %>
+  </div>
+  <div class="summary">
+    <div style="float: left; width: 90px;"><b>Rating</b> </div>
+    <div class='star'><div id='rating_total_<%= route.id %>'></div></div><br />
+    Distance: <%#= number_with_precision(route.distance, :precision => 3) %> kms<br/>
+    <%#= pluralize(route.comments.size, 'comment') %><br/>
+    Favorite of <%#= pluralize(route.favorites.size, 'user') %><br/>
+  </div>
+  <div class="text" style="padding:0px 0px 0px 5px">
+    <p><%= route.description %></p>
+  </div>
+</div>
