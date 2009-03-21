@@ -4,7 +4,6 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec/autorun'
 require 'spec/rails'
-require 'shoulda'
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -45,12 +44,4 @@ Spec::Runner.configure do |config|
   # == Notes
   # 
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
-
-  describe "an authenticated controller", :shared => true do
-    before(:each) do
-      controller.should_receive(:login_required).any_number_of_times.and_return(true)
-      #controller.class.before_filters.should include(:authenticate)
-    end
-  end
-  
 end
