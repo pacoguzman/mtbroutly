@@ -1,0 +1,62 @@
+Acts As Favoriteable
+=================
+
+Allows objects to be marked as favorite to a user.
+Requires Rails 2.0+
+
+== Resources
+
+Install
+ * Run the following command:
+ 
+	# TODO
+ 
+ * Create a new rails migration and add the following self.up and self.down methods
+ 
+ def self.up
+   create_table :favorites do |t|
+     t.integer :user_id, :favoriteable_id
+     t.string :favoriteable_type
+     t.timestamps
+   end
+   add_index :favorites, :user_id
+   add_index :favorites, [:favoriteable_type, :favoriteable_id]
+ end
+
+ def self.down
+   drop_table :favorites
+ end
+
+== Usage
+ 
+ * Make your ActiveRecord model act as rateable.
+ 
+ class Model < ActiveRecord::Base
+ 	acts_as_favoriteable
+ end
+
+  * Add the favorites association to your User class
+
+class User < ActiveRecord::Base
+	has_many :favorites
+end
+ 
+	* Favorite an object
+		u = User.find(:first)
+		m = Model.find(:first)
+		m.is_liked_by!(u) => favorite_model_instance
+		m.is_liked_by?(u) => true
+		u.favorites => [ favorite_model_instance ]
+		u.favorites.first.favoriteable => m
+		
+	* Destroy a favorite
+		u.favorites.first.destroy   # destroys favorite
+	
+
+== Credits
+
+Cosmin Radoi - This plugin is heavily influenced by Acts As Commentable
+
+== More
+
+# TODO

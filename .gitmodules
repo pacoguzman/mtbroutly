@@ -1,3 +1,4 @@
-[submodule "veondr/plugins/acts_as_favoriteable"]
-	path = veondr/plugins/acts_as_favoriteable
+
+[submodule "vendor/plugins/acts_as_favoriteable"]
+	path = vendor/plugins/acts_as_favoriteable
 	url = git://github.com/pacoguzman/acts_as_favoriteable.git
