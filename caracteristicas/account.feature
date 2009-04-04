@@ -4,7 +4,7 @@ Característica: Account
   Quiero poder cambiar la contraseña, eliminar los datos de mi cuenta
 
   Escenario: Cambio de contraseña
-    Dado que existe un usuario registrado y confirmado como "login/password"
+    Dado que existe un usuario registrado y activado como "login/login@login.com/password"
 	Cuando visito /login
       Y relleno los datos de sesión como "login/password"
     Entonces pulso el enlace "Account"
@@ -16,7 +16,7 @@ Característica: Account
     Entonces veo el texto "Password Changed" #Necesitamos Selenium
 
   Escenario: Eliminación completa de la cuenta
-    Dado que existe un usuario registrado y confirmado como "login/password"
+    Dado que existe un usuario registrado y activado como "login/login@login.com/password"
 	Cuando visito /login
       Y relleno los datos de sesión como "login/password"
     Entonces pulso el enlace "Account"

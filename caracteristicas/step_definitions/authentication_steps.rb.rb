@@ -2,18 +2,18 @@
 # Actions
 
 Cuando /^relleno los datos de sesión( pulsando "recuerda me")? como "(.*)\/(.*)"$/ do |remember, login, password|
-  Cuando %{relleno "Login" con "#{login}"}
-  Y %{relleno "Password" con "#{password}"}
-  Y %{marco "Remember me"} if remember
-  Y %{pulso el botón "Sign In"}
+  When %{relleno "Login" con "#{login}"}
+  And %{relleno "Password" con "#{password}"}
+  And %{marco "Remember me"} if remember
+  And %{pulso el botón "Sign In"}
 end
 
 Cuando /^relleno los datos de registro como "(.*)\/(.*)\/(.*)"$/ do |email, login, password|
-  Cuando %{relleno "Email" con "#{email}"}
-  Y %{relleno "Login" con "#{login}"}
-  Y %{relleno "Password" con "#{password}"}
-  Y %{relleno "Confirm Password" con "#{password}"}
-  Y %{pulso el botón "Sign Up!"}
+  When %{relleno "Login" con "#{login}"}
+  And %{relleno "Email" con "#{email}"}
+  And %{relleno "Password" con "#{password}"}
+  And %{relleno "Confirm Password" con "#{password}"}
+  And %{pulso el botón "Sign Up!"}
 end
 
 # Session
@@ -22,9 +22,10 @@ Dado /^que no he iniciado sesión como usuario$/ do
   assert true
 end
 
-Dado /^que he iniciado sesión como "(.*)\/(.*)"$/ do |login,password|
-  Dado %{que existe un usuario registrado y confirmado como "#{login}/#{password}"}
-  basic_auth login, password
+Dado /^que he iniciado sesión( pulsando "recuerda me")? como "(.*)\/(.*)"$/ do |remember,login,password|
+  Given %{que existe un usuario registrado y activado como "#{login}/#{login}@#{login}.com/#{password}"}
+  When %{relleno los datos de sesión pulsando recuerda me como "#{login}/#{password}"} if remember
+  basic_auth login, password unless remember
 end
 
 Entonces /^debo estar logueado$/ do
@@ -40,6 +41,6 @@ Entonces /^debo haber terminado la sesión$/ do
 end
 
 Cuando /^regreso la próxima vez$/ do
-  Cuando %{session is cleared}
-  Y %{I go to the homepage}
+  When %{session is cleared}
+  And %{I go to the homepage}
 end

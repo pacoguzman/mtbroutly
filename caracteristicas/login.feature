@@ -11,7 +11,7 @@ Característica: Log In
        Y no debo estar logueado	 
 
     Escenario: El usuario no ha confirmado su cuenta
-      Dado que existe un usuario registrado como "login@login.com/login/password"
+      Dado que existe un usuario registrado como "login/login@login.com/password"
 	  Cuando visito /login
         Y relleno los datos de sesión como "login/password"
 	  Entonces veo el texto "Incorrect username or password"
@@ -19,21 +19,21 @@ Característica: Log In
         Y me gustaría ver el texto "Please confirm your account before"
     
     Escenario: El usuario introduce datos incorrectos
-      Dado que existe un usuario registrado y confirmado como "login/password"	
+      Dado que existe un usuario registrado y activado como "login/login@login.com/password"
 	  Cuando visito /login
         Y relleno los datos de sesión como "log/pass"
 	  Entonces veo el texto "Incorrect username or password"
 	    Y no debo estar logueado
    
     Escenario: EL usuario se loguea correctamente
-      Dado que existe un usuario registrado y confirmado como "login/password"	
+      Dado que existe un usuario registrado y activado como "login/login@login.com/password"
 	  Cuando visito /login
         Y relleno los datos de sesión como "login/password"
 	  Entonces veo el texto "Logged in successfully"
         Y debo estar logueado	  
 		
 	Escenario: El usuario se loguea correctamente y marca "recordarme"
-      Dado que existe un usuario registrado y confirmado como "login/password"	
+      Dado que existe un usuario registrado y activado como "login/login@login.com/password"
 	  Cuando visito /login
         Y relleno los datos de sesión pulsando "recuerda me" como "login/password"
 	  Entonces veo el texto "Logged in successfully"

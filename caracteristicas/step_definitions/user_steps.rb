@@ -7,14 +7,14 @@ end
 Dado /^que existe un usuario registrado como "(.*)\/(.*)\/(.*)"$/ do |login, email, password|
   Dado %{que tenemos el usuario:
           | login | password | password_confirmation | email |
-          | #{login} | #{password} | #{password} | #{email}
-  }
+          | #{login} | #{password} | #{password} | #{email} |
+      }
 end
 
-Dado /^que existe un usuario registrado y activado como "(.*)\/(.*)"$/ do |login, password|
+Dado /^que existe un usuario registrado y activado como "(.*)\/(.*)\/(.*)"$/ do |login, email, password|
   Dado %{que tenemos el usuario:
           | login | password | password_confirmation | email |
-          | #{login} | #{password} | #{password} | #{login}@#{login}.com |
+          | #{login} | #{password} | #{password} | #{email} |
        }
   last_mentioned.activate!
 end
