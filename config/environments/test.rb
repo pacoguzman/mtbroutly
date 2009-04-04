@@ -31,3 +31,4 @@ config.gem "thoughtbot-shoulda", :lib => false, :source => "http://gems.github.c
 config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com", :version => '>=1.2.0'
 config.gem "bmabey-database_cleaner", :lib => "database_cleaner", :source => "http://gems.github.com", :version => '>=0.1.2'
 
+

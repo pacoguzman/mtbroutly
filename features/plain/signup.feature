@@ -10,10 +10,10 @@ Feature: Describiendo el registro de usuarios
     And no debo estar logueado
 	  
   Scenario: Registrarse sign-up con datos correctos
-    Given que no existe un usuario registrado como "pacoguzman"
-	When visito /signup
-	And relleno los datos de registro como "login@login.com/login/password/password"
-	Then debo ver el texto "Thanks for signing up"
+    Given no user exists as "pacoguzman"
+	When I go to the signup page
+    And I fill the form of signup as "login@login.com/login/password/password"
+    Then I should see "Thanks for signing up"
     And no debo estar logueado
 	And debe enviarse un mensaje para la confirmación a la dirección "pacoguzmanp@gmail.com"
 	  

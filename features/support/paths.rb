@@ -4,7 +4,8 @@ module NavigationHelpers
     
     when /the homepage/
       root_path
-    
+    when /the signup page/
+      signup_path
     # Add more page name => path mappings here
     
     else

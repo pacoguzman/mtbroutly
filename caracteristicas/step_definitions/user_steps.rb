@@ -5,17 +5,17 @@ Dado /^que no existe un usuario registrado como "(.*)"$/ do |login|
 end
 
 Dado /^que existe un usuario registrado como "(.*)\/(.*)\/(.*)"$/ do |login, email, password|
-  Dado %{que tenemos el usuario:
+  Dado "que tenemos el usuario:", table(%{
           | login | password | password_confirmation | email |
           | #{login} | #{password} | #{password} | #{email} |
-      }
+      })
 end
 
 Dado /^que existe un usuario registrado y activado como "(.*)\/(.*)\/(.*)"$/ do |login, email, password|
-  Dado %{que tenemos el usuario:
+  Dado "que tenemos el usuario:", table(%{
           | login | password | password_confirmation | email |
           | #{login} | #{password} | #{password} | #{email} |
-       }
+       })
   last_mentioned.activate!
 end
 

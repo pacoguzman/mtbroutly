@@ -1,7 +1,7 @@
 Característica: Describiendo el registro de usuarios
-  Para ver que el usuario puede acceder a las zonas restringidas de la aplicación
-  Como un usuario
-  Quiero registrarse en la aplicación
+  Para que el usuario puede acceder a las zonas restringidas de la aplicación
+  Como un visitante
+  Quiero que los usuarios puedan registrarse en la aplicación
   
   Escenario: Registrarse sign-up con datos incorrectos
     Cuando visito /signup
