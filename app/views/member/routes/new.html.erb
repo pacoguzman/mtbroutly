@@ -1,0 +1,25 @@
+<% route ||= @route #locals %>
+
+<% content_for :sidebar do %>
+  <%# TODO= render_ajax_flash_messages %>
+  <div class="portletE" style="margin-top: 75px;">
+    <h2><%= "Create New Route" %></h2>
+    <%= render :partial => "new_form", :locals => { :route => @route, :method => "post", :url => member_routes_path, :submit_text => "Create Route" } %>
+  </div>
+<% end %>
+
+<div class="titleB">Create route</div>
+
+<%= GMap.header %>
+<%# Creamos la variable JSON que representa la ruta en JavaScript %>
+<% javascript_tag :defer => 'defer' do -%>
+  var routeJSON;
+<% end -%>
+<%= javascript_include_tag "map_forum_squinny" %>
+
+<div id="msg">
+  Click the map two or more times to create polylines. Distance for each segment is shown on the right (in kilometers)<br>
+  In order to view the point list, you must add a closing point to each line.
+</div>
+
+<div id="map" style="width:600px;height:400px" ></div>

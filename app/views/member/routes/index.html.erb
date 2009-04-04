@@ -1,0 +1,12 @@
+<p>
+  <%= link_to 'Create new route', new_member_route_path,  {:class => "button add", :title => "Create a new route"} %>
+  <%#TODO= link_to 'Upload route', upload_member_routes_path,  {:class => "button add", :title => "Upload route"} %>
+</p>
+
+<%= render :partial => "routes/routes", :object => @routes,
+  :locals => {:routes_title => "Your Routes", :id_route_list => "route_list",
+  :route_partial => "member/routes/route"} %>
+
+<%= render :partial => "routes/routes", :object => @favorite_routes,
+  :locals => {:routes_title => "Your Favorites Routes from other Users", :id_route_list => "favorite_route_list",
+  :route_partial => "routes/route"} %>

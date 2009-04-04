@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090308193945) do
+ActiveRecord::Schema.define(:version => 20090402215446) do
 
   create_table "abuses", :force => true do |t|
     t.string   "email"
@@ -71,6 +71,17 @@ ActiveRecord::Schema.define(:version => 20090308193945) do
   end
 
   add_index "config", ["key"], :name => "key", :unique => true
+
+  create_table "favorites", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "favoriteable_id"
+    t.string   "favoriteable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "favorites", ["favoriteable_type", "favoriteable_id"], :name => "index_favorites_on_favoriteable_type_and_favoriteable_id"
+  add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
   create_table "folders", :force => true do |t|
     t.string   "name"

@@ -21,7 +21,13 @@
         <h2><span>More links</span></h2>
         <div class="portlet_content">
             <ul>
-                <li><%= pluralize(@profile.user.routes.size, "route") %> <%= link_to 'View All', user_routes_path(@profile.user) if @profile.user.routes.any? %></li>
+                <li>
+                    <%= pluralize(@profile.user.routes.size, "route") %>
+                    <% if @profile.user.routes.any? %>
+                      <%= link_to 'View All', user_routes_path(@profile.user) if @profile.user.routes.size > 1 %>
+                      <%= link_to 'View it', route_path(@profile.user.routes.first) if @profile.user.routes.size == 1 %>
+                    <% end %>
+                </li>
                 <li><%= link_to 'Send a private message', member_new_message_to_path(@profile.user) %></li>
                 <li><%= report_abuse_link @profile %></li>
                 <li><%= following_options(@profile) %></li>
