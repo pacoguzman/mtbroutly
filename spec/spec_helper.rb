@@ -5,6 +5,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec/autorun'
 require 'spec/rails'
 
+require 'shoulda'
+require 'factory_girl'
+require File.expand_path(File.dirname(__FILE__) + '/../caracteristicas/factories')
+
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record

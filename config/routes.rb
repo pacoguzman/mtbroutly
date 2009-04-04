@@ -10,6 +10,10 @@ ActionController::Routing::Routes.draw do |map|
     :member => { :big => :get, :rate => :post }
   map.resources :waypoints
 
+  map.namespace(:member) do |member|
+    member.resources :routes, :except => :show
+  end
+
   map.routes_from_plugin 'tog_mail'
   map.routes_from_plugin 'tog_social'
   map.routes_from_plugin 'tog_user'
