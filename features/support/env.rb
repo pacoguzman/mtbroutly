@@ -13,5 +13,19 @@ Webrat.configure do |config|
   config.mode = :rails
 end
 
+require 'factory_girl'
+require File.expand_path(File.dirname(__FILE__) + '/../../spec/factories')
+
+require 'mundo_pepino'
+
+MundoPepino::ModelsToClean = [
+  Waypoint, # (TODO: quitar la coma final si es el primer modelo)
+  Route, # (TODO: quitar la coma final si es el primer modelo)
+  User
+  # MODELOS PARA LIMPIAR antes de cada escenario,
+  # por ejemplo:
+  # Orchard, Terrace, Crop...
+]
+
 require 'cucumber/rails/rspec'
 require 'webrat/core/matchers'

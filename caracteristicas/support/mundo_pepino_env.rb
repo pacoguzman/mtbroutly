@@ -67,7 +67,7 @@ String.url_mappings = {
 }
 
 require 'factory_girl'
-require File.expand_path(File.dirname(__FILE__) + '/../factories')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec/factories')
 
 class MiMundo < MundoPepino
   # Helpers específicos de nuestras features, por ejemplo:
