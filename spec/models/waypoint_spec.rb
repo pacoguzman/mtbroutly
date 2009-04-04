@@ -9,13 +9,16 @@ describe Waypoint do
       :alt => 9.99,
       :locatable_id => 1,
       :locatable_type => "value for locatable_type",
-      :position => 1,
-      :created_at => Time.now,
-      :updated_at => Time.now
+      :position => 1
     }
   end
 
   it "should create a new instance given valid attributes" do
     Waypoint.create!(@valid_attributes)
   end
+
+  it { should belong_to :locatable }
+  it { should validate_presence_of :lat } 
+  it { should validate_presence_of :lng }
+  it { should validate_numericality_of :position }
 end

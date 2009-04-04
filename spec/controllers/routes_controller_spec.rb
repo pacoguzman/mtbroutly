@@ -24,22 +24,46 @@ describe RoutesController do
     it "exposes all routes as @routes" do
       assigns[:routes].should == [mock_route]
     end
+    
+    #TODO comporatamiento que se podrá extraer para todos los specs de controllers
+    it "should assign metatags"
+    
+    #TODO comportamiento que se podrá extraer para todos los specs de controllers
+    it "should assign paginations params"
 
-    it "Should assign list title"
-    it "Should assign paginations params"
-    it "Should assign page title"
-    it "Should assign metadata tags"
+    it "exposes list title as 'Routes'" do
+      assigns[:routes_title].should == "Routes"
+    end
 
     it { should respond_with(:success) }
     it { should_not set_the_flash }
   end
 
   describe "GET newest" do
-    it "exposes the newests as @routes"
+
+    before(:each) do
+      Route.should_receive(:paginate).with( pagination_params(:include => :waypoints, :order => "created_at desc")).and_return([mock_route])
+      get :newest
+    end
+    
+    it "exposes list title as 'New Routes'" do
+      assigns[:routes_title].should == "New Routes"
+    end
   end
 
   describe "GET highlighted" do
-    it "exposes highlighted routes as @routes"
+    before(:each) do
+      Route.should_receive(:paginate).with( 
+        pagination_params(:select => "routes.*, sum(stars) as highlight", :group => :id,
+              :joins => "LEFT JOIN 'rates' ON 'rates'.rateable_id = 'routes'.id " +
+                        "AND 'rates'.rateable_type = 'Route' AND dimension IS NOT NULL",
+              :order => "highlight desc")).and_return([mock_route])
+      get :highlighted
+    end
+
+    it "exposes list title as 'Highlighted Routes'" do
+      assigns[:routes_title].should == "Highlighted Routes"
+    end
   end
 
   describe "GET index with mime type of xml" do
@@ -99,7 +123,7 @@ describe RoutesController do
   end
 
   describe "authenticated actions" do
-    it_should_behave_like "an authenticated controller"
+    #FIXME it_should_behave_like "an authenticated controller"
 
     describe "GET created_by_you routes" do
       it "exposes created_by_you routes as @routes"
@@ -113,7 +137,7 @@ describe RoutesController do
       it "exposes created_to_you routes as @routes"
     end
 
-   describe "GET your_favorites routes" do
+    describe "GET your_favorites routes" do
       it "exposes your_favorites routes as @routes"
     end
 

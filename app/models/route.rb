@@ -5,10 +5,15 @@ class Route < ActiveRecord::Base
   has_many :rates_with_dimension, :as => :rateable, :class_name => "Rate", :dependent => :destroy,
     :conditions => ['dimension IS NOT ?', nil]
 
-  validates_presence_of :title, :description, :owner#:user
+  #FIXME
+  #validates_presence_of :owner, :user
+  validates_presence_of :title, :description
   validates_uniqueness_of :title
 
   seo_urls "title"
-  acts_as_taggable
   ajaxful_rateable :stars => 5, :dimensions => [:difficulty, :landscape]
+
+  acts_as_commentable
+  acts_as_favoriteable
+  acts_as_taggable
 end

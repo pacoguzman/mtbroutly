@@ -72,7 +72,7 @@ class RoutesController < ApplicationController
     @order = 'created_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = Route.paginate :include => :waypoints, :per_page => 10,
+    @routes = Route.paginate :include => :waypoints, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -96,7 +96,7 @@ class RoutesController < ApplicationController
     # Se seleccionan rutas sin que tengan valoración, devolviendo highligh = nil
     @routes =  Route.paginate :joins => "LEFT JOIN 'rates' ON 'rates'.rateable_id = 'routes'.id " +
       "AND 'rates'.rateable_type = 'Route' AND dimension IS NOT NULL", :group => :id,
-      :select => "routes.*, sum(stars) as highlight", :per_page => 10,
+      :select => "routes.*, sum(stars) as highlight", :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -113,7 +113,7 @@ class RoutesController < ApplicationController
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = current_user.routes.paginate :include => :waypoints, :per_page => 10,
+    @routes = current_user.routes.paginate :include => :waypoints, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -131,7 +131,7 @@ class RoutesController < ApplicationController
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
     #TODO  #@origin = current_user.profile.location
-    @routes = Routes.paginate :include => :waypoints, :per_page => 10,
+    @routes = Routes.paginate :include => :waypoints, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -148,7 +148,7 @@ class RoutesController < ApplicationController
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = current_user.favorite_routes.paginate :include => :waypoints, :per_page => 10,
+    @routes = current_user.favorite_routes.paginate :include => :waypoints, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -189,7 +189,7 @@ class RoutesController < ApplicationController
     @asc = params[:asc] || 'asc'
 
     @routes = Route.all(:include => :waypoints,
-      :conditions => compute_searchlogic_conditions(params[:search])).paginate( :paginate => 10,
+      :conditions => compute_searchlogic_conditions(params[:search])).paginate( :paginate => '10',
       :page => @page,
       :order => @order + " " + @asc)
     # Versión de searchlogic pero implica modificar la paginación
