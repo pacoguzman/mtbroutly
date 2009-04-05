@@ -16,5 +16,3 @@ Característica: Log out
 	    Y pulso el enlace "Log-out"
       Entonces debo ver el texto "You are now signed out"
         Y no debo estar logueado
-      Cuando regreso de nuevo
-      Entonces no debo estar registrado

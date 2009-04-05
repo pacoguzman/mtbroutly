@@ -8,22 +8,7 @@
 #end
  
 # Emails
- 
-#Then /^a confirmation message should be sent to "(.*)"$/ do |email|
-#  user = User.find_by_email(email)
-#  sent = ActionMailer::Base.deliveries.first
-#  assert_equal [user.email], sent.to
-#  assert_match /confirm/i, sent.subject
-#  assert !user.token.blank?
-#  assert_match /#{user.token}/, sent.body
-#end
-
-
-#When /^I follow the confirmation link sent to "(.*)"$/ do |email|
-#  user = User.find_by_email(email)
-#  visit new_user_confirmation_path(:user_id => user, :token => user.token)
-#end
- 
+  
 #Then /^a password reset message should be sent to "(.*)"$/ do |email|
 #  user = User.find_by_email(email)
 #  sent = ActionMailer::Base.deliveries.first

@@ -15,10 +15,11 @@ Característica: Describiendo el registro de usuarios
 	  Y relleno los datos de registro como "login@login.com/login/password/password"
 	Entonces debo ver el texto "Thanks for signing up"
       Y no debo estar logueado
-	  Y debe enviarse un mensaje para la confirmación a la dirección "pacoguzmanp@gmail.com"
+	  Y debe enviarse un mensaje para la confirmación a la dirección "login@login.com"
+      Y me gustaría ver el texto "Te hemos enviado un email para que confirmes la cuenta"
 	  
   Escenario: Confirmación de la cuenta
     Dado que existe un usuario registrado como "pacoguzman/pacoguzmanp@gmail.com/pacoguzman"
     Cuando sigo el link de confirmación enviado a "pacoguzman"
-    Entonces debo estar logueado
-	  Y debo ver el texto "Signup complete!"
+    Entonces debo ver el texto "Signup complete!"
+      Y debo estar logueado

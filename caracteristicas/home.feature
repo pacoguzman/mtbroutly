@@ -38,13 +38,12 @@ Característica: Vistando la portada
 
   Escenario: Usuario no logueado visitando la portada y que sigue el enlace log-in e inicia sesion
     Cuando visito la home
-	Entonces pulso el enlace "Log-in"
-	  Y relleno los datos de sesión como "pacoguzman/pacoguzman"
-	Entonces debo estar logueado
-     Y debo ser redirigido a la home
+	  Y pulso el enlace "Log-in"
+    Entonces debo estar en la home
+
 
   Escenario: Usuario no registrado visitando la portada y que sigue el enlace sign-up y se registra
     Cuando visito la home
-	Entonces pulso el enlace "Sign up"
-	 Y relleno los datos de registro como "pacoguzmanp@gmail.com/pacoguzman/pacoguzman"
-     Y debo ser redirigido a la home
+	  Y pulso el enlace "Sign up"
+    Entonces debo estar en la homer
+	

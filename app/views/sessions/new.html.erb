@@ -1,0 +1,35 @@
+<div class="titleB">Login</div>
+<p>
+  <span class="fontsmaller">Create Your Account. <%= link_to "Click here to sign up", signup_path %>.</span>
+</p>
+
+<br />
+<% form_tag session_path do -%>
+  <fieldset>
+    <div class="fields">
+      <p>
+        <% if Tog::Config["system.user.email_as_login"] -%>
+          <%= label_tag 'email', I18n.t("tog_user.sessions.email") %>
+          <%= text_field_tag 'email', nil, :class => "fieldbox", :size => 40 %>
+        <% else -%>
+          <%= label_tag 'login', I18n.t("tog_user.sessions.login") %>
+          <%= text_field_tag 'login', nil, :class => "fieldbox", :size => 40 %>
+        <% end -%>
+      </p>
+
+      <p>
+        <%= label_tag 'password', I18n.t("tog_user.sessions.password") %>
+        <%= password_field_tag 'password', nil, :class => "fieldbox", :size => 40 %>
+      </p>
+
+      <p>
+        <%= check_box_tag 'remember_me' %>
+        <%= label_tag 'remember_me', I18n.t("tog_user.sessions.remember_me") %>
+      </p>
+
+      <div class="actions">
+        <%= submit_tag 'Sign in', :class => "button mainaction" %> | <%= I18n.t("tog_user.sessions.password_forgotten") %> <%= link_to "#{I18n.t('tog_user.sessions.email_you')}", forgot_path %>
+      </div>
+    </div>
+  </fieldset>
+<% end -%>
