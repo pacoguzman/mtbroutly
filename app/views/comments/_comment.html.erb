@@ -2,8 +2,8 @@
   <% if comment.user -%>
     <div class="image"><%= link_to icon_for_profile(comment.user.profile, 'tiny'), profile_path(comment.user.profile) %></div>
     <div class="text">
-      <strong><%= link_to comment.user.login, profile_path(comment.user.profile) %> <%= I18n.t("tog_core.site.comment.says")%>:</strong><br />
-      <span class="helpinfo">about <%= time_ago_in_words comment.created_at %> ago...<%= link_to I18n.t("tog_core.site.comment.permalink"), "#comment_#{comment.id}" %></span>
+      <strong><%= link_to you_or_user_login(comment.user), profile_path(comment.user.profile) %> <%= I18n.t("tog_core.site.comment.says")%>:</strong><br />
+      <span class="helpinfo"><%= time_ago_in_words comment.created_at %> ago...<%= link_to I18n.t("tog_core.site.comment.permalink"), "#comment_#{comment.id}" %></span>
     </div>
   <% else -%>
     <div class="text">
