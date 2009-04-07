@@ -159,7 +159,7 @@ class RoutesController < ApplicationController
   end
 
   def big
-    @route = Route.find params[:id], :include => :locations
+    @route = Route.find params[:id], :include => :waypoints
   end
 
   def show
