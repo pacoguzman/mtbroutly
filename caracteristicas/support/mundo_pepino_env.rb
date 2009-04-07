@@ -22,7 +22,9 @@ require 'mundo_pepino'
 MundoPepino::ModelsToClean = [
   Waypoint, # (TODO: quitar la coma final si es el primer modelo)
   Route, # (TODO: quitar la coma final si es el primer modelo)
-  User
+  User,
+  Profile,
+  Group
   # MODELOS PARA LIMPIAR antes de cada escenario,
   # por ejemplo:
   # Orchard, Terrace, Crop...
@@ -31,7 +33,9 @@ MundoPepino::ModelsToClean = [
 String.model_mappings = {
   /^waypoints?$/i => Waypoint, # (TODO: validar RegExp para forma plural y coma final)
   /^rutas?$/i => Route, # (TODO: validar RegExp para forma plural y coma final)
-  /^usuari(o|a)s?$/i => User
+  /^usuari(o|a)s?$/i => User,
+  /^perfil(es)?$/i => Profile,
+  /^grupos?$/i => Group
   # TRADUCCIÓN DE MODELOS AQUÍ, por ejemplo:
   # /^huert[oa]s?/i            => Orchard,
   # /^bancal(es)?$/i           => Terrace,
@@ -50,7 +54,13 @@ String.field_mappings = {
   /^User::nombre$/i => :login,
   /^password$/i => :password,
   /^conf_password$/i => :password_confirmation,
-  /^correo$/i => :email
+  /^correo$/i => :email,
+  /^Profile::nombre$/i => :first_name,
+  /^Profile::apellido$/i => :last_name,
+  /^blog$/i => :blog,
+  /^web$/i => :website,
+  /^nombres?$/i => :name,
+  /^lista_de_tags$/i => :tag_list
   # TRADUCCIÓN DE CAMPOS AQUÍ:
   # /^[Ááa]reas?$/i    => 'area',
   # /^color(es)?$/i   => 'color',
