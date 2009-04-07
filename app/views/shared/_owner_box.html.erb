@@ -1,0 +1,15 @@
+<div class="portlet portletI">
+  <div class="portlet_content" id="owner">
+    <ul>
+      <% unless owner.blank? -%>
+        <li class="clearfix" id="owner_<%= owner.id %>">
+          <div class="image"><%= link_to icon_for_profile(owner.profile, 'small'), profile_path(owner.profile) %></div>
+          <div class="text"><span>This route has been created by </span><strong><%= link_to owner.login, profile_path(owner.profile) %></strong></div>
+          <div class="text"><%= link_to "see all routes created by #{owner.login}", user_routes_path(owner) %></div>
+        </li>
+      <% else -%>
+        No owner for this Route.
+      <% end -%>
+    </ul>
+  </div>
+</div>
