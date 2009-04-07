@@ -1,3 +1,4 @@
+#FIXME parece que no funciona del todo bien
 if @favorite.new_record?
   page.replace "ajax_messages", render_ajax_messages(:error => 'Error while saving your favorite')
   page.visual_effect :fade, "ajax_messages", :duration => 3
