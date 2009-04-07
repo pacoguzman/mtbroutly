@@ -1,4 +1,5 @@
 module FixtureReplacement
+
   attributes_for :rating do |a|
     
 	end
