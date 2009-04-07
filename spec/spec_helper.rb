@@ -7,7 +7,7 @@ require 'spec/rails'
 
 require 'shoulda'
 require 'factory_girl'
-require File.expand_path(File.dirname(__FILE__) + '/../caracteristicas/factories')
+require File.expand_path(File.dirname(__FILE__) + '/../spec/factories')
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these

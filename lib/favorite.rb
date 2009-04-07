@@ -1,4 +1,8 @@
 class Favorite < ActiveRecord::Base
+
+  named_scope :where_type, lambda{ |favoriteable_type| { :conditions => {:favoriteable_type => favoriteable_type},
+    :include => :favoriteable }}
+
   # Helper class method to lookup all favorites assigned
   # to all favoriteable types for a given user.
   def self.find_favorites_by_user(user)
