@@ -7,4 +7,8 @@ module ApplicationHelper
       }
     end
   end
+
+  def you_or_user_login(user)
+    current_user == user ? "you" : user.login
+  end
 end
