@@ -1,0 +1,11 @@
+page.replace_html "ajax_messages", render_ajax_messages(message)
+page.visual_effect :fade, "ajax_messages", :duration => 3
+
+if @comment.approved && !@comment.new_record?
+  if first_comment
+    page.replace_html "comments", :partial => "comments/comment", :locals => {:comment => @comment}
+  else
+    page.insert_html :bottom, "comments", :partial => "comments/comment", :locals => {:comment => @comment}
+  end
+  page.visual_effect :highlight, "comments", :duration => 3
+end

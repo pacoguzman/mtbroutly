@@ -1,0 +1,17 @@
+<div class="portlet portletI">
+  <h2><span><%= I18n.t("tog_core.site.comment.comments")%></span></h2>
+  <div class="portlet_content" id="c">
+    <ul id="comments">
+      <% unless commentable.comments.blank? -%>
+        <%= render :partial => "comments/comment", :collection => commentable.comments %>
+      <% else %>
+        <%# TODO incluir información en locale de algún modo %>
+        <p id="no_comments"><%= I18n.t("tog_core.site.comment.no_comments")%> on this <%= commentable.class.name %>  by now.</p>
+      <% end -%>
+    </ul>
+  </div>
+</div>
+
+<h3><a name="reply"></a><%= I18n.t("tog_core.site.comment.add_comment")%></h3>
+<%= render :partial => "comments/comments_ajax_form", :locals => {:commentable => commentable} %>
+

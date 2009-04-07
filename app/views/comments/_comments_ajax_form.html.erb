@@ -1,0 +1,33 @@
+<div id='comment_form'>
+  <% form_for :comment, :url => comment_path,
+    :html => {:onsubmit => "new Ajax.Request('/comments', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){$('comment_form').down('.submit').show();$('comment_form').down('.submiting').hide();}, parameters:Form.serialize(this)}); return false;"} do |f| -%>
+    <%= f.hidden_field :commentable_type, {:value => commentable.class.name} -%>
+    <%= f.hidden_field :commentable_id, {:value => commentable.id} -%>
+    <% unless logged_in? -%>
+      <%= f.label :name, I18n.t("tog_core.site.comment.name") %>
+      <%= f.text_field :name, :class=>"fieldbox wide" %>
+      <br/>
+      <%= f.label :email, I18n.t("tog_core.site.comment.email") %>
+      <%= f.text_field :email, :class=>"fieldbox wide" %>
+      <br/>
+      <%= f.label :url, I18n.t("tog_core.site.comment.website") %>
+      <%= f.text_field :url, :class=>"fieldbox wide" %>
+    <% end -%>
+    
+    <%= f.label :comment, I18n.t("tog_core.site.comment.comment") %>
+    <%= f.text_area :comment, {:rows=>4, :cols=>50, :class=>"editor wide fieldbox"} -%>
+    <br/>
+    <div class="submit">
+      <%= submit_tag I18n.t("tog_core.site.comment.post_comment"), {:accesskey => "s", :class=>"button mainaction"} %>
+    </div>
+    <div class='submit submiting' style='display:none'><div style="font-size: 0.9em;"><img alt="Sending comment" src="http://asset1.moterus.es/images/spinner.gif?1228160537" /> Sending comment</div></div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  Event.observe($('comment_form'), 'submit', function(e){
+    $('comment_form').down('.submit').hide();
+    $('comment_form').down('.submiting').show();
+    return true;
+  }, true);
+</script>
