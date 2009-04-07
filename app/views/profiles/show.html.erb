@@ -2,6 +2,7 @@
     <div class="image"><%=icon_for_profile(@profile, 'big')%></div>
     <div class="title"><%=@profile.full_name%></div>
     <div class="subtitle">Username:  <%=@profile.user.login%></div>
+    <div class="subtitle">Web Site:  <%=link_to @profile.website, h(@profile.website) %></div>
     <div class="summary">Profile summary</div>
     <div class="portlet portletC" id="portlet_groups">
         <h2><span>Groups</span></h2>

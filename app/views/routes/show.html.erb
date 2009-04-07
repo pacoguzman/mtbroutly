@@ -3,60 +3,62 @@
   <br/><br/>
   <%= render :partial => 'tag_cloud_single_route', :locals => { :route => @route } %>
   <br/>
-  Archives:
-  <%#= archives_menu %>
-  <%= render_ajax_flash_messages %>
+  <%= render_ajax_messages %>
 
   <%  if logged_in? && @route.owner != current_user -%>
     <%= render :partial => "shared/favorite_box", :locals => {:favoriteable => @route, :favorite => @favorite} %>
   <% end -%>
-  <%# FIXME Usar I18n %>
-  <li><%= link_to image_tag("http://asset3.moterus.es/images/small_icon_enlarge.png?1229952408", :alt => "Enlarge map") + "Enlarge map", big_route_path(@route) %>
+  <%# TODO Usar I18n %>
+  <li><%= link_to image_tag("small_icon_enlarge.png", :alt => "Enlarge map") + "Enlarge map", big_route_path(@route) %>
 
-  <%= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
+  <%#= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
 
-  <%= render :partial => "routes/starrate", :locals => {:rated => @route} %>
+  <%#= render :partial => "routes/starrate", :locals => {:rated => @route} %>
 
-  <%= render :partial => "shared/comments", :locals => {:commentable => @route} %>
+  <%#= render :partial => "shared/comments", :locals => {:commentable => @route} %>
 
   <%= render :partial => "shared/favorite_of", :locals => {:favoriteable => @route} %>
 <% end %>
 
-<% include_autodiscovery(:atom, formatted_route_url(@route, :atom), :name => @route.name) %>
+<% include_autodiscovery(:atom, formatted_route_url(@route, :atom), :name => @route.title) %>
 
-<%= Mapstraction.header(:google) %>
-<% show_route @route %>
-<%= @map.to_html %>
+<%# TODO route maps %>
+<%#= Mapstraction.header(:google) %>
+<%# show_route @route %>
+<%#= @map.to_html %>
 
-<h2><span><%= @route.name -%></span></h2>
+<h2><span><%= @route.title -%></span></h2>
+<%# TODO format links %>
 <div id="format_links">
-  <%= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
-  <%= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
-  <%= link_to "View as CRS", formatted_route_path(:format => :crs) %>
+  <%#= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
+  <%#= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
+  <%#= link_to "View as CRS", formatted_route_path(:format => :crs) %>
 </div>
 
-<%= @map.div(:width => 600, :height => 400) %>
+<%#= @map.div(:width => 600, :height => 400) %>
 
 <div class="detail detail1">
   <div class="text"><%= sanitize textilize(@route.description) %></div>
 </div> <!-- /.detail1 -->
 
+<%# TODO routes near %>
+<!--
 <div class="portlet portletB">
   <h2><span>Near Routes</span></h2>
   <div class="portlet_content">
     <ul>
-      <% @routes_near.each do |route| -%>
+      <%# @routes_near.each do |route| -%>
         <li>
           <div class="title" style="padding-top:5px">
-            <%= link_to "#{sanitize textilize_without_paragraph(route.name)}",
+            <%#= link_to "#{sanitize textilize_without_paragraph(route.name)}",
               route_path(route), :title => "#{sanitize(route.name)}" %>
           </div>
           <div class="summary">
-            Proximity from init point: <%= number_with_precision(route.proximity, :precision => 3) %> kms<br/>
+            Proximity from init point: <%#= number_with_precision(route.proximity, :precision => 3) %> kms<br/>
           </div>
         </li>
-      <% end -%>
+      <%# end -%>
     </ul>
   </div>
 </div>
-
+-->
