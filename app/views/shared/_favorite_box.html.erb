@@ -1,0 +1,20 @@
+<li id="favorite_box">
+  <div class='submit submiting' style='display:none'>
+    <div style="font-size: 0.9em;"><%= image_tag "spinner.gif", :alt => "" %></div>
+  </div>
+  <div>
+    <% unless  favoriteable.is_liked_by?(current_user) -%>
+      <%= link_to_remote image_tag("small_icon_favourite.png",
+        :alt => "Add to your favorites") + " Add to your favorites",
+        :url => add_favorite_path(), :with => "'favorite[favoriteable_type]=' + \"#{favoriteable.class.to_s}\" + '&favorite[favoriteable_id]=' + \"#{favoriteable.id}\"",
+        :before => "$('favorite_box').down('.submit').show()",
+        :complete => "$('favorite_box').down('.submiting').hide();"%>
+    <% else %>
+      <%= link_to_remote image_tag("small_icon_favourite_delete.png",
+        :alt => "Remove from your favorites") + " This route is already in your favorite (remove)",
+        :url => remove_favorite_path(favorite),
+        :before => "$('favorite_box').down('.submit').show()",
+        :complete => "$('favorite_box').down('.submiting').hide();" %>
+    <% end -%>
+  </div>
+</li>

@@ -1,0 +1,12 @@
+page.replace "ajax_messages", render_ajax_messages(message)
+page.visual_effect :fade, "ajax_messages", :duration => 3
+
+page.replace_html "favorite_box", :partial => "shared/favorite_box",
+  :locals => {:favoriteable => favoriteable, :favorite => @favorite}
+
+page.visual_effect :fade, "favoriter_#{current_user.id}", :duration => 3
+page.remove "favoriter_#{current_user.id}"
+
+#if page.select("#favoriters ul li")
+#  page.replace "favoriters", "<ul>No favoriters on this #{favoriteable.class.name}  by now.</ul>"
+#end

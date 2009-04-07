@@ -1,0 +1,16 @@
+if @favorite.new_record?
+  page.replace "ajax_messages", render_ajax_messages(:error => 'Error while saving your favorite')
+  page.visual_effect :fade, "ajax_messages", :duration => 3
+else
+  page.replace "ajax_messages", render_ajax_messages(:ok => 'Favorite added')
+  page.visual_effect :fade, "ajax_messages", :duration => 3
+  
+  page.replace_html "favorite_box", :partial => "shared/favorite_box", :locals => {:favoriteable => favoriteable, :favorite => @favorite}
+
+  if first_favorite
+    page.replace "favoriters", :partial => "favoriters/favoriter", :locals => {:favoriter => current_user}
+  else
+    page.insert_html :bottom, "favoriters", :partial => "favoriters/favoriter", :locals => {:favoriter => current_user}
+  end
+  page.visual_effect :highlight, "favoriters", :duration => 3
+end

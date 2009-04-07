@@ -14,6 +14,9 @@ class Route < ActiveRecord::Base
   ajaxful_rateable :stars => 5, :dimensions => [:difficulty, :landscape]
 
   acts_as_commentable
+
   acts_as_favoriteable
+  has_many :favoriters, :through => :favorites, :source => :user, :uniq => :true
+  
   acts_as_taggable
 end

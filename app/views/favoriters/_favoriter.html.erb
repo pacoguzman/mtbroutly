@@ -1,0 +1,6 @@
+<li class="clearfix<%= cycle(nil, " pair") %>" id="favoriter_<%= favoriter.id %>">
+  <div class="image"><%= link_to icon_for_profile(favoriter.profile, 'tiny'), profile_path(favoriter.profile) %></div>
+  <div class="text"><strong><%= link_to favoriter.login, profile_path(favoriter.profile) %></strong></div>
+  <%# TODO desde cuando tiene el favoriteable como favorito %>
+  <span class="helpinfo"><%#= time_ago_in_words favorite.created_at %></span>
+</li>
