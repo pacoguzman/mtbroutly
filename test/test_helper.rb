@@ -37,8 +37,11 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+require 'shoulda'
 require 'factory_girl'
 require File.expand_path(File.dirname(__FILE__) + '/../spec/factories')
+
+require 'webrat'
 
 Webrat.configure do |config|
   config.mode = :rails
