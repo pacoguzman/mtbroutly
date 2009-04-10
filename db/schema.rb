@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090402215446) do
+ActiveRecord::Schema.define(:version => 20090410153212) do
 
   create_table "abuses", :force => true do |t|
     t.string   "email"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20090402215446) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "distance",    :precision => 10, :scale => 3, :default => 0.0
   end
 
   create_table "taggings", :force => true do |t|
