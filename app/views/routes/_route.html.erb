@@ -17,9 +17,9 @@
   <div class="summary">
     <div style="float: left; width: 90px;"><b>Rating</b> </div>
     <div class='star'><div id='rating_total_<%= route.id %>'></div></div><br />
-    Distance: <%#= number_with_precision(route.distance, :precision => 3) %> kms<br/>
-    <%#= pluralize(route.comments.size, 'comment') %><br/>
-    Favorite of <%#= pluralize(route.favorites.size, 'user') %><br/>
+    Distance: <%= number_with_precision(route.distance, :precision => 3) %> kms<br/>
+    <%= pluralize(route.comments.size, 'comment') %><br/>
+    Favorite of <%= pluralize(route.favorites.size, 'user') %><br/>
   </div>
   <div class="text" style="padding:0px 0px 0px 5px">
     <p><%= route.description %></p>

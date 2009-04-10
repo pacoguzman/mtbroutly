@@ -188,10 +188,10 @@ class RoutesController < ApplicationController
     @page = params[:page] || '1'
     @asc = params[:asc] || 'asc'
 
-    @routes = Route.all(:include => :waypoints,
-      :conditions => compute_searchlogic_conditions(params[:search])).paginate( :paginate => '10',
+    @routes = Route.search(params[:search]).all(:include => :waypoints).paginate( :paginate => '10',
       :page => @page,
       :order => @order + " " + @asc)
+
     # Versión de searchlogic pero implica modificar la paginación
     # se debe utilizar la que implemente searchlogic
     #    @routes = Route.all(:include => :locations,
@@ -216,29 +216,4 @@ class RoutesController < ApplicationController
     render :template => "member/site/not_found"
   end
 
-  def compute_searchlogic_conditions(search = {})
-    conditions = {}
-    conditions.merge!(distance_condition(search[:distance])) unless search[:distance].blank?
-    conditions.merge!(keywords_condition(search[:keywords])) unless search[:keywords].blank?
-  end
-
-  def distance_condition(distance_code)
-    distance_code ||= "0"
-    case distance_code
-    when "0"
-      {}
-    when "1"
-      return { :distance_lte => 10 }
-    when "2"
-      return { :distance_gt => 10, :distance_lte => 25 }
-    when "3"
-      return { :distance_gt => 25, :distance_lte => 50 }
-    when "4"
-      return { :distance_gt => 50 }
-    end
-  end
-
-  def keywords_condition(keywords)
-    {:group => [{:name_kw => keywords}, {:or_description_kw => keywords}]}
-  end
 end

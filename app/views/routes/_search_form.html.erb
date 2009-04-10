@@ -1,6 +1,6 @@
-<% include_stylesheet "/livepipe-ui/stylesheets/livepipe_window.css" %>
-<% include_javascript "/livepipe-ui/javascripts/livepipe.js" %>
-<% include_javascript "/livepipe-ui/javascripts/window.js" %>
+<%# include_stylesheet "/livepipe-ui/stylesheets/livepipe_window.css" %>
+<%#  include_javascript "/livepipe-ui/javascripts/livepipe.js" %>
+<%# include_javascript "/livepipe-ui/javascripts/window.js" %>
 
 <div class="portletE">
   <h2><%= t "search.title" %></h2>
@@ -24,20 +24,20 @@
             <li><b>near 'city'</b> - Example: near San Francisco</li>
           </ul>
         </div>
-        <%= f.text_field :where %>
+        <%#= f.text_field :where %>
       </p>
       <p>
         <%= f.label :distance %><br />
         <select id="search_distance" name="search[distance]">
-          <%= options_for_select({"Any" => "0", "less than 10 kms" => "1",
-              "between 10 and 25 kms" => "2","between 25 and 50 kms" => "3","more than 50 kms" => "4"},"0") %>
+          <%= options_for_select(Route::SEARCH_DISTANCE_OPTIONS_SELECT,"0") %>
         </select>
       </p>
       <p><%= f.submit t("search.submit") %></p>
     <% end %>
   </div>
 </div>
-<% javascript_tag do -%>
+<!--
+<%# javascript_tag do -%>
   new Control.Window('where_help_link',{
   hover: true,
   opacity: 0.8,
@@ -49,4 +49,4 @@
   closeOnClick: true
   });
 
-<% end -%>
+<%# end -%> -->
