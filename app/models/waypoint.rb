@@ -1,5 +1,6 @@
 class Waypoint < ActiveRecord::Base
   belongs_to :locatable, :polymorphic => true
+  acts_as_mappable :auto_geocode => false
 
   validates_presence_of :lat
   validates_presence_of :lng
