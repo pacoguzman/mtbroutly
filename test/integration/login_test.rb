@@ -24,6 +24,7 @@ class LoginTest < ActionController::IntegrationTest
       fill_in "Password", :with => "badsecret"
       click_button "Sign In"
       assert_contain "Incorrect username or password."
+      assert_nil session[:user_id]
     end
 
     should "not logging with invalid username" do
@@ -32,6 +33,7 @@ class LoginTest < ActionController::IntegrationTest
       fill_in "Password", :with => @user.password
       click_button "Sign In"
       assert_contain "Incorrect username or password."
+      assert_nil session[:user_id]
     end
   end
   

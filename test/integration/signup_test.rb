@@ -11,7 +11,7 @@ class SignupTest < ActionController::IntegrationTest
     fill_in "Repeat password", :with => "secret"
     click_button "Sign up!"
     assert_contain "Thanks for signing up"
-    #TODO no debo estar logueado
+    assert_nil session[:user_id]
     #TODO debe haber enviado un correo electrónico de confirmación
     #TODO debo estar en la home
   end
@@ -24,7 +24,7 @@ class SignupTest < ActionController::IntegrationTest
     fill_in "Repeat password", :with => "badsecret"
     click_button "Sign up!"
     assert_contain "error prohibited"
-    #TODO no debo estar logueado
+    assert_nil session[:user_id]
     #TODO debo estar en la página de registro
   end
 
