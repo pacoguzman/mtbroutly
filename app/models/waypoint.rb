@@ -5,4 +5,5 @@ class Waypoint < ActiveRecord::Base
   validates_presence_of :lat
   validates_presence_of :lng
   validates_numericality_of :position, :only_integer => true, :greather_than_or_equal_to => 0
+  #TODO un indice para recuperar los waypoints asociados aun locatable
 end

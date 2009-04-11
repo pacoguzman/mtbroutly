@@ -19,12 +19,11 @@ describe Route do
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
-  it "should validates_presence_of(:owner)"
+  it "should validate_presence_of(:owner)"
   it "should_validate_uniqueness_of(:title)"
 
-  it "should validate uniqueness of title route" do
-    Route.create!(@valid_attributes)
-  end
+  it { should validate_numericality_of(:distance) }
+  it "should validate_associated(:waypoints)"
 
   it "should be seo_urls 'title' - friendly_url"
 
@@ -48,5 +47,68 @@ describe Route do
 
   describe "as taggable" do
     it { should have_many(:tags) }
+  end
+
+  describe "computing distance" do
+    before :each do
+      @route = Factory.build(:route, :user_id => 1)
+    end
+
+    it "set distance to 0 if the route doesn't have waypoints" do
+      @route.distance.should == 0
+    end
+
+    it "set distance to 0 if the route have only one waypoint" do
+      @route.waypoints << Factory.build(:waypoint, :position => 1)
+      @route.save!
+      @route.distance.should == BigDecimal.new("0")
+    end
+
+    it "set distance if the route have at least two waypoints and no distance parameter is passed to route" do
+      @route.waypoints << Factory.build(:waypoint, :position => 1)
+      @route.waypoints << Factory.build(:near_waypoint, :position => 2)
+      @route.save!
+      @route.distance.should_not == BigDecimal.new("0")
+    end
+
+    it "no modify distance if the route have at least two waypoints and distance parameter is passed to route" do
+      @route.distance = "1.215"
+      @route.waypoints << Factory.build(:waypoint, :position => 1)
+      @route.waypoints << Factory.build(:near_waypoint, :position => 2)
+      @route.save!
+      @route.distance.should == BigDecimal.new("1.215")
+    end
+  end
+
+  describe "search capabilities" do
+
+    describe "distance parameter" do
+      it "should return no empty hash if passed a valid distance code and diferent to '0'" do
+        Route.search(:distance => "1").conditions.conditions.should_not be_empty
+      end
+
+      it "should return empty hash if passed a valid distance code equal to '0'" do
+        Route.search(:distance => "0").conditions.conditions.should be_empty
+      end
+
+      it "should return empty hash if passed an invalid distance code" do
+        Route.search(:distance => -1).conditions.conditions.should be_empty
+      end
+    end
+
+    describe "keywords parameter" do
+      it "should return no empty array if passed a keywords parameter" do
+        search = Route.search(:keywords => "maya")
+        search.conditions.sanitize.should be_kind_of(Array)
+        search.conditions.sanitize.size.should == 3
+      end
+
+      it "should return no empty array if passed a keywords parameter" do
+        search = Route.search(:keywords => "maya, azteca")
+        search.conditions.sanitize.should be_kind_of(Array)
+        search.conditions.sanitize.size.should == 5
+      end
+    end
+    
   end
 end

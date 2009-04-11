@@ -15,6 +15,10 @@ class Route < ActiveRecord::Base
   #validates_presence_of :owner, :user
   validates_presence_of :title, :description
   validates_uniqueness_of :title
+  validates_numericality_of :distance, :greater_than_or_equal_to => 0
+  validates_associated :waypoints
+
+  before_save :compute_distance, :if => :compute_distance?
 
   seo_urls "title"
   ajaxful_rateable :stars => 5, :dimensions => [:difficulty, :landscape]
@@ -26,6 +30,10 @@ class Route < ActiveRecord::Base
   
   acts_as_taggable
 
+  def compute_distance?
+    waypoints.size > 1 && (distance == BigDecimal("0"))
+  end
+
   #PENDING pasarlo a la base de datos?
   #TODO es posible cachear el resultado como ?¿
   def compute_distance
@@ -34,13 +42,9 @@ class Route < ActiveRecord::Base
     waypoints.each_with_index do |w,i|
       dist += w.distance_to(waypoints[i + 1]) unless i == nways - 1
     end
-    return (dist * 1.609) #No pilla que se utiliza kms por defecto
+    self.distance = dist * 1.609 #No pilla que se utiliza kms por defecto
   end
 
-  def compute_distance!
-    update_attribute(:distance, compute_distance)
-  end
-  
   def self.search(params = {})
     valid_keys = [:distance, :keywords]
     search = Route.new_search
