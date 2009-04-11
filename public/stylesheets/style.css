@@ -69,19 +69,19 @@ button
 }
     .notice.ok {
         color: #666;
-        background: #edffe1 url(../images/ico/ok.gif) no-repeat 15px 0.9em;
+        background: #edffe1 url(../tog_core/images/ico/ok.gif) no-repeat 15px 0.9em;
         border-top: 1px solid #bdd8bd;
         border-bottom: 1px solid #bdd8bd;
     }
     .notice.warning {
         color: #666;
-        background: #fdffcb url(../images/ico/warning.gif) no-repeat 15px 0.9em;
+        background: #fdffcb url(../tog_core/images/ico/warning.gif) no-repeat 15px 0.9em;
         border-top: 1px solid #fcd41d;
         border-bottom: 1px solid #fcd41d;
     }
     .notice.error {
         color: #666;
-        background: #ffebe2 url(../images/ico/error.gif) no-repeat 15px 0.9em;
+        background: #ffebe2 url(../tog_core/images/ico/error.gif) no-repeat 15px 0.9em;
         border-top: 1px solid #fecfc1;
         border-bottom: 1px solid #fecfc1;
     }
@@ -91,29 +91,29 @@ button
 
 /* links */
 a.add {
-    background: url(../images/ico/add.gif) no-repeat 2px 0.2em;
+    background: url(../tog_core/images/ico/add.gif) no-repeat 2px 0.2em;
     padding-left: 20px;
     text-decoration: none;
 }
 a.sendmail {
-    background: url(../images/ico/mail.gif) no-repeat 0 0.2em;
+    background: url(../tog_core/images/ico/mail.gif) no-repeat 0 0.2em;
     padding-left: 20px;
     text-decoration: none;
 }
 a.delete {
-    background: transparent url(../images/ico/delete.gif) no-repeat 3px 0.2em;
+    background: transparent url(../tog_core/images/ico/delete.gif) no-repeat 3px 0.2em;
     color: #c00;
     padding-left: 20px;
     text-decoration: none;
 }
 a.cancel {
-    background: transparent url(../images/ico/cancel.gif) no-repeat 2px 0;
+    background: transparent url(../tog_core/images/ico/cancel.gif) no-repeat 2px 0;
     color: #c00;
     padding-left: 20px;
     text-decoration: none;
 }
 a.set_highlight {
-    background: url(../images/ico/highlight.gif) no-repeat 0 0;
+    background: url(../tog_core/images/ico/highlight.gif) no-repeat 0 0;
     padding: 2px 0 2px 20px;
     text-decoration: none;
 }
@@ -125,10 +125,10 @@ a.smallarrow {
     padding-left: 20px;
     text-decoration: none;    
 }
-a.smallarrow.greyleft {background-image: url(../images/ico/arrow-left-grey-small.gif);}
-a.smallarrow.greyright {background-image: url(../images/ico/arrow-right-grey-small.gif);}
-a.smallarrow.blueleft {background-image: url(../images/ico/arrow-left-blue-small.gif);}
-a.smallarrow.blueright {background-image: url(../images/ico/arrow-right-blue-small.gif);}
+a.smallarrow.greyleft {background-image: url(../tog_core/images/ico/arrow-left-grey-small.gif);}
+a.smallarrow.greyright {background-image: url(../tog_core/images/ico/arrow-right-grey-small.gif);}
+a.smallarrow.blueleft {background-image: url(../tog_core/images/ico/arrow-left-blue-small.gif);}
+a.smallarrow.blueright {background-image: url(../tog_core/images/ico/arrow-right-blue-small.gif);}
 
 /* portlets */
 
@@ -245,7 +245,7 @@ a.smallarrow.blueright {background-image: url(../images/ico/arrow-right-blue-sma
     .portletD .portlet_content {
         margin-top: -1px;
         padding-top: 10px;
-        background: url(../images/portlet/sharp.gif) no-repeat 50% 0
+        background: url(../tog_core/images/portlet/sharp.gif) no-repeat 50% 0
     }
     
     /* */
@@ -337,12 +337,12 @@ a.smallarrow.blueright {background-image: url(../images/ico/arrow-right-blue-sma
 
     /**/
     .portletI ul {
-        background: url(../images/dotted-h.gif) repeat-x 0 0;
+        background: url(../tog_core/images/dotted-h.gif) repeat-x 0 0;
     }
     .portletI li {
         font-size: 1.1em;
         padding: 10px 10px 10px 60px;
-        background-image: url(../images/dotted-h.gif);
+        background-image: url(../tog_core/images/dotted-h.gif);
         background-position: 0 100%;
         background-repeat: repeat-x;
     }
@@ -367,13 +367,13 @@ a.smallarrow.blueright {background-image: url(../images/ico/arrow-right-blue-sma
     .portletJ .portlet_content {
         margin-top: -1px;
         padding-top: 10px;
-        background: url(../images/portlet/sharp2.gif) no-repeat 50% 0
+        background: url(../tog_core/images/portlet/sharp2.gif) no-repeat 50% 0
     }
     .portletJ li {
         font-size: 1em;
         line-height: 1.3em;
         padding: 10px 0 10px 90px;
-        background: url(../images/dotted-h.gif) repeat-x 0 100%;
+        background: url(../tog_core/images/dotted-h.gif) repeat-x 0 100%;
     }
     .portletJ .image {
         float: left;
@@ -801,13 +801,13 @@ html>/**/body form .actions .button { /* hack, IE ignores */
     color: #fff;
 }
 .button.add {
-    background-image: url(../images/ico/button/add.gif);
+    background-image: url(../tog_core/images/ico/button/add.gif);
     background-repeat: no-repeat;
     background-position: 100% 50%;
     padding-right: 20px;
 }
 .button.delete {
-    background-image: url(../images/ico/button/delete.gif);
+    background-image: url(../tog_core/images/ico/button/delete.gif);
     background-repeat: no-repeat;
     background-position: 100% 50%;
     padding-right: 20px;

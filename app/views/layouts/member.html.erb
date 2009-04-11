@@ -9,32 +9,29 @@
 
     <link rel="icon" href="/tog_core/images/favicon.ico" />
 
-    <link href="/tog_core/stylesheets/template.css" rel="stylesheet" media="screen" type="text/css" />
-    <link href="/tog_core/stylesheets/style.css" rel="stylesheet" media="screen" type="text/css" />
-    <link href="/tog_core/stylesheets/pages.css" rel="stylesheet" media="screen" type="text/css" />
+    <%= stylesheet_link_tag "all.css", :media => "screen", :cache => true %>
 
     <!--[if lt IE 7.]>
-<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/ie6.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/ie6.css" />
 <![endif]-->
 
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/ie7.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/ie7.css" />
 <![endif]-->
 
     <script type="text/javascript">
       // <![CDATA[
-      if(navigator.userAgent.indexOf('Mac') != -1) document.write ('<link rel="stylesheet" type="text/css" media="screen" href="/tog_core/stylesheets/mac.css" />');
+      if(navigator.userAgent.indexOf('Mac') != -1) document.write ('<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/mac.css" />');
       // ]]>
     </script>
 
-    <%= inject_js %>
-    <!--<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js'></script>
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.1/scriptaculous.js'></script>
-<script type='text/javascript' src='/javascripts/starbox.js'></script>-->
-<%= inject_css %>
+    <%= javascript_include_tag "all.js", :cache => true %>
 
-<%#= stylesheet_link_tag "style" %>
-<%#= stylesheet_link_tag "mapStyle" %>
+    <%= inject_js %>
+    <%= inject_css %>
+    
+    <%#= stylesheet_link_tag "style" %>
+    <%#= stylesheet_link_tag "mapStyle" %>
 
     <link rel="start" type="text/html" href="/" title="Página de inicio" />
 

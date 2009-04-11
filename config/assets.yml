@@ -1,0 +1,13 @@
+--- 
+css:
+- template
+- style
+- pages
+- personalization
+- scaffold
+js:
+- application
+- prototype
+- effects
+- controls
+- dragdrop
