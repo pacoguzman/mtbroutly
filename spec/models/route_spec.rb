@@ -108,6 +108,10 @@ describe Route do
         search.conditions.sanitize.should be_kind_of(Array)
         search.conditions.sanitize.size.should == 5
       end
+
+      it "should return empty hash if passed a keywords blank parameter" do
+        Route.search(:keywords => "").conditions.conditions.should be_empty
+      end
     end
     
   end

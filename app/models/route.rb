@@ -62,6 +62,6 @@ class Route < ActiveRecord::Base
   end
 
   def self.keywords_condition(keywords)
-    {:group => [{:title_kw => keywords}, {:or_description_kw => keywords}]}
+    keywords.blank? ? {} : {:group => [{:title_kw => keywords}, {:or_description_kw => keywords}]}
   end
 end
