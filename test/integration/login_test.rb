@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-
-
 class LoginTest < ActionController::IntegrationTest
 
   context "for existing user activated" do

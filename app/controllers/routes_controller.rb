@@ -4,7 +4,7 @@ class RoutesController < ApplicationController
   # GET /routes
   # GET /routes.xml
   def index
-    @routes_title = "Routes"
+    @routes_title = I18n.t("interface.routes.titles.default")
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
@@ -68,7 +68,7 @@ class RoutesController < ApplicationController
   # Listado de las última rutas creadas
   # No es necesario estar logueado
   def newest
-    @routes_title = "New Routes"
+    @routes_title = I18n.t("interface.routes.titles.newest")
     @order = 'created_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
@@ -85,7 +85,7 @@ class RoutesController < ApplicationController
   # Listado de las rutas mejor valoradas
   # No es necesario estar logueado
   def highlighted
-    @routes_title = "Highlighted Routes"
+    @routes_title = I18n.t("interface.routes.titles.highlighted")
     @order = 'highlight'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
@@ -109,7 +109,7 @@ class RoutesController < ApplicationController
   # Listado de tus rutas
   # Es necesario estar logueado
   def created_by_you
-    @routes_title = "Routes Created By You"
+    @routes_title = I18n.t("interface.routes.titles.created_by_you")
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
@@ -126,7 +126,7 @@ class RoutesController < ApplicationController
   # Listado de tus rutas
   # Es necesario estar logueado
   def close_to_you
-    @routes_title = "Routes Close To You"
+    @routes_title = I18n.t("interface.routes.titles.close_to_you")
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
@@ -144,7 +144,7 @@ class RoutesController < ApplicationController
   # Listado de rutas favoritas
   # Es necesario estar logueado
   def your_favorites
-    @routes_title = "Your Favorite Routes"
+    @routes_title = I18n.t("interface.routes.titles.your_favorites")
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'

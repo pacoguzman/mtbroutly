@@ -46,3 +46,10 @@ require 'webrat'
 Webrat.configure do |config|
   config.mode = :rails
 end
+
+#FIXME produce un problema con set_default_icon
+#require 'database_cleaner'
+#
+## truncate your tables here if you are using the same database as selenium, since selenium doesn't use transactional fixtures
+#DatabaseCleaner.strategy = :truncation
+#DatabaseCleaner.clean

@@ -9,6 +9,14 @@ en:
     keywords: "keywords"
     submit: "Search"
   interface:
+    routes:
+      titles:
+        default: "Routes"
+        newest: "New Routes"
+        highlighted: "Highlighted Routes"
+        created_by_you: "Routes Created by you"
+        close_to_you: "Routes Close to you"
+        your_favorites: "Your Favorite Routes"
     member:
       routes: "My Routes"
     site:

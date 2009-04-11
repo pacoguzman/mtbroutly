@@ -4,24 +4,26 @@ Feature: Sign up
   Should be able to sign up
   
     Scenario: User signs up with invalid data
-      When I go to the sign up page
+      When I go to the signup page
+      And I fill in "Login" with "login"
       And I fill in "Email" with "invalidemail"
       And I fill in "Password" with "password"
-      And I fill in "Confirm password" with ""
+      And I fill in "Repeat password" with "password"
       And I press "Sign Up"
       Then I should see error messages
       
     Scenario: User signs up with valid data
-      When I go to the sign up page
+      When I go to the signup page
+      And I fill in "Login" with "login"
       And I fill in "Email" with "email@person.com"
       And I fill in "Password" with "password"
-      And I fill in "Confirm password" with "password"
+      And I fill in "Repeat password" with "password"
       And I press "Sign Up"
       Then I should see "instructions for confirming"
       And a confirmation message should be sent to "email@person.com"
       
     Scenario: User confirms his account
-      Given I signed up with "email@person.com/password"
+      Given an registered user exists as "login/email@person.com/password"
       When I follow the confirmation link sent to "email@person.com"
       Then I should see "Confirmed email and signed in"
       And I should be signed in      
