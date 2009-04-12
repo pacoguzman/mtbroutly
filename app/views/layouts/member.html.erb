@@ -9,19 +9,22 @@
 
     <link rel="icon" href="/tog_core/images/favicon.ico" />
 
-    <%= stylesheet_link_tag "all.css", :media => "screen", :cache => true %>
+    <%#= stylesheet_link_tag "all.css", :media => "screen", :cache => true %>
+    <link href="/stylesheets/template.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="/stylesheets/style.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="/stylesheets/pages.css" rel="stylesheet" media="screen" type="text/css" />
 
     <!--[if lt IE 7.]>
-<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/ie6.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/ie6.css" />
 <![endif]-->
 
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/ie7.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/ie7.css" />
 <![endif]-->
 
     <script type="text/javascript">
       // <![CDATA[
-      if(navigator.userAgent.indexOf('Mac') != -1) document.write ('<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/mac.css" />');
+      if(navigator.userAgent.indexOf('Mac') != -1) document.write ('<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mac.css" />');
       // ]]>
     </script>
 

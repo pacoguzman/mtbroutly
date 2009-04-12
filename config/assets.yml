@@ -4,7 +4,6 @@ css:
 - style
 - pages
 - personalization
-- scaffold
 js:
 - application
 - prototype
