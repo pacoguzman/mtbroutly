@@ -1,0 +1,8 @@
+function map_click(map){
+return GEvent.addListener(map, "click", function(overlay, location) {
+if(location){
+map.openInfoWindow(location, "<div id='info_window_content'>" + "This is a info window!" + "</div>");
+}
+});
+}
+map_click_event = map_click(map);

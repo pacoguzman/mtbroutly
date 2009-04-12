@@ -1,0 +1,7 @@
+function marker_click(marker){
+return GEvent.addListener(marker, "click", function() {
+/* This is some test code! */
+alert("Hello from marker click!");
+});
+}
+marker_click_event = marker_click(marker);
