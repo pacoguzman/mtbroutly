@@ -27,6 +27,10 @@
 <%# show_route @route %>
 <%#= @map.to_html %>
 
+<%# TODO eschaton maps %>
+<%= include_google_javascript %>
+<%= init_map %><!-- Equivalente al show_route -->
+
 <h2><span><%= @route.title -%></span></h2>
 <%# TODO format links %>
 <div id="format_links">
@@ -36,6 +40,8 @@
 </div>
 
 <%#= @map.div(:width => 600, :height => 400) %>
+
+<%= google_map :width => 600, :height => 400, :style => 'border: 1px dashed black; margin: 10px' %>
 
 <div class="detail detail1">
   <div class="text"><%= sanitize textilize(@route.description) %></div>
