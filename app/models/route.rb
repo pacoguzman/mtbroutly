@@ -3,11 +3,12 @@ class Route < ActiveRecord::Base
     "2" => { :distance_gt => 10, :distance_lte => 25 }, "3" => { :distance_gt => 25, :distance_lte => 50 },
     "4" => { :distance_gt => 50 }}
   SEARCH_DISTANCE_OPTIONS_SELECT = {"Any" => "0", "less than 10 kms" => "1",
-              "between 10 and 25 kms" => "2","between 25 and 50 kms" => "3","more than 50 kms" => "4"}
+    "between 10 and 25 kms" => "2","between 25 and 50 kms" => "3","more than 50 kms" => "4"}
+  STATIC_MAP_GOOGLE_LIMIT = 70
 
   belongs_to :owner, :class_name => "User", :foreign_key => "user_id"
   belongs_to :user
-  has_many :waypoints, :as => :locatable
+  has_many :waypoints, :as => :locatable, :dependent => :destroy
   has_many :rates_with_dimension, :as => :rateable, :class_name => "Rate", :dependent => :destroy,
     :conditions => ['dimension IS NOT ?', nil]
 
@@ -52,6 +53,32 @@ class Route < ActiveRecord::Base
       search.conditions = Route.send("#{k}_condition", v) unless v.blank?
     end
     search
+  end
+
+  def vertices
+    waypoints.collect{|w| w.vertice }
+  end
+
+  def coordinates
+    waypoints.collect{ |w| w.coordinates_to_s }.join(" ") unless waypoints.empty?
+  end
+
+  #TODO memoize para memorizar métodos en memoria
+  def num_waypoints
+    @num_waypoints ||= waypoints.size
+  end
+
+  def waypoints_for_static_map
+    if num_waypoints > STATIC_MAP_GOOGLE_LIMIT
+      diezmador = (num_waypoints/STATIC_MAP_GOOGLE_LIMIT) + 1
+      a = (0..num_waypoints-1).step(diezmador).collect
+      #FIXME corregir los dos accesos al último por un calculo del indice para saber si se debería incluir o no
+      # Se añade último elemento como fin de la ruta
+      a << num_waypoints-1 unless (a.last == num_waypoints-1)
+      eval("waypoints.values_at(#{a.join(', ')})")
+    else
+      waypoints
+    end
   end
 
   private

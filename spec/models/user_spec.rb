@@ -12,7 +12,7 @@ describe User do
     
     route.favorites.create!(:user => user_favoriter)
 
-    user_favoriter.favorites_routes.should == [route]
+    user_favoriter.favorite_routes.should == [route]
   end
 
 

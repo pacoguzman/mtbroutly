@@ -21,4 +21,22 @@ describe Waypoint do
   it { should validate_presence_of :lat } 
   it { should validate_presence_of :lng }
   it { should validate_numericality_of :position }
+
+  it "should return a hash from vertice to use with eschaton" do
+    hash = {:latitude => 9.99, :longitude => 9.99}
+    Waypoint.create!(@valid_attributes).vertice.should == hash
+  end
+
+  describe "coordinates_to_s method to use with static map" do
+    it "should return a valid string with nil altitude" do
+      @way = Waypoint.create!(@valid_attributes.merge!(:alt => 0.0))
+      @way.coordinates_to_s.should == "9.99,9.99,0.0"
+    end
+
+    it "should return a valid string with not nil altitude" do
+      @way = Waypoint.create!(@valid_attributes)
+      @way.coordinates_to_s.should == "9.99,9.99,9.99"
+    end
+  end
+  
 end

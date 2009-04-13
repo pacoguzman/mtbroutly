@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   seo_urls "login"
   ajaxful_rater
 
-  def favorites_routes
+  def favorite_routes
     favorites.where_type('Route').all.collect(&:favoriteable)
   end
 end

@@ -115,4 +115,66 @@ describe Route do
     end
     
   end
+
+  describe "vertices methods to use with eschaton" do
+    it "should return a array with a hash elements for each waypoint" do
+      @route = Factory.build(:route, :user_id => 1)
+      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
+      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+      @route.save!
+
+      @route.vertices.should be_kind_of(Array)
+      @route.vertices.should == [{:latitude => 9.9, :longitude => 9.9},{:latitude=> 9.8, :longitude => 9.8}]
+    end
+  end
+
+  describe "coordinates methods to use with downloads" do
+    it "should return a string with a coordinates for each waypoint" do
+      @route = Factory.build(:route, :user_id => 1)
+      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
+      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+      @route.save!
+
+      @route.coordinates.should == "9.9,9.9,0.0 9.8,9.8,0.0"
+    end
+  end
+
+  describe "waypoints for static map" do
+
+    describe "in a route with 200 waypoints" do
+      before :each do
+        @route = Factory.build(:route, :user_id => 1)
+        1.upto(200) do |i|
+          @route.waypoints << Factory.build(:waypoint, :position => i)
+        end
+        @route.save!
+      end
+     
+      #TODO parámetro de configuración
+      it "should return less or equal 70 waypoints" do
+        @route.waypoints_for_static_map.size.should <= 70
+      end
+
+      it "should return the first waypoint in the first place" do
+        @route.waypoints_for_static_map.first.should == @route.waypoints.first
+      end
+
+      it "should return the last waypoint in the last place" do
+        @route.waypoints_for_static_map.last.should == @route.waypoints.last
+      end
+    end
+
+    describe "in a route with 2 waypoints" do
+      before :each do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
+        @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+        @route.save!
+      end
+
+      it "should be equal waypoints and waypoints for static map" do
+        @route.waypoints_for_static_map.should == @route.waypoints
+      end
+    end
+  end
 end
