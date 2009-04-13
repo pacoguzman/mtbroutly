@@ -2,6 +2,7 @@
 [submodule "vendor/plugins/acts_as_favoriteable"]
 	path = vendor/plugins/acts_as_favoriteable
 	url = git://github.com/pacoguzman/acts_as_favoriteable.git
-[submodule "ajaxful-rating"]
-	path = ajaxful-rating
+
+[submodule "vendor/plugins/ajaxful-rating"]
+	path = vendor/plugins/ajaxful-rating
 	url = git://github.com/edgarjs/ajaxful-rating.git
