@@ -33,6 +33,7 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate', :version => '2.3.8', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'searchlogic', :version => '>=1.6.5', :source => 'http://gems.github.com'
   config.gem 'geokit', :version => '>=1.2.6', :source => 'http://gems.github.com'
+  config.gem 'crack', :version => '>=0.1.1', :source => 'http://gems.github.com'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

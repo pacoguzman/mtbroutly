@@ -1,0 +1,45 @@
+<h1>Upload your route</h1>
+<div>
+  <%= error_messages_for :route %>
+</div>
+<h4>Select the file containing the GPS tracklogs and waypoints to upload:</h4>
+<% form_tag uploaded_member_routes_path, :multipart => true do %>
+  <label for="file">File to Upload</label><%= file_field_tag "file" %>
+  <%= submit_tag "Upload" %>
+<% end %>
+<!--
+<div class="pbar_wrapper" id="pbar">
+      <div class="upload_pending">
+      <div class="upload_completed" id="pbar_completed" style="width:0px"></div></div>
+      <a href="javascript:cancelUpload('Cancel the operation?');" id="link-pagina" style="font-size:smaller">[Cancel]</a>
+      <br/><br/><span id="pbar_completed_caption">0%</span>
+</div>
+-->
+
+<div>
+  <ul>
+    <li>You can upload your trails and waypoints in the following formats:
+    <ul>
+      <li>GPX 1.0 (.gpx)</li>
+      <li>GPX 1.1 (.gpx)</li>
+      <li class="highlight">CompeGPS (.trk, .wpt)</li>
+      <li class="highlight">OziExplorer (.plt .wpt)</li>
+      <li class="highlight">Garmin Training Center (.crs, .tcx)</li>
+      <li class="highlight">Garmin Mapsource (.gdb, .mps)</li>
+      <li class="highlight">Magellan Mapsend (.trk, .wpt)</li>
+      <li class="highlight">FAI/IGC Flight Recorder Data Format (.igc)</li>
+      <li class="highlight">Geocaching (.loc)</li>
+      <li class="highlight">Google Earth (.kml, .kmz)</li>
+      <li class="highlight">GPS TrackMaker (.gtm)</li>
+      <li class="highlight">PCX5 (.pcx)</li>
+      <li class="highlight">Geogrid Viewer tracklogs (.log)</li>
+    </ul>
+    <li>
+      If you haven't generated GPX files before, we recommend free software like G7ToWin or
+      GPSBabel that will allow you to download data from your GPS receiver and convert it to
+      GPX easily.&nbsp;<a href="?¿"><b>View help of G7ToWin</b></a>&nbsp;
+      |&nbsp;<a href="?¿"><b>View help of GPSBabel</b></a>
+    </li>
+    <li>Before uploading, ensure that the file size isn't bigger than 5 MB</li>
+  </ul>
+</div>

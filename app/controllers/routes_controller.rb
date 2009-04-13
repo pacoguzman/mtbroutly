@@ -10,24 +10,16 @@ class RoutesController < ApplicationController
     @asc = params[:asc] || 'desc'
     conditions = params[:user_id] ? {:user_id => params[:user_id].split('-').first} : {}
 
-    @routes = Route.paginate :include => :waypoints, :conditions => conditions, :per_page => '10',
+    #FIXME intentar cargar solo los waypoints para el static path
+    #FIXME se debería hacer como un has_many a nivel de modelo o en named_scope
+    @routes = Route.paginate :include => [:waypoints, :user, :comments, :favoriters],
+      :conditions => conditions, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @routes }
-    end
-  end
-
-  # GET /routes/1
-  # GET /routes/1.xml
-  def show
-    @route = Route.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @route }
     end
   end
 
@@ -72,7 +64,8 @@ class RoutesController < ApplicationController
     @order = 'created_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = Route.paginate :include => :waypoints, :per_page => '10',
+    @routes = Route.paginate :include => [:waypoints, :user, :comments, :favoriters],
+      :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -113,7 +106,8 @@ class RoutesController < ApplicationController
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = current_user.routes.paginate :include => :waypoints, :per_page => '10',
+    @routes = current_user.routes.paginate :include => [:waypoints, :user, :comments, :favoriters],
+      :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -148,7 +142,7 @@ class RoutesController < ApplicationController
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = current_user.favorite_routes.paginate :include => :waypoints, :per_page => '10',
+    @routes = current_user.favorite_routes.paginate :include => [:waypoints, :user, :comments, :favoriters], :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
@@ -164,7 +158,7 @@ class RoutesController < ApplicationController
 
   def show
     @page = params[:page] || '1'
-    @route = Route.find params[:id], :include => :waypoints
+    @route = Route.find params[:id], :include => [:waypoints, :user, :comments, :favoriters]
     # Variable para saber si es ruta favorita del usuario
     @favorite = current_user.nil? ? [] : @route.favorites.find_by_user_id(current_user.id)
     #@routes_near = @route.find_near
@@ -188,7 +182,8 @@ class RoutesController < ApplicationController
     @page = params[:page] || '1'
     @asc = params[:asc] || 'asc'
 
-    @routes = Route.search(params[:search]).all(:include => :waypoints).paginate( :paginate => '10',
+    @routes = Route.search(params[:search]).all(:include => [:waypoints, :user, :comments, :favoriters]).paginate(
+      :paginate => '10',
       :page => @page,
       :order => @order + " " + @asc)
 

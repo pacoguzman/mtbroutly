@@ -11,15 +11,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :waypoints
 
   map.namespace(:member) do |member|
-    member.resources :routes, :except => :show
+    member.resources :routes, :except => :show,
+      :collection => { :upload => :get, :uploaded => :post }
   end
 
   map.with_options(:controller => 'member/favorites') do |favorite|
     favorite.add_favorite 'favorites', :action => 'create'
     favorite.remove_favorite 'favorites/:id/remove', :action => 'remove'
   end
-
-  
 
   map.routes_from_plugin 'tog_mail'
   map.routes_from_plugin 'tog_social'

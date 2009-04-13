@@ -11,9 +11,9 @@ style="background-color:<%= cycle("#edf3fd","ffffff")%>">
     <%#= link_to "Edit Group", edit_member_group_path(membership.group) -%>  <%#= link_to "#{membership.group.pending_members.size} members waiting for approval", member_group_pending_members_path(membership.group) %>
   </div>
   <div class="summary">
-    Distance: <%#TODO= number_with_precision(route.distance, :precision => 3) %> kms<br/>
-    <%#TODO= pluralize(route.comments.size, 'comment') %><br/>
-    Favorite of <%#TODO= pluralize(route.favorites.size, 'user') %><br/>
+    Distance: <%= number_with_precision(route.distance, :precision => 3) %> kms<br/>
+    <%= pluralize(route.comments.size, 'comment') %><br/>
+    Favorite of <%= pluralize(route.favorites.size, 'user') %><br/>
   </div>
   <div class="text" style="padding:0px 0px 0px 5px">
     <p><%= route.description %></p>

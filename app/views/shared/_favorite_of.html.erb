@@ -1,12 +1,14 @@
 <div class="portlet portletI">
-  <h2><span>Favorite of</span></h2>
-  <div class="portlet_content">
-    <ul id="favoriters">
-      <% unless favoriteable.favoriters.blank? -%>
-        <%= render :partial => "favoriters/favoriter", :collection => favoriteable.favoriters %>
-      <% else -%>
-        No favoriters on this <%= favoriteable.class.name %>  by now.
-      <% end -%>
-    </ul>
+  <div class="portlet_content" id="favorite_of">
+    <h2><span>Favorite of</span></h2>
+    <div class="portlet_content">
+      <ul id="favoriters">
+        <% unless favoriteable.favoriters.blank? -%>
+          <%= render :partial => "favoriters/favoriter", :collection => favoriteable.favoriters %>
+        <% else -%>
+          No favoriters on this <%= favoriteable.class.name %>  by now.
+        <% end -%>
+      </ul>
+    </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <p>
   <%= link_to 'Create new route', new_member_route_path,  {:class => "button add", :title => "Create a new route"} %>
-  <%#TODO= link_to 'Upload route', upload_member_routes_path,  {:class => "button add", :title => "Upload route"} %>
+  <%= link_to 'Upload route', upload_member_routes_path,  {:class => "button add", :title => "Upload route"} %>
 </p>
 
 <%= render :partial => "routes/routes", :object => @routes,

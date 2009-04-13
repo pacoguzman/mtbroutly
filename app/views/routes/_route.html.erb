@@ -2,7 +2,7 @@
      style="background-color:<%= cycle("#edf3fd","ffffff")%>">
   <%#= instance_variable_get(:"@map_#{route.id}").to_html %>
   <div class="image" style="padding:5px 0px 0px 5px">
-    <%##= link_to static_map(route), route_path(route) %>
+    <%= link_to static_map(route), route_path(route) %>
     <%#= instance_variable_get(:"@map_#{route.id}").div(:width => 320,:height => 180) %>
   </div>
   <div class="title" style="padding-top:5px"><%= link_to "#{sanitize textilize_without_paragraph(route.title)}", route_path(route), :title => "#{sanitize(route.title)}" %></div>
