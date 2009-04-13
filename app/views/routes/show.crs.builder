@@ -6,16 +6,17 @@ xml.TrainingCenterDatabase("xsi:schemaLocation" => "http://www.garmin.com/xmlsch
   xml.tag! "Courses" do
     xml.tag! "CoursesFolder", "Name" => "Courses" do
       xml.tag! "Course" do
-        xml.Name @route.name
+        xml.Name @route.title
         xml.tag! "Track" do
-          @route.locations.each do |loc|
+          @route.waypoints.each do |way|
             xml.tag! "Trackpoint"  do
+              #TODO create at_time attribute for routes
               xml.Time "0.000000"
               xml.Position do
-                xml.LatitudDegrees loc.lat.to_s
-                xml.LongitudeDegrees loc.lng.to_s
+                xml.LatitudDegrees way.lat.to_s
+                xml.LongitudeDegrees way.lng.to_s
               end
-              xml.AltitudMeters "0.0"
+              xml.AltitudMeters way.alt.to_s
             end
           end
         end

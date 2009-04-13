@@ -2,6 +2,8 @@ xml.instruct!
 # Definir KML_NS global com "http://www.opengis.net/kml/2.2"
 xml.kml("xmlns" => "http://www.opengis.net/kml/2.2") do
   xml.tag! "Document" do
+    xml.name @route.title
+    xml.description @route.description
     xml.tag! "Style", :id => "myStartStyle" do
       xml.tag! "BalloonStyle" do
         xml.bgColor "ff00ff00" #format is aabbggrr
@@ -23,7 +25,7 @@ xml.kml("xmlns" => "http://www.opengis.net/kml/2.2") do
       xml.name "Start Point"
       xml.styleUrl "#myStartStyle"
       xml.tag! "Point" do
-        xml.coordinates @route.locations.first.coordinates
+        xml.coordinates @route.waypoints.first.coordinates_to_s
       end
     end
     xml.tag! "Placemark" do
@@ -31,7 +33,7 @@ xml.kml("xmlns" => "http://www.opengis.net/kml/2.2") do
       xml.name "End Point"
       xml.styleUrl "#myEndStyle"
       xml.tag! "Point" do
-        xml.coordinates @route.locations[@route.locations.size - 1].coordinates
+        xml.coordinates @route.waypoints[@route.waypoints.size - 1].coordinates_to_s
       end
     end
     xml.tag! "Placemark" do

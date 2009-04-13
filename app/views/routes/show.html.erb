@@ -8,15 +8,15 @@
   <%  if logged_in? && @route.owner != current_user -%>
     <%= render :partial => "shared/favorite_box", :locals => {:favoriteable => @route, :favorite => @favorite} %>
   <% end -%>
-  <%# TODO Usar I18n %>
+
   <li><%= link_to image_tag("small_icon_enlarge.png", :alt => "Enlarge map") + "Enlarge map", big_route_path(@route) %>
 
-  <%#= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
 
+  <br/>
+  <%= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
   <%#= render :partial => "routes/starrate", :locals => {:rated => @route} %>
-
   <%= render :partial => "shared/comments", :locals => {:commentable => @route} %>
-
+  <br />
   <%= render :partial => "shared/favorite_of", :locals => {:favoriteable => @route} %>
 <% end %>
 
@@ -29,14 +29,13 @@
 
 <%# TODO eschaton maps %>
 <%= include_google_javascript %>
-<%= init_map %><!-- Equivalente al show_route -->
+<%= init_map_for @route %><!-- Equivalente al show_route -->
 
 <h2><span><%= @route.title -%></span></h2>
-<%# TODO format links %>
 <div id="format_links">
-  <%#= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
-  <%#= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
-  <%#= link_to "View as CRS", formatted_route_path(:format => :crs) %>
+  <%= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
+  <%= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
+  <%= link_to "View as CRS", formatted_route_path(:format => :crs) %>
 </div>
 
 <%#= @map.div(:width => 600, :height => 400) %>
