@@ -11,7 +11,6 @@
 
   <li><%= link_to image_tag("small_icon_enlarge.png", :alt => "Enlarge map") + "Enlarge map", big_route_path(@route) %>
 
-
   <br/>
   <%= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
   <%#= render :partial => "routes/starrate", :locals => {:rated => @route} %>
@@ -39,11 +38,15 @@
 </div>
 
 <%#= @map.div(:width => 600, :height => 400) %>
-
 <%= google_map :width => 600, :height => 400, :style => 'border: 1px dashed black; margin: 10px' %>
 
 <div class="detail detail1">
   <div class="text"><%= sanitize textilize(@route.description) %></div>
+  <div class="summary">
+    Distance: <%= number_with_precision(@route.distance, :precision => 3) %> kms<br/>
+    Coordinates: <%= @route.waypoints.size %><br/>
+    More info TODO<br/>
+  </div>
 </div> <!-- /.detail1 -->
 
 <%# TODO routes near %>
