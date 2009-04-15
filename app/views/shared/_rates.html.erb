@@ -1,0 +1,23 @@
+<div id="rates" class="portlet_content" style="padding: 10px;">
+  <div style="float: left; width: 90px;">
+    <b>Total</b><br /> <small><%= "(" + pluralize(rated.total_rates_with_dimension, "review") + ")" %></small>
+  </div>
+  <div class='star'>
+    <div id='rating_total'></div>
+  </div>
+  <br style="clear:both;" />
+  <br />
+  <% rated.class.options[:dimensions].each do |dimension| -%>
+    <%= content_tag :div, dimension.to_s.capitalize, :style => "float: left; width: 90px;" %>
+    <%= content_tag :div, content_tag(:div, "", :id => "rating_total_#{dimension}"), :class => "star", :style => "float: left;" %>
+    <%# TODO Añadir la ayuda %>
+    <%#= content_tag :a, "(?)", :href => "#form_rating_help_#{dimension}", :id => "#form_rating_help_link_#{dimension}", :style => "font-weight: bold; font-size: 0.8em; color: #999;" %>
+    <%#= content_tag :div, "Más estrellas para mejor asfalto", :id => "rating_help_#{dimension}" %>
+    <br style="clear:both;" />
+  <% end  -%>
+
+  <div style="float: right; margin-top: 5px;">
+    <%= button_toggle_div "Rate it!", {}, {:id => 'button_rate_it', :start_id => 'rates', :end_id => 'rate'} %>
+  </div>
+  <br style="clear:both;" />
+</div>

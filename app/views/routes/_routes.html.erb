@@ -1,6 +1,7 @@
-<%# include_javascript "scriptaculous" %>
-<%# include_javascript "starbox" %>
-<%# include_stylesheet "starbox" %>
+<% include_javascript "scriptaculous" %>
+<% include_javascript "starbox" %>
+<% include_stylesheet "starbox" %>
+<%# include_stylesheet "ajaxful_rating" %>
 
 <div class="portlet portletB" id="#{id_route_list}">
   <h2><span><%= routes_title ||= "Routes" %></span></h2>
@@ -11,8 +12,6 @@
       </div>
     </div>
   <% else -%>
-    <%#= Mapstraction.header(:google) %>
-    <%#  show_routes routes %>
     <%= render :partial => route_partial, :collection => routes %>
   <% end -%>
 
@@ -32,7 +31,7 @@
 <script type="text/javascript">
   //<![CDATA[
 <% routes.each do |route| -%>
-  <%#= "new Starbox('rating_total_#{route.id}', #{route.total_rate_average}, { className: 'dotted', stars: 5, buttons: 25, locked: true });" %>
+  <%= "new Starbox('rating_total_#{route.id}', #{route.total_rate_average}, { className: 'dotted', stars: 5, buttons: 25, locked: true });" %>
 <% end -%>
   //]]>
 </script>

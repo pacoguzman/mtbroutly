@@ -1,0 +1,19 @@
+<div id="rate" class="portlet_content" style="display: none; padding: 10px;">
+  <% form_remote_tag :url => rate_route_path(rated) do -%>
+    <% rated.class.options[:dimensions].each do |dimension|  -%>
+      <%= content_tag :div, dimension.to_s.capitalize, :style => "float: left; width: 90px;"%>
+      <%= content_tag :div, content_tag(:div, "", :id => "rating_user_#{dimension}"), :class => "star", :style => "float: left;" %>
+      <%# TODO Añadir la ayuda %>
+      <%#= content_tag :a, "(?)", :href => "#form_rating_help_#{dimension}", :id => "#form_rating_help_link_#{dimension}", :style => "font-weight: bold; font-size: 0.8em; color: #999;" %>
+      <%#= content_tag :div, "Más estrellas para mejor asfalto", :id => "form_rating_help_#{dimension}" %>
+      <br style="clear:both;" />
+      <%= hidden_field_tag "rating[#{dimension}]", "0"  %>
+    <% end -%>
+
+    <div style="float: right; margin-top: 5px;">
+      <%= submit_tag "Send", :class => "grey_button_send", :value => "Send" %>
+      <%= button_toggle_div "cancel", {}, {:id => 'button_cancel_rate', :start_id => 'rate', :end_id => 'rates'} %>
+    </div>
+    <br style="clear:both;" />
+  <% end -%>
+</div>

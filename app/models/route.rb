@@ -81,6 +81,29 @@ class Route < ActiveRecord::Base
     end
   end
 
+  def rate_all_dimensions(ratings, user)
+    valid_ratings = ratings.symbolize_keys.slice(*self.class.options[:dimensions])
+    self.class.options[:dimensions].each do |dimension|
+      self.rate(ratings[dimension.to_s], user, dimension.to_s)
+    end if valid_ratings.length == self.class.options[:dimensions].length
+  end
+
+  def total_rate_average
+    #    avg = if cached && self.class.caching_average?(dimension)
+    #      send(caching_column_name(dimension)).to_f
+    #    else
+    #      self.rates_sum(dimension).to_f / self.total_rates(dimension).to_f
+    #    end
+    #    avg.nan? ? 0.0 : avg
+
+    avg = rates_with_dimension.all.sum(&:stars).to_f / rates_with_dimension.length.to_f
+    avg.nan? ? 0.0 : avg
+  end
+
+  def total_rates_with_dimension
+    rates_with_dimension.length / self.class.options[:dimensions].length
+  end
+
   private
 
   #TODO comprobaciones para mantener solo códigos disponibles

@@ -1,5 +1,18 @@
 module RoutesHelper
 
+  #<input type="button" class="grey_button_rate_it" value="" onclick="Effect.toggle('rates','blind', {delay: 0, duration: 0.3}); Effect.toggle('rate','blind', {delay: 0.3, duration: 0.3}); return false" />
+  def button_toggle_div(name,options={},html_options={})
+    logger.info options.inspect
+    logger.info html_options.inspect
+    toggle_options = html_options.slice(:start_id, :end_id)
+    logger.info toggle_options.inspect
+    html_options.except!(:start_id, :end_id)
+    button_to_function(name, options, html_options) do |page|
+      page.visual_effect :toggle_blind, toggle_options[:start_id], {:delay => 0, :duration => 0.3}
+      page.visual_effect :toggle_blind, toggle_options[:end_id], {:delay => 0.3, :duration => 0.3}
+    end
+  end
+
   def tag_cloud_routes(classes)
     tags = Route.tag_counts
     return if tags.empty?

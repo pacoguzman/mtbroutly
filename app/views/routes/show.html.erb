@@ -13,7 +13,7 @@
 
   <br/>
   <%= render :partial => "shared/owner_box", :locals => {:owner => @route.owner} %>
-  <%#= render :partial => "routes/starrate", :locals => {:rated => @route} %>
+  <%= render :partial => "routes/starrate", :locals => {:rated => @route} %>
   <%= render :partial => "shared/comments", :locals => {:commentable => @route} %>
   <br />
   <%= render :partial => "shared/favorite_of", :locals => {:favoriteable => @route} %>
