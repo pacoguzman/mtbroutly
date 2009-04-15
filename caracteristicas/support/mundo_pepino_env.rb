@@ -1,23 +1,25 @@
 # Sets up the Rails environment for Cucumber
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
-
 require 'cucumber/rails/world'
+Cucumber::Rails.use_transactional_fixtures
+
+require 'webrat/rails'
 
 require 'cucumber/formatters/unicode'  # Comment out this line if you don't want Cucumber Unicode support
 # Comment out the next two lines if you're not using RSpec's matchers (should / should_not) in your steps.
 require 'cucumber/rails/rspec'
-#require 'webrat/rspec-rails'
-require 'webrat/core/matchers'
+require 'webrat/rspec-rails'
+#require 'webrat/core/matchers'
 
-Cucumber::Rails.use_transactional_fixtures
+require 'factory_girl'
+require File.expand_path(File.dirname(__FILE__) + '/../../spec/factories')
 
-require 'webrat/rails'
+require 'mundo_pepino'
+
 Webrat.configure do |config|
   config.mode = :rails
 end
-
-require 'mundo_pepino'
 
 MundoPepino::ModelsToClean = [
   Waypoint, # (TODO: quitar la coma final si es el primer modelo)
@@ -79,21 +81,19 @@ String.url_mappings = {
   /listado general de rutas mejor valoradas$/ => '/routes/highlighted'
 }
 
-require 'factory_girl'
-require File.expand_path(File.dirname(__FILE__) + '/../../spec/factories')
-
-class MiMundo < MundoPepino
-  # Helpers específicos de nuestras features, por ejemplo:
-  #include FixtureReplacement # probado!
-
-  # include Machinist # probado!
-end
-
 Before do
   MundoPepino::ModelsToClean.each { |model| model.destroy_all }
 end
 
-World do
-  MiMundo.new
-end
+#module MundoPepino
+#  # Helpers específicos de nuestras features que necesiten estar
+#  # "incluidos" (no extendidos), por ejemplo:
+#  include FixtureReplacement # probado!
+#  include Machinist # probado!
+#end
+# # Si utilizas factory_girl # probado!
+# require 'factory_girl'
+# #Definición de las factorias equivalente a example_data.rb en fixture_replacement
+# require File.expand_path(File.dirname(__FILE__) + '/app/db/factories')
 
+World(MundoPepino)
