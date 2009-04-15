@@ -1,2 +1,0 @@
-class TerracesController < ApplicationController
-end

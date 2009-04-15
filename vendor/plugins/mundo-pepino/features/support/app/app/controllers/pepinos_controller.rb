@@ -1,2 +1,0 @@
-class PepinosController < ApplicationController
-end
