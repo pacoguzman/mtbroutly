@@ -31,7 +31,7 @@ module RoutesHelper
 
       if route.waypoints.any?
         map.add_marker(start_marker(route.waypoints.first))
-        map.add_line(path(route))
+        generate_js_polyline(route)
         map.add_marker(end_marker(route.waypoints.last))
       else
         map.click do |script, location|
@@ -41,6 +41,46 @@ module RoutesHelper
       
     end
     
+  end
+
+  def generate_js_polyline(route)
+    obj = Eschaton::JavascriptObject.new
+    obj << "var points = #{route.points.to_js.gsub(' ','')}"
+    obj << "var gpoints = [];"
+    obj << "jQuery.each(points, function(i, p){"
+    obj << "  var point = new GLatLng(p[0], p[1])"
+    obj << "  track_bounds.extend(point);"
+    obj << "  gpoints.push(point);"
+    obj << "});"
+    obj << "line = new GPolyline(gpoints, '#0000ff', 5, 1);"
+    obj << "map.addOverlay(line);"
+    obj << "map_lines.push(line);"
+  end
+
+  def init_map_for_encoded(route)
+
+    run_map_script do
+      map = Google::Map.new(:controls => [:small_map, :map_type],
+        :center => :best_fit)
+
+      if route.waypoints.any?
+        map.add_marker(start_marker(route.waypoints.first))
+        map.add_marker(end_marker(route.waypoints.last))
+        
+        encoded_line = Google::Line.new :encoded => {:points => route.encoded_vertices ,
+          :levels => 'PFHFGP'},
+          :colour => 'blue', :opacity => 1, :thickness => 6
+
+        map.add_line(encoded_line)
+      else
+        map.click do |script, location|
+          map.open_info_window(:location => location, :text => "This route hasn't any waypoints")
+        end
+      end
+
+      map.auto_fit!
+    end
+
   end
 
   #TODO define icons

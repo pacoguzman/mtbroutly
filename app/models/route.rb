@@ -1,3 +1,5 @@
+ require 'gmap_polyline_encoder'
+
 class Route < ActiveRecord::Base
   SEARCH_DISTANCE_CODE_RANGE = {"0" => {},"1" => { :distance_lte => 10 },
     "2" => { :distance_gt => 10, :distance_lte => 25 }, "3" => { :distance_gt => 25, :distance_lte => 50 },
@@ -59,8 +61,17 @@ class Route < ActiveRecord::Base
     waypoints.collect{|w| w.vertice }
   end
 
+  def points
+    waypoints.collect{|w| w.point}
+  end
+
   def coordinates
     waypoints.collect{ |w| w.coordinates_to_s }.join(" ") unless waypoints.empty?
+  end
+
+  def encoded_vertices
+    encoded = GMapPolylineEncoder.new().encode( self.waypoints.collect{|w| w.point } )
+    encoded[:points] ? encoded[:points] : nil
   end
 
   #TODO memoize para memorizar métodos en memoria
