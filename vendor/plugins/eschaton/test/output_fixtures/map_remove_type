@@ -1,2 +1,0 @@
-map.removeMapType(G_NORMAL_MAP);
-map.removeMapType(G_SATELLITE_MAP);

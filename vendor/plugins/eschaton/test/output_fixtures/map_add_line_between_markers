@@ -1,6 +1,0 @@
-line = new GPolyline([marker_1.getLatLng(), marker_2.getLatLng(), marker_3.getLatLng()], null, null, null);
-map.addOverlay(line);
-map_lines.push(line);
-track_bounds.extend(marker_1.getLatLng());
-track_bounds.extend(marker_2.getLatLng());
-track_bounds.extend(marker_3.getLatLng());

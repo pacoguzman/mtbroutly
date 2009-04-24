@@ -6,3 +6,6 @@
 [submodule "vendor/plugins/ajaxful-rating"]
 	path = vendor/plugins/ajaxful-rating
 	url = git://github.com/edgarjs/ajaxful-rating.git
+[submodule "vendor/plugins/eschaton"]
+	path = vendor/plugins/eschaton
+	url = git://github.com/yawningman/eschaton.git

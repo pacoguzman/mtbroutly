@@ -1,6 +1,0 @@
-test:
- test_key
-localhost:
-  key_for_localhost
-test.localhost:
-  key_for_test_localhost

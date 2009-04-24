@@ -1,5 +1,0 @@
-if($('register').checked){
-$("register").checked = false
-} else{
-$("register").checked = true
-}
