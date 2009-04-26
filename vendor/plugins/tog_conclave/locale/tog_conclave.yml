@@ -1,0 +1,78 @@
+# {{xxx}}
+en:
+  interface:
+    admin:
+      events: Events
+    member:
+      events: Events
+    site:
+      events: Events  
+  tog_conclave:
+    plugin_name: Conclave
+    plugin_title: Events
+    plugin_description: Little pluggin for event management
+    event: event
+    date: date
+    venue: venue
+    map: map
+    page_not_found: Sorry, the page cannot be found.
+    fields: 
+      title: Title
+      description: Description
+      start_date: Start date
+      end_date: End date
+      start_time: Start time
+      end_time: End time
+      url: URL
+      venue: Venue
+      venue_link: Venue link
+      venue_address: Venue address
+      used_for_geolocation: Used for geolocation
+      capacity: Capacity
+      tags: Tags
+      tags_explanation: (separated by ,)
+      icon: Icon
+      errors:
+        venue_address_error: Address can't not be geo-located
+        end_date_before_start_date: End date shouldn't be before start date
+    site:
+      upcoming: Upcoming events 
+      events_for: Events for
+      tagged_with: Events tagged with
+      from: Form
+      to: to
+    admin:
+      localization: Localization
+      datetimes: Dates and times
+      attendance: Attendance
+      error: Some error prohibited to save this event
+      event_created: Event '{{title}}' created successfully!
+      event_updated: Event '{{title}}' updated successfully!
+      deleted: Event deleted      
+      event_details: Event details
+      portlet_title: Adminstration
+      edit: Edit
+      edit_event: Edit event
+      delete: Delete
+      delete_confirmation: Are you sure you want to remove this event?
+      show: Show event
+      update_event: Update event
+      update: Update
+      create_event: Create event
+      create: Create
+      create_new_event: Create new event
+    member:
+      registered: You have been registered for event '{{title}}'!
+      unregistered: You have been unregistered for event '{{title}}'!
+      not_available: The capacity of the event is complete
+      error: Some error prohibited to save this event
+      event_created: Event '{{title}}' created successfully!
+      event_updated: Event '{{title}}' updated successfully!
+      deleted: Event deleted
+    views:
+      index:
+        upcoming: Upcoming events 
+        create_new_event: Create new event            
+      member:
+        index:
+          create_new_event: Create new event        
