@@ -102,6 +102,7 @@ class User < ActiveRecord::Base
     return if self.activation_code
     self.deleted_at = nil
     self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    self.save
   end
 
   def forgot_password

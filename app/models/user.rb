@@ -14,4 +14,9 @@ class User < ActiveRecord::Base
   def favorite_routes
     favorites.where_type('Route').all.collect(&:favoriteable)
   end
+
+   def self.ratings_for(rated, current_user)
+     aux = rated.rates_with_dimension.where_user(current_user).all
+     Rate.simplify_ratings(aux)
+   end
 end

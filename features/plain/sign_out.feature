@@ -2,7 +2,8 @@ Feature: Sign out
   To protect my account from unauthorized access
   A signed in user
   Should be able to sign out
-  
+
+    @moved
     Scenario: User signs out
       Given I am signed up and confirmed as "email@person.com/password"
       When I sign in as "email@person.com/password"

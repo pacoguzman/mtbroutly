@@ -20,6 +20,12 @@ ActionController::Routing::Routes.draw do |map|
     favorite.remove_favorite 'favorites/:id/remove', :action => 'remove'
   end
 
+  map.dashboard 'member/dashboard', :controller => 'member/dashboard'
+  # Defined in tog_core
+  #map.member_dashboard 'member/dashboard', :controller => 'member/dashboard'
+  map.activate '/activate', :controller => 'users', :action => 'activate'
+
+
   map.routes_from_plugin 'tog_mail'
   map.routes_from_plugin 'tog_social'
   map.routes_from_plugin 'tog_user'

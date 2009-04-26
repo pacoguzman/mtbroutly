@@ -3,6 +3,7 @@ Feature: Sign in
   A user
   Should be able to sign in
 
+    @moved
     Scenario: User is not signed up
       Given no user exists with an email of "email@person.com"
       When I go to the sign in page
@@ -10,6 +11,7 @@ Feature: Sign in
       Then I should see "Bad email or password"
       And I should not be signed in      
 
+    @moved
     Scenario: User is not confirmed
       Given I signed up with "email@person.com/password"
       When I go to the sign in page
@@ -17,6 +19,7 @@ Feature: Sign in
       Then I should see "User has not confirmed email"
       And I should not be signed in
 
+   @moved
    Scenario: User enters wrong password
       Given I am signed up and confirmed as "email@person.com/password"
       When I go to the sign in page
@@ -24,6 +27,7 @@ Feature: Sign in
       Then I should see "Bad email or password"
       And I should not be signed in
 
+   @moved
    Scenario: User signs in successfully
       Given I am signed up and confirmed as "email@person.com/password"
       When I go to the sign in page

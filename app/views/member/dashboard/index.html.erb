@@ -1,0 +1,76 @@
+<%= include_jquery_javascript %>
+
+<div class="detail detail1">
+  <div class="image"><%=icon_for_profile(@profile, 'big')%></div>
+  <div class="title"><%=@profile.full_name%></div>
+  <div class="subtitle">Username:  <%=@profile.user.login%></div>
+  <div class="summary">Profile summary</div>
+  <div class="portlet portletC" id="portlet_moreLinks">
+    <% if !@profile.user.groups.blank? %>
+      <h2><span>Groups</span></h2>
+      <div class="portlet_content">
+        <ul>
+          <% for group in @profile.user.groups %>
+            <li><%= link_to group.name, group_path(group) %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+
+    <% end %>
+  </div>
+
+  <div class="portlet portletC" id="portlet_moreLinks">
+    <h2><span>More links</span></h2>
+    <div class="portlet_content">
+      <ul>
+        <% if its_me? -%>
+          <li><%= link_to 'Edit profile', edit_member_profile_path(@profile) %></li>
+        <% else -%>
+          <li><%= link_to 'Send a private message', member_new_message_to_path(@profile.user) %></li>
+          <li><%= report_abuse_link @profile %></li>
+          <li><%= following_options(@profile) %></li>
+        <% end -%>
+      </ul>
+    </div>
+  </div>
+
+</div> <!-- /.detail1 -->
+
+<div id="routes_widget">
+  <div class='loading'><div style="font-size: 0.9em;"><img alt="Loading content" src="http://asset1.moterus.es/images/spinner.gif?1228160537" /> Loading ...</div></div>
+</div>
+
+<%# TODO cargar de forma dinámica las rutas %>
+<script>
+  function routesCallback(data){
+    jQuery("#routes_widget").html(data);
+    jQuery('#routes_widget > .loading').hide();
+    return true;
+  }
+
+  jQuery(document).ready(function() { jQuery.get("users/<%= current_user.id %>/routes/created_by_you", routesCallback ); });
+</script>
+
+<% content_for :sidebar do %>
+
+  <%= render :partial => "shared/profiles_portlet", :locals => {
+    :items =>  @profile.friends,
+    :style => :portletG,
+    :title => "Friends",
+    :no_items => "#{@profile.full_name} has 0 friends." } %>
+
+  <%= render :partial => "shared/profiles_portlet", :locals => {
+    :items =>  @profile.followers,
+    :style => :portletG,
+    :title => "Followers",
+    :no_items => "#{@profile.full_name} has 0 followers." } %>
+
+  <%= render :partial => "shared/profiles_portlet", :locals => {
+    :items =>  @profile.followings,
+    :style => :portletG,
+    :title => "Fans",
+    :no_items => "#{@profile.full_name} has 0 fans." } %>
+
+
+<% end %>

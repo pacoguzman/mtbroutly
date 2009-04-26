@@ -34,7 +34,7 @@ Rails::Initializer.run do |config|
   config.gem 'searchlogic', :version => '>=1.6.5', :source => 'http://gems.github.com'
   config.gem 'geokit', :version => '>=1.3.0', :source => 'http://gems.github.com'
   config.gem 'crack', :version => '>=0.1.1', :source => 'http://gems.github.com'
-
+    
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named

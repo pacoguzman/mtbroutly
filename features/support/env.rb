@@ -20,3 +20,6 @@ require 'webrat/core/matchers'
 require 'factory_girl'
 require File.expand_path(File.dirname(__FILE__) + '/../../spec/factories')
 
+# Make visible for testing # from fbrp
+ApplicationController.send(:public, :logged_in?, :current_user, :authorized?)
+

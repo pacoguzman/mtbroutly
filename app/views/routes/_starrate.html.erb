@@ -13,7 +13,11 @@
 
 <script type="text/javascript">
   //<![CDATA[
-<%= javascript_rating(rated) %>
+<% if logged_in? -%>
+  <%= javascript_rating(rated, User.ratings_for(rated, current_user)) %>
+<% else -%>
+  <%= javascript_rating(rated) %>
+<% end -%>
   //]]>
 </script>
 

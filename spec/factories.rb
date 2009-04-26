@@ -1,3 +1,11 @@
+Factory.define :user_create, :class => User do |u|
+  u.sequence(:login) {|n| "login#{n}" }
+  u.password {|a| "#{a.login}pass".downcase }
+  u.password_confirmation {|a| "#{a.login}pass".downcase }
+  u.email {|a| "#{a.login}@example.com".downcase }
+end
+
+
 Factory.define :user_with_password do |u|
   u.salt '7e3041ebc2fc05a40c60028e2c4901a81035d3cd'
   u.crypted_password '00742970dc9e6319f8019fd54864d3ea740f04b1'

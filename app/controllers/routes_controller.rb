@@ -23,7 +23,7 @@ class RoutesController < ApplicationController
     end
   end
 
- def all_by_tag
+  def all_by_tag
     @tag  = Tag.find_by_name(params[:tag_name])
     if !@tag.nil?
       @routes_title = "Routes tagged with #{@tag.name}"
@@ -82,10 +82,10 @@ class RoutesController < ApplicationController
     @order = 'highlight'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-#    @routes = Route.paginate :joins => :rates_with_dimension, :group => :id,
-#      :select => "routes.*, sum(stars) as highlight", :per_page => 10,
-#      :page => @page,
-#      :order => @order + " " + @asc
+    #    @routes = Route.paginate :joins => :rates_with_dimension, :group => :id,
+    #      :select => "routes.*, sum(stars) as highlight", :per_page => 10,
+    #      :page => @page,
+    #      :order => @order + " " + @asc
     # Se seleccionan rutas sin que tengan valoración, devolviendo highligh = nil
     @routes =  Route.paginate :joins => "LEFT JOIN 'rates' ON 'rates'.rateable_id = 'routes'.id " +
       "AND 'rates'.rateable_type = 'Route' AND dimension IS NOT NULL", :group => :id,
@@ -112,8 +112,14 @@ class RoutesController < ApplicationController
       :order => @order + " " + @asc
 
     respond_to do |format|
-      format.html { render :template => "routes/index"}
-      format.xml  { render :xml => @routes }
+      if request.xhr?
+        format.html { render :partial => "routes", :object => @routes,
+          :locals => {:routes_title => @routes_title, :id_route_list => "route_list",
+            :route_partial => "route"} }
+      else
+        format.html { render :template => "routes/index"}
+        format.xml  { render :xml => @routes }
+      end
     end
   end
 
