@@ -1,0 +1,24 @@
+<% include_javascript "scriptaculous" %>
+<% include_javascript "starbox" %>
+<% include_stylesheet "starbox" %>
+
+<div class="portlet portletB" id="#{id_route_list}">
+  <h2><span><%= routes_title ||= "Routes" %></span></h2>
+  <% if routes.empty? -%>
+    <div class="detail detail1">
+      <div class="text">
+        <p>There isn't any routes yet</p>
+      </div>
+    </div>
+  <% else -%>
+    <%= render :partial => route_partial, :collection => routes %>
+  <% end -%>
+</div>
+
+<script type="text/javascript">
+  //<![CDATA[
+<% routes.each do |route| -%>
+  <%= "new Starbox('rating_total_#{route.id}', #{route.total_rate_average}, { className: 'dotted', stars: 5, buttons: 25, locked: true });\n" %>
+<% end -%>
+  //]]>
+</script>

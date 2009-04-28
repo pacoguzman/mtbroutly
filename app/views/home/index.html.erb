@@ -53,33 +53,9 @@
 
 </div> <!-- /.col_50_50 -->
 
-<% include_javascript "scriptaculous" %>
-<% include_javascript "starbox" %>
-<% include_stylesheet "starbox" %>
-
-<div class="portlet portletG" id="portlet_lastRoutes">
-  <h2><span>Newest Routes</span></h2>
-  <div class="portlet_content">
-    <ul class="clearfix">
-      <% if newest_routes.empty? -%>
-        <div class="detail detail1">
-          <div class="text">
-            <p>There isn't any routes yet</p>
-          </div>
-        </div>
-      <% else -%>
-        <%= render :partial => "routes/route", :collection => newest_routes %>
-      <% end -%>
-    </ul>
-  </div>
-  <script type="text/javascript">
-    //<![CDATA[
-<% newest_routes.each do |route| -%>
-  <%= "new Starbox('rating_total_#{route.id}', #{route.total_rate_average}, { className: 'dotted', stars: 5, buttons: 25, locked: true });\n" %>
-<% end -%>
-  //]]>
-  </script>
-</div>
+<%= render :partial => "/routes/routes_without_pag",
+  :locals => {:routes => newest_routes, :routes_title => "Newest Routes",
+  :id_route_list => "newest_routes", :route_partial => "/routes/route"} %>
 
 <%# TODO %>
 <div class="portlet portletG" id="portlet_upcomingEvents">
