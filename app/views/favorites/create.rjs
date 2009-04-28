@@ -9,9 +9,8 @@ else
   page.replace_html "favorite_box", :partial => "shared/favorite_box", :locals => {:favoriteable => favoriteable, :favorite => @favorite}
 
   if first_favorite
-    page.replace "favoriters", :partial => "favoriters/favoriter", :locals => {:favoriter => current_user}
-  else
-    page.insert_html :bottom, "favoriters", :partial => "favoriters/favoriter", :locals => {:favoriter => current_user}
+    page.replace_html "favoriters", "<ul id='favoriters'></ul>"
   end
+  page.insert_html :bottom, "favoriters", :partial => "favoriters/favoriter", :locals => {:favoriter => current_user}
   page.visual_effect :highlight, "favoriters", :duration => 3
 end
