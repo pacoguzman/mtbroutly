@@ -20,6 +20,10 @@ module RoutesHelper
     end
   end
 
+  def newest_routes(limit = 5)
+    Route.find(:all, :limit => limit, :order => 'updated_at desc')
+  end
+
   def init_map_for(route, options = {})
     
     run_map_script do

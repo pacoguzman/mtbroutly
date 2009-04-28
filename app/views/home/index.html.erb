@@ -1,0 +1,153 @@
+<div class="portletK" id="portlet_splashHome">
+  <h2><span>toginstalllation.com</span></h2>
+  <div class="portlet_content">
+    <p>
+      Welcome to toginstallation.com, a tog powered social network.<br />
+      In toginstallation.com you would be able to:
+    </p>
+    <ul>
+      <li>Create your own profile</li>
+      <li>Find your friends and colleagues.</li>
+      <li>Create and join groups of interest.</li>
+      <li>And enjoy: photo &amp; video sharing, blogs system, forums, and many others extensions.</li>
+    </ul>
+    <div class="action"><a href="/signup"><strong>Sign up now!</strong></a></div>
+  </div>
+</div>
+<br/>
+<div class="col_50_50 clearfix">
+
+  <div class="left_col">
+    <div class="portlet portletG" id="portlet_featuredUsers">
+      <h2><span>Featured Users</span></h2>
+      <div class="portlet_content">
+        <ul class="clearfix">
+          <% last_users.each do |user|%>
+            <li><%=link_to icon_for_profile(user.profile, 'small'), profile_path(user.profile)%></li>
+          <%end %>
+        </ul>
+      </div>
+    </div>
+  </div> <!-- /.left_col -->
+
+  <div class="right_col">
+    <div class="portlet portletH" id="portlet_groups">
+      <h2><span>Groups</span></h2>
+      <div class="portlet_content">
+        <ul>
+          <% last_groups.each do |group| %>
+            <li class="clearfix">
+              <div class="image"><%= link_to image_for_group(group, 'medium'), group_path(group) %></div>
+              <div class="title"><%= link_to group.name, group_path(group) %></div>
+              <div class="text">
+                <%=group.description%>
+              </div>
+              <div class="members"><%= link_to "<strong>#{group.members.size} members</strong>", group_path(group) %><a href="#"></a></div>
+            </li>
+          <%end %>
+        </ul>
+      </div>
+    </div>
+  </div> <!-- /.right_col -->
+
+
+</div> <!-- /.col_50_50 -->
+
+<% include_javascript "scriptaculous" %>
+<% include_javascript "starbox" %>
+<% include_stylesheet "starbox" %>
+
+<div class="portlet portletG" id="portlet_lastRoutes">
+  <h2><span>Newest Routes</span></h2>
+  <div class="portlet_content">
+    <ul class="clearfix">
+      <% if newest_routes.empty? -%>
+        <div class="detail detail1">
+          <div class="text">
+            <p>There isn't any routes yet</p>
+          </div>
+        </div>
+      <% else -%>
+        <%= render :partial => "routes/route", :collection => newest_routes %>
+      <% end -%>
+    </ul>
+  </div>
+  <script type="text/javascript">
+    //<![CDATA[
+<% newest_routes.each do |route| -%>
+  <%= "new Starbox('rating_total_#{route.id}', #{route.total_rate_average}, { className: 'dotted', stars: 5, buttons: 25, locked: true });\n" %>
+<% end -%>
+  //]]>
+  </script>
+</div>
+
+<%# TODO %>
+<div class="portlet portletG" id="portlet_upcomingEvents">
+  <h2><span>Upcoming Events</span></h2>
+  <div class="portlet_content">
+    <ul class="clearfix">
+      <%# if upcoming_events.empty? -%>
+      <div class="detail detail1">
+        <div class="text">
+          <p>There isn't upcoming events yet</p>
+        </div>
+      </div>
+      <%# else -%>
+      <%# upcoming_events.each do |event| %>
+      <%#= render :partial => "conclave/events/list_detail", :locals => {:event => event} %>
+      <%# end %>
+      <%# end -%>
+    </ul>
+  </div>
+</div>
+
+<hr class="wide" />
+<br />
+<br />
+
+<% content_for :sidebar do %>
+
+
+  <div class="portlet portletI" id="potlet_publicContinuum">
+    <h2><span>The public continuum...</span></h2>
+    <div class="portlet_content">
+      <ul>
+        <%= public_continuum(10) %>
+      </ul>
+    </div>
+  </div> <!-- /#potlet_featuredPosts -->
+
+  <br />
+
+  <div class="portlet portletJ" id="portlet_pluginsTog">
+    <h2><span>Discover more plugins for tog </span></h2>
+    <div class="portlet_content">
+      <ul>
+        <li class="clearfix">
+          <div class="image"><img src="/tog_core/images/promotion.png" alt="" /></div>
+          <div class="title">Picto</div>
+          <div class="text">
+            Picto is a plugin for photo management and sharing between users of your social network.
+          </div>
+          <div class="more"><a href="http://www.toghq.com/tog_plugins/4-tog_picto"><strong>See more »</strong></a></div>
+        </li>
+        <li class="clearfix">
+          <div class="title">Vault</div>
+          <div class="text">
+            A small CMS for your website static pages!
+          </div>
+          <div class="more"><a href="http://www.toghq.com/tog_plugins/7-tog_vault"><strong>See more »</strong></a></div>
+        </li>
+        <li class="last clearfix">
+          <div class="title">Conversatio</div>
+          <div class="text">
+            A simple blog system.
+          </div>
+          <div class="more"><a href="http://www.toghq.com/tog_plugins/2-tog_conversatio"><strong>See more »</strong></a></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+<% end %>
