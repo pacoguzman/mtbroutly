@@ -148,8 +148,8 @@ class RoutesController < ApplicationController
     @order = params[:order] || 'updated_at'
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
-    @routes = current_user.favorite_routes.paginate :include => [:waypoints, :user, :comments, :favoriters], :per_page => '10',
-      :page => @page,
+    @routes = current_user.favorite_routes.paginate :include => [:waypoints, :user, :comments, :favoriters], 
+      :per_page => '10', :page => @page,
       :order => @order + " " + @asc
 
     respond_to do |format|

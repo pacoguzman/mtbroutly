@@ -1,0 +1,32 @@
+<div class="portlet_content">
+  <%= error_messages_for :route %>
+  <%# FIXME añadir live validation http://github.com/leethal/live-validations/tree/master %>
+  <% form_for(route,  :url => url,
+    :html => {:id => "new_route", :style => "border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 5px 0px 5px 0px; margin: 5px 0px 5px 0px;",
+      :method => method }) do |f| -%>
+    <fieldset>
+      <legend>Metadata</legend>
+      <div class="fields">
+        <p><label for="post_tag_list">Tags (separated with ,)</label><%= f.text_field :tag_list, :class=>"fieldbox wide" -%></p>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Content</legend>
+      <div class="fields">
+        <p><%= f.label :title, '(*) Title:' %><%= f.text_field :title, :class=>"fieldbox wide" %></p>
+        <p><%= f.label :description, '(*) Description:' %><%= f.text_area :description, :cols => 50, :rows => 5, :class=>"fieldbox wide" %></p>
+      </div>
+    </fieldset>
+    <div class="fields">
+        <p>(*) Required fields</p>
+    </div>
+    <%= hidden_field_tag "route_lat", "" %>
+    <%= hidden_field_tag "route_lng", "" %>
+    <%= hidden_field_tag "route_encoded_points", route_encoded_points %>
+    <%= hidden_field_tag "route_distance", "0.0" %>
+    <%= hidden_field_tag "route_distance_unit", "km" %>
+    <%= hidden_field_tag "route_loops", "1" %>
+
+    <div class="actions"><%= submit_tag submit_text, {:class => 'button mainaction' , :accesskey => "s"} %></div>
+  <% end -%>
+</div>

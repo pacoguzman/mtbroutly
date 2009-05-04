@@ -1,26 +1,17 @@
 <% content_for :sidebar do %>
-  <%= render_ajax_flash_messages %>
-  <%# FIXME Estilo para igualar el mapa al formulario %>
+  <%#= render_ajax_messages %>
   <div class="portletE" style="margin-top: 75px;">
     <h2><%= "Edit Route" %></h2>
-    <%#TODO Formulario edit %>
     <%= render :partial => "new_form", :locals => { :route => @route,
-    :method => "put", :url => member_route_path(@route), :submit_text => "Update Route" } %>
+      :method => "put", :url => member_route_path(@route), :submit_text => "Update Route",
+    :route_encoded_points => @route.encoded_vertices} %>
   </div>
 <% end %>
 
+<%= include_google_javascript %>
+<%= javascript_include_tag "route" %>
+<%= init_map_form %>
+
 <div class="titleB">Edit route</div>
 
-<%= GMap.header %>
-<%# Creamos la variable JSON que representa la ruta en JavaScript %>
-<% javascript_tag :defer => 'defer' do -%>
-  var routeJSON = <%= @route.to_json(:only => [:name, :description],:include => {:locations => {:only => [:lat, :lng]}}) %>
-<% end -%>
-<%= javascript_include_tag "map_forum_squinny" %>
-
-<div id="msg">
-  Click the map two or more times to create polylines. Distance for each segment is shown on the right (in kilometers)<br>
-  In order to view the point list, you must add a closing point to each line.
-</div>
-
-<div id="map" style="width:600px;height:400px" ></div>
+<%= render :partial => "shared/map" %>

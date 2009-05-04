@@ -29,8 +29,10 @@ class Member::RoutesController < Member::BaseController
   end
 
   def create
-    @route = Route.new params[:route].except(:waypoints)
-    prepare_nested_attributes params[:route]
+    @route = Route.new params[:route]
+    @route.user = current_user
+
+    build_route_from_hidden_fields params.except(:route)
 
     respond_to do |wants|
       if @route.save
@@ -49,7 +51,7 @@ class Member::RoutesController < Member::BaseController
   
   def update
     @route = current_user.routes.find(params[:id])
-    prepare_nested_attributes params[:route]
+    build_route_from_hidden_fields params.except(:route)
 
     respond_to do |wants|
       if @route.save
@@ -97,16 +99,17 @@ class Member::RoutesController < Member::BaseController
   end
 
   private
-  def prepare_nested_attributes(params_route)
-    @route.attributes = params_route.except(:waypoints) unless @route.new_record?
-    if params_route[:waypoints]
-      # Al no poder hacer mass_assignment las tratamos por separado
-      waypoints = ActiveSupport::JSON.decode(params_route[:waypoints])
-      wps = waypoints.collect{|wp| wp["waypoint"].to_options!.merge!(:route => @route) }
-      # Se debe acceder con string ya que es lo que llega sino wp.to_options! para pasar a symbol
-      # Se debe construir con la ruta asociada para que una location no este sin ruta.
-      @route.waypoints.clear unless @route.new_record?
-      @route.waypoints.build(locs)
+  def build_route_from_hidden_fields(hidden_params = {})
+    encoded_points = hidden_params[:route_encoded_points]
+    unless encoded_points.blank?
+      decoder = PolylineDecoder.new
+      decoded_points = decoder.decode(encoded_points)
+      decoded_points.each do |point|
+        @route.waypoints << Waypoint.new(:lat => point[0], :lng => point[1], :position => pos ||= 1)
+        pos += 1
+      end
+    else
+      @route.add(:waypoints, "You have to specify a route path")
     end
   end
 

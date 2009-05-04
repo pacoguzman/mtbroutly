@@ -1,7 +1,7 @@
 <div class="detail detail1 clearfix" id="<%= dom_id(route) %>"
      style="background-color:<%= cycle("#edf3fd","ffffff")%>">
   <div class="image" style="padding:5px 0px 0px 5px">
-    <%= link_to static_map(route), route_path(route) %>
+    <%= link_to static_map_img_tag(route), route_path(route) %>
   </div>
   <div class="title" style="padding-top:5px"><%= link_to "#{sanitize textilize_without_paragraph(route.title)}", route_path(route), :title => "#{sanitize(route.title)}" %></div>
   <div class="subtitle">Updated <%= distance_of_time_in_words_to_now route.updated_at %> ago...</div>

@@ -53,6 +53,25 @@ module RoutesHelper
     
   end
 
+  def init_map_form(options = {})
+    run_map_script do
+      map = Google::Map.new(:controls => [:large_map_3D, :map_type],
+        :center => :best_fit)
+
+      map.enable_scroll_wheel_zoom!
+      map.disable_double_click_zoom!
+      map.enable_google_bar!
+
+      obj = Eschaton::JavascriptObject.new
+      obj << ''
+      obj << 'distanceMarkers = [];'
+      obj << 'firstPoint = "";'
+      obj << 'firstPointMarker = "";'
+      obj << ''
+      obj << 'load_route();'
+    end
+  end
+
   def generate_js_polyline(route)
     obj = Eschaton::JavascriptObject.new
     obj << "var points = #{route.points.to_js.gsub(' ','')}"
@@ -83,28 +102,27 @@ module RoutesHelper
 
   # Impone una limitación de 70 puntos en las rutas por lo que pasamos a
   # usar mapas normales pero sin posibilidad de edición
-  def static_map(route, options = {})
-    waypoints = route.waypoints_for_static_map
+  def static_map_img_tag(route, options = {})
+    options.symbolize_keys!
+    wpoints = route.waypoints_for_static_map
+    tag("img", build_src_for_static_map(wpoints, options))
+  end
 
-    html = ""
-    html << "<img src=\"http://maps.google.com/staticmap?"
-    # Para que ajuste automáticamente no pasamos esos parámetros
-    #html << "center=40.714728,-73.998672&"
-    #html << "zoom=14&"
-    html << "size=320x180&" #altoxancho
-    html << "maptype=satellite&"
-    html << "markers=#{waypoints[0].lat},#{waypoints[0].lng},greens|"
-    html << "#{waypoints[waypoints.size-1].lat},#{waypoints[waypoints.size-1].lng},redf&"
-    html << "path=rgb:0x0000ff,weight:5"
-    waypoints.each do |loc|
-      html << "|#{loc.lat},#{loc.lng}"
-    end
-    html << "&key=ABQIAAAA8tXp6YODN8xmL5sFuapMdRTJQa0g3IQ9GZqIMmInSLzwtGDKaBTrBN9PT0adVbZ2TwodjsdFo2uxag&"
-    html << "sensor=false"
-    html << "\">"
+  def build_src_for_static_map(wpoints, options = {})
+    base_options = {
+      :size => "320x180",
+      :maptype => "satellite",
+      :path => "rgb:0x0000ff,weight:5",
+      :key => Google::ApiKey.get
+    }
+    
+    base_options[:markers] = "#{wpoints.first.lat},#{wpoints.first.lng},greens|#{wpoints.last.lat},#{wpoints.last.lng},red"
+    wpoints.each{ |wp|
+      base_options[:path] << "|#{wp.lat},#{wp.lng}"
+    }
 
-    html << "</img>"
-
-    html
+    src = ""
+    base_options.each{|k,v| src += "#{k}=#{v}&"}
+    {:src => "http://maps.google.com/staticmap?" + src + "sensor=false"}
   end
 end
