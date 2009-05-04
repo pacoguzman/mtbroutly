@@ -11,11 +11,12 @@ class Waypoint < ActiveRecord::Base
     {:latitude => lat, :longitude => lng}
   end
 
+  def point
+    [lat.to_f, lng.to_f]
+  end
+
   def coordinates_to_s
     alt.blank? ? "#{lng.to_s},#{lat.to_s},0.0" : "#{lng.to_s},#{lat.to_s},#{alt.to_s}"
   end
 
-  def point
-    [lat.to_f, lng.to_f]
-  end
 end

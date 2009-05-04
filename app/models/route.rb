@@ -8,6 +8,8 @@ class Route < ActiveRecord::Base
     "between 10 and 25 kms" => "2","between 25 and 50 kms" => "3","more than 50 kms" => "4"}
   STATIC_MAP_GOOGLE_LIMIT = 70
 
+  #TODO attr_protected to attr_accessible
+
   belongs_to :owner, :class_name => "User", :foreign_key => "user_id"
   belongs_to :user
   has_many :waypoints, :as => :locatable, :dependent => :destroy
@@ -47,6 +49,26 @@ class Route < ActiveRecord::Base
     end
     self.distance = dist * 1.609 #No pilla que se utiliza kms por defecto
   end
+
+  def find_near(origin, options = {})
+    if !origin.blank? && origin.instance_of?(Waypoint)
+      options[:limit] ||= 5
+      options.delete_if {|k,v| v.blank? }
+      #FIXME  con :include => :route no devuelve la distance se debe hace run sort_by despuest
+      options_default = { :include => :route, :origin => origin,
+        :group => :route_id, :order => 'distance' }
+      wps = Waypoint.all options_default.merge(options)
+      wps.sort_by_distance_from(origin)
+      # Incluir en el mapeo un atributo virtual que sea el campo de distancia calculado
+      routes = []
+      wps.each do |wp|
+        wp.route.close = wp.distance;
+        routes << wp.route unless wp != self
+      end
+      routes.compact # Se elimina el primer elemento que pusimos a nil
+    end
+  end
+  alias find_close find_near
 
   def self.search(params = {})
     valid_keys = [:distance, :keywords]
