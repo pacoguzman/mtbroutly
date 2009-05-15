@@ -38,15 +38,16 @@ Factory.define :route do |r|
 end
 
 Factory.define :waypoint do |r|
-  r.lat "40.2910772956"
-  r.lng "-3.7874883413"
-  r.alt "0.0"
+  r.lat 40.2910772956
+  r.lng -3.7874883413
+  r.alt 0.0
+  r.position 0
 end
 
 Factory.define :near_waypoint, :class => Waypoint do |r|
-  r.lat "40.2950772956"
-  r.lng "-3.7824883413"
-  r.alt "0.0"
+  r.lat 40.2950772956
+  r.lng -3.7824883413
+  r.alt 0.0
 end
 
 #tog_core

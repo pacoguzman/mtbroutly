@@ -8,10 +8,10 @@ class Rate < ActiveRecord::Base
   attr_accessible :rate, :dimension
 
   # {:dim1 => stars_dim1, :dim2 => stars_dim2}
-  def self.simplify_ratings(user_ratings)
+  def self.simplify_rates(ratings)
     #FIXME use yield maybe?¿
     rating = {}
-    user_ratings.each do |r|
+    ratings.each do |r|
       rating.merge!({r.dimension.to_sym => r.stars})
     end
     rating

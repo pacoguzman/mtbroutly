@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   # FIN modificaciones TOG
 
   has_many :routes
-
   has_many :favorites
   
   seo_urls "login"
@@ -15,8 +14,7 @@ class User < ActiveRecord::Base
     favorites.where_type('Route').all.collect(&:favoriteable)
   end
 
-   def self.ratings_for(rated, current_user)
-     aux = rated.rates_with_dimension.where_user(current_user).all
-     Rate.simplify_ratings(aux)
+   def rates_simplified_for(rated)
+     Rate.simplify_rates(rated.rates_with_dimension.where_user(self).all)
    end
 end

@@ -14,7 +14,7 @@
 <script type="text/javascript">
   //<![CDATA[
 <% if logged_in? -%>
-  <%= javascript_rating(rated, User.ratings_for(rated, current_user)) %>
+  <%= javascript_rating(rated, current_user.rates_simplified_for(rated)) %>
 <% else -%>
   <%= javascript_rating(rated) %>
 <% end -%>

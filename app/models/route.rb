@@ -1,4 +1,4 @@
- require 'gmap_polyline_encoder'
+require 'gmap_polyline_encoder'
 
 class Route < ActiveRecord::Base
   SEARCH_DISTANCE_CODE_RANGE = {"0" => {},"1" => { :distance_lte => 10 },
@@ -39,8 +39,6 @@ class Route < ActiveRecord::Base
     waypoints.size > 1 && (distance == BigDecimal("0"))
   end
 
-  #PENDING pasarlo a la base de datos?
-  #TODO es posible cachear el resultado como ?¿
   def compute_distance
     dist = 0
     nways = waypoints.size
@@ -92,8 +90,8 @@ class Route < ActiveRecord::Base
   end
 
   def encoded_vertices
-    encoded = GMapPolylineEncoder.new().encode( self.waypoints.collect{|w| w.point } )
-    encoded[:points] ? encoded[:points] : nil
+    encoded = GMapPolylineEncoder.new().encode( points )
+    encoded[:points] ||= nil
   end
 
   #TODO memoize para memorizar métodos en memoria
@@ -117,7 +115,7 @@ class Route < ActiveRecord::Base
   def rate_all_dimensions(ratings, user)
     valid_ratings = ratings.symbolize_keys.slice(*self.class.options[:dimensions])
     self.class.options[:dimensions].each do |dimension|
-      self.rate(ratings[dimension.to_s], user, dimension.to_s)
+      self.rate(ratings[dimension], user, dimension.to_s)
     end if valid_ratings.length == self.class.options[:dimensions].length
   end
 

@@ -1,16 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Route do
-  before(:each) do
-    @valid_attributes = {
-      :title => "value for title",
-      :description => "value for description",
-      :user_id => 1
-    }
-  end
-
+  
   it "should create a new instance given valid attributes" do
-    Route.create!(@valid_attributes)
+    Factory.create(:route, :user_id => 1)
   end
   
   it { should belong_to(:owner) }
@@ -55,7 +48,7 @@ describe Route do
     end
 
     it "set distance to 0 if the route doesn't have waypoints" do
-      @route.distance.should == 0
+      @route.distance.should == BigDecimal.new("0")
     end
 
     it "set distance to 0 if the route have only one waypoint" do
@@ -78,6 +71,10 @@ describe Route do
       @route.save!
       @route.distance.should == BigDecimal.new("1.215")
     end
+  end
+
+  describe "find_near method" do
+    it "should describe some functionality to finding near route from other"
   end
 
   describe "search capabilities" do
@@ -121,10 +118,21 @@ describe Route do
       @route = Factory.build(:route, :user_id => 1)
       @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
       @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
-      @route.save!
 
       @route.vertices.should be_kind_of(Array)
       @route.vertices.should == [{:latitude => 9.9, :longitude => 9.9},{:latitude=> 9.8, :longitude => 9.8}]
+    end
+  end
+
+  describe "points methods to use with eschaton" do
+    it "should return a array with a array elements for each waypoint" do
+      @route = Factory.build(:route, :user_id => 1)
+      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
+      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+
+      @route.points.should be_kind_of(Array)
+      @route.points.each{ |point| point.should be_kind_of(Array) }
+      @route.points.should == [[9.9, 9.9],[9.8, 9.8]]
     end
   end
 
@@ -133,9 +141,23 @@ describe Route do
       @route = Factory.build(:route, :user_id => 1)
       @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
       @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
-      @route.save!
 
       @route.coordinates.should == "9.9,9.9,0.0 9.8,9.8,0.0"
+    end
+  end
+
+  describe "encoded_vertices methods" do
+    it "should return a string with encoded vertices" do
+      @route = Factory.build(:route, :user_id => 1)
+      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
+      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+
+      @route.encoded_vertices.should be_kind_of(String)
+    end
+
+    it "should return nil for route without waypoints" do
+      @route = Factory.build(:route, :user_id => 1)
+      @route.encoded_vertices.should be_blank
     end
   end
 
@@ -147,12 +169,11 @@ describe Route do
         1.upto(200) do |i|
           @route.waypoints << Factory.build(:waypoint, :position => i)
         end
-        @route.save!
       end
      
       #TODO parámetro de configuración
       it "should return less or equal 70 waypoints" do
-        @route.waypoints_for_static_map.size.should <= 70
+        @route.waypoints_for_static_map.size.should <= Route::STATIC_MAP_GOOGLE_LIMIT
       end
 
       it "should return the first waypoint in the first place" do
@@ -169,7 +190,6 @@ describe Route do
         @route = Factory.build(:route, :user_id => 1)
         @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
         @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
-        @route.save!
       end
 
       it "should be equal waypoints and waypoints for static map" do
