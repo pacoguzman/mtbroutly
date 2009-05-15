@@ -4,7 +4,7 @@
   <%# TODO= render_ajax_messages %>
   <div class="portletE" style="margin-top: 75px;">
     <h2><%= "Create New Route" %></h2>
-    <%= render :partial => "new_form", :locals => { :route => @route, :method => "post",
+    <%= render :partial => "form", :locals => { :route => @route, :method => "post",
       :url => member_routes_path, :submit_text => "Create Route",
       :route_encoded_points => ""} %>
   </div>

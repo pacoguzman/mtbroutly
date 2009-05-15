@@ -2,7 +2,7 @@
   <%#= render_ajax_messages %>
   <div class="portletE" style="margin-top: 75px;">
     <h2><%= "Edit Route" %></h2>
-    <%= render :partial => "new_form", :locals => { :route => @route,
+    <%= render :partial => "form", :locals => { :route => @route,
       :method => "put", :url => member_route_path(@route), :submit_text => "Update Route",
     :route_encoded_points => @route.encoded_vertices} %>
   </div>
