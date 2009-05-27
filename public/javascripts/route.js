@@ -164,8 +164,8 @@ function showStartIconMarker (latId, lngId) {
         firstPointMarker = new GMarker(firstPoint, icon);
         map.addOverlay(firstPointMarker);
 
-        var fp_lat = firstPoint.lat()
-        var fp_lng = firstPoint.lng()
+        var fp_lat = firstPoint.lat();
+        var fp_lng = firstPoint.lng();
         jQuery("#"+latId).val(fp_lat);
         jQuery("#"+lngId).val(fp_lng);
     }
