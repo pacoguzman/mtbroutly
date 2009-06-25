@@ -11,6 +11,14 @@ class Admin::GroupsController < Admin::BaseController
   def edit
     @group = Group.find(params[:id])
   end
+  
+  def update
+    @group = Group.find(params[:id])    
+    @group.update_attributes!(params[:group])
+    @group.save
+    flash[:ok] =  I18n.t("tog_social.groups.admin.updated", :name => @group.name) 
+    redirect_to edit_admin_group_path(@group)
+  end  
 
   def destroy
     @group = Group.find(params[:id])
@@ -29,7 +37,7 @@ class Admin::GroupsController < Admin::BaseController
     respond_to do |wants|
       if @group.activate!
         wants.html do
-          render :text => "<span>"+I18n.t("tog_social.groups.admin.activated")+"</span>"
+          render :text => "<span>#{I18n.t("tog_social.groups.admin.activated")}</span>"
         end
       end
     end

@@ -1,6 +1,19 @@
 Edge
 ----
 
+0.5.1
+----
+
+0.5.0
+----
+* added .svn to gitignore
+* added cascade delete
+* Renamed routes.rb to desert_routes.rb
+* Changed Test::Unit to ActiveSupport
+* Moved from observer to active record filters. Observer support in pluggins
+* Use ActiveSupport::TestCase
+* Removed version
+
 0.4.4
 ----
 

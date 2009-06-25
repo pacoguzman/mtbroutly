@@ -5,7 +5,7 @@ es:
     member:
       my_groups: Mis grupos
     site:
-      profile: Gente
+      profiles: Gente
       groups: Grupos
   tog_social:
     plugin_name: Social
@@ -14,14 +14,41 @@ es:
     back: Volver    
     msg_yes: Si
     msg_no: No
+    more_info: Más información
+    more_links: Más enlaces
+    search: Buscar
+    tags:
+      tags: Etiquetas
+      separated_by_comma: Separadas por comas    
     sharings: 
       share: Compartir '{{name}}' 
       share_with: Compartir con '{{name}}'    
       shared_ok: Objeto compartido con el grupo "{{name}}"!
       shared_nok: Este objeto ya estaba compartido con el grupo "{{name}}"!           
+      removed_shared_ok: El objeto fue borrado con éxito
     profiles:
+      model:
+        first_name: Nombre
+        last_name: Apellido
+        website: Página web
+        avatar: Avatar
+        avatar_help: Si quieres cambiar tu avatar, selecciona una nueva imagen
+        username: Login
+        friends: Amigos
+        friends_not_found: "{{profile_full_name}} tiene  0 amigos."
+        followers: Seguidores
+        followers_not_found: "{{profile_full_name}} tiene 0 seguidores."
+        followings: Ídolos
+        followings_not_found: "{{profile_full_name}} tiene 0 ídolos."
+      site:
+        title: Perfiles
+        summary: Sumario del perfil
+        edit_profile: Edita tu perfil
+        send_message: Enviar mensaje privado
       member:
         updated: Su perfíl se ha actualizado con éxito
+        update_profile: Actualizar perfíl
+        profile_details: Detalles del perfíl 
       helper:
         photo_for_user: Foto de {{name}}
         follow_user: Seguir a {{name}}
@@ -30,29 +57,73 @@ es:
         remove_friend: Eliminar a {{name}} de tu lista de amigos        
     groups:
       model:
+        members:
+          one: "1 miembro"
+          other: "{{count}} miembros"
+        members_not_found: "{{group_name}} tiene 0 miembros."      
         name: Nombre
+        description: Descripción
+        image: Imagen
+        image_help: Si no quieres cambiar la imagen deja este campo en blanco.
         created_by: Creado por
         private: Privado
+        private_help: Un grupo privado no aparecerá en los listados públicos.
         moderated: Moderado
+        moderated_help: En un grupo moderado cada solicitud de netrada debe ser aprobada.
+        moderated_by: Moderador por
+        moderated_by_you: Moderador por tí
         active: Activo
         icon: Icono
         created_at: Creado el
-        updated_at: Actualizado el        
+        updated_at: Actualizado el
+        member_status: Status        
       site:
         share: Compartir con tus grupos
         share_title: Compartir con el grupo '{{name}}'        
+        member: Eres miembro de este grupo.
         already_member: Ya eres un miembro de este grupo.
         not_member: No eres un miembro de este grupo.
         request_received: Su petición ha sido recibida. Los moderadores del grupo tomarán una decisión en breve.
         request_waiting: Su petición de unirse al grupo está siendo procesada. Por favor tenga un poco de paciencia.
         welcome: Bienvenido al grupo '{{name}}'. Disfrute su participación!
+        leave: Abandonar este grupo
+        leave_confirm: ¿Seguro que quieres abandonar este grupo?
         leaved: Has dejado de pertenecer a este grupo
+        join: Únete a este grupo
         last_moderator: Eres el último moderador de este grupo.No puedes abandonarlo hasta que nomines a un nuevo moderador
         not_found: Error. Este grupo no está activo o no existe
         unactive: Error. Este grupo no está activo
+        invite: 
+          already_member: El usuario ya es miembro del grupo
+          already_invited: El usuario ya ha sido invitado al grupo
+          invited: Invitación al grupo enviada
+          you_are_not_invited: No has sido invitado al grupo
+          invitation_accepted: Invitación aceptada
+          invitation_rejected: Invitación rechazada
+          you_could_not_invite: No tienes permisos para invitar a este grupo
+        title: Grupos
+        create_group: Crear un grupo nuevo
+        create: Crear
+        details: Detalles del grupo
+        last_groups: Últimos grupos creados
+        search_groups: Busca entre los grupos
+        group_tagged: Grupos etiquetados {{tag}}
+        group_tags: Tags de grupos
+        shared_ok: Se ha compartido con el grupo {{name}} con éxito
+        shared_nok: Ya esta compartido con el grupo{{name}}
       member:
         created: Grupo creado con éxito.
         pending: Tu grupo ha sido creado pero está pendiente de aprobación por un administrador
+        group_member: Grupos de los que eres miembro
+        members_pending: "{{size}} solicitudes esperando aprobación"
+        pending_members: Solicitudes pendientes
+        accept: Aceptar
+        accept_title: Acetar usuario
+        reject: Rechazar
+        reject_title: Rechazar usuario
+        edit: Editar grupo
+        edit_group: Editar grupo {{group}}
+        update: Update
         updated: Grupo '{{name}}' actualizado con éxito"
         user_doesnt_exist: El usuario no existe
         user_rejected: El usuario '{{name}}' ha sido rechazado para este grupo
@@ -63,6 +134,10 @@ es:
           activation_request:
             subject: Solicitud de nuevo grupo '{{group_name}}'
             content: "<p>El usuario '{{user_name}}' ha solicitado la creación de un nuevo grupo llamado '{{group_name}}'.</p><p><a href=\"{{activation_url}}\">{{activation_url}}</a></p>"
+          invitation:
+            subject: Invitación al grupo {{group}}
+            accept: Aceptar
+            reject: Rechazar
       admin:
         groups: Grupos
         deleted: Grupo eliminado
@@ -75,7 +150,8 @@ es:
         members: Miembros
         pending_members: Miembros pendientes
         delete_group: Eliminar grupo
-        please_wait: Por favor espere...                
+        please_wait: Por favor espere...
+        updated: Grupo '{{name}}' actualizado con éxito"                        
     friendships: 
       member:
         not_found: No existe ningún usuario con el id '{{id}}'

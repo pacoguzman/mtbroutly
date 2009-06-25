@@ -17,7 +17,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login, :case_sensitive => false, :message => I18n.t("tog_user.model.login_in_use")
   validates_uniqueness_of   :email, :case_sensitive => false, :message => I18n.t("tog_user.model.email_in_use")
   before_save :encrypt_password  
+
+  after_create :send_activation_request
+  after_save :send_activation_or_reset_mail
   
+  named_scope :admin, :conditions => {:admin => true}
   named_scope :active, :conditions => {:state => 'active'}
 
   # prevents a user from submitting a crafted form that bypasses activation
@@ -55,7 +59,12 @@ class User < ActiveRecord::Base
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
-    u = find_in_state :first, :active, :conditions => {:login => login} # need to get the salt
+    if Tog::Config["plugins.tog_user.email_as_login"]
+      login_column = :email
+    else
+      login_column = :login
+    end
+    u = find_in_state :first, :active, :conditions => { login_column => login} # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -102,7 +111,6 @@ class User < ActiveRecord::Base
     return if self.activation_code
     self.deleted_at = nil
     self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-    self.save
   end
 
   def forgot_password
@@ -164,5 +172,13 @@ class User < ActiveRecord::Base
     self.activated_at = Time.now.utc
     self.deleted_at = self.activation_code = nil
   end
-
+  def send_activation_request
+    UserMailer.deliver_signup_notification(self)
+  end
+  
+  def send_activation_or_reset_mail
+    UserMailer.deliver_activation(self) if self.recently_activated?
+    UserMailer.deliver_reset_notification(self) if self.recently_forgot_password?       
+  end
+  
 end

@@ -18,6 +18,10 @@ class Group < ActiveRecord::Base
                         
   has_many :sharings, :class_name => 'GroupSharing'
 
+  has_many :invited_members,  :through => :memberships, :source => :user, :conditions => ['memberships.state = ?', 'invited']
+  named_scope :can_invite, :include => :memberships, 
+                           :conditions => ["memberships.state='active' and groups.state='active' and(memberships.moderator = ? or groups.moderated = ?)", true, false]  
+  
   validates_uniqueness_of :name
   validates_presence_of :name
   validates_presence_of :author
@@ -44,7 +48,9 @@ class Group < ActiveRecord::Base
   event :activate do
     transitions :from => :pending, :to => :active
   end
-  
+
+  named_scope :public, :conditions => {:private => false}
+  named_scope :private, :conditions => {:private => true}
   named_scope :active, :conditions => {:state => 'active'}
   
   def self.site_search(query, search_options={})
@@ -96,7 +102,7 @@ class Group < ActiveRecord::Base
   def ban(user)
     raise "Implement this..."
   end
-
+  
   def share(user, shareable_type, shareable_id)
     params = {:shareable_type => shareable_type, :shareable_id => shareable_id} 
     return false if self.sharings.find :first, :conditions => params
@@ -107,7 +113,23 @@ class Group < ActiveRecord::Base
   def creation_date(format=:short)
     I18n.l(self.created_at, :format => format)
   end
-
+  
+  def invite(user)
+    mem = membership_of(user)
+    mem = self.memberships.build(:user => user) unless mem
+    mem.save!
+    mem.invite!
+  end
+  
+  def accept_invitation(user)
+    mem = membership_of(user)
+    mem.accept_invitation! if mem && mem.invited?
+  end
+  
+  def can_invite?(user)
+    return (self.moderators.include?(user) or (self.members.include?(user) and self.moderated==false))
+  end
+  
   protected
   def make_activation_code
     self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )

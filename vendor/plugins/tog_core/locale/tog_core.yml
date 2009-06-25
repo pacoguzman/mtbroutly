@@ -2,6 +2,8 @@ en:
   will_paginate:
     previous: "« Previous"
     next: "Next »"
+    page_entries_info: Displaying {{count}} {{entry_name}} from {{start}} to {{end}} of {{total}}
+    entry_name: Entry
   interface:
     admin:
       home: Home
@@ -42,6 +44,10 @@ en:
         error: Error while saving your rate
       abuses:
         report_abuse: Report abuse
+      tags:
+        tags: Tags
+        no_tags: There are no tags
+        tag_cloud: Tag cloud
     admin:
       dashboard:
           title: Administration 
@@ -55,8 +61,71 @@ en:
         model:
           abuse: Abuse
           subject: Subject
+          subject_help: e.g. This content is a phishing attempt
           description: Description
+          description_help: Be sure to include links to relevant content where appropriate and explain your concern with as much detail as possible.
           email: Email
           created_at: Created at
           url: URL
           resource: Resource
+    views:
+      home:
+        index:
+          welcome_to: Welcome to {{site_name}}, a tog powered social network.
+          you_would_be_able_to: In this site you would be able to
+          create_your_own_profile: Create your own profile.
+          find_your_friends_and_colleagues: Find your friends and colleagues.
+          create_and_join_groups_of_interest: Create and join groups of interest.
+          and_enjoy_more: "And enjoy: photo &amp; video sharing, blogs system, forums, and many others extensions."
+          sign_up_now: Sign up now!
+          featured_users: Featured Users
+          groups: Groups
+          the_public_continuum: The public continuum...
+          discover_more_plugins_for_tog: Discover more plugins for tog 
+          picto_explanation: Picto is a plugin for photo management and sharing between users of your social network.
+          vault_explanation: A small CMS for your website static pages!
+          conversatio_explanation: A simple blog system.
+          see_more: See more
+      abuse:
+        new:
+          your_report: Your Report
+          submit_report: Submit Report
+          cancel: Or, cancel this and
+          return: return to the page you were just looking at.
+      member:
+        dashboard:
+          index:
+            actions: Actions
+        site:
+          not_found:
+            error: error | not found
+      search:
+        search:
+          title: Matching results for <strong>'{{term}}'</strong>
+          not_found: No matching results.
+      shared:
+        anon_footer:
+          about: About {{site}}
+        header_options:
+          greeting: Hello
+          account: Account
+          my_profile: My profile
+          dashboard: Dashboard
+          logout: Log-out
+          sign_up: Sign up
+          login: Log-in
+        logged_footer:
+          powered_by: This site is powered by the mighty <a href="http://www.toghq.com">Tog Platform</a>
+          groups: Groups
+          my_groups: My Groups
+          create_new_group: Create a New Group
+          messages: Messages
+          my_messages: My messages
+          write_a_message: Write a message
+          profile: Profile
+          my_account: My Account
+          edit_profile: Edit Profile
+        search_form:
+          label: Search
+          textfield: search...
+          submit: GO
