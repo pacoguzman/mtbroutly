@@ -2,7 +2,7 @@ require 'rubygems'
 require 'mocha'
 require File.join(File.dirname(__FILE__), 'test_helper')
 
-Geokit::Geocoders::provider_order=[:google,:us]
+Geokit::Geocoders::provider_order = [:google, :us]
 
 # Uses defaults
 class Company < ActiveRecord::Base #:nodoc: all
@@ -17,7 +17,7 @@ end
 
 # for auto_geocode
 class Store < ActiveRecord::Base
-  acts_as_mappable :auto_geocode=>true
+  acts_as_mappable :auto_geocode => true
 end
 
 # Uses deviations from conventions.
@@ -34,16 +34,30 @@ class CustomLocation < ActiveRecord::Base #:nodoc: all
   end
 end
 
+# Used by :through
+class MockAddress < ActiveRecord::Base #:nodoc: all
+  belongs_to :addressable, :polymorphic => true
+  acts_as_mappable
+end
+
 # Uses :through
 class MockOrganization < ActiveRecord::Base #:nodoc: all
   has_one :mock_address, :as => :addressable
   acts_as_mappable :through => :mock_address
 end
 
-# Used by :through
-class MockAddress < ActiveRecord::Base #:nodoc: all
-  belongs_to :addressable, :polymorphic => true
+# Uses :through => {}
+class MockHouse < ActiveRecord::Base
   acts_as_mappable
+end
+
+class MockFamily < ActiveRecord::Base
+  belongs_to :mock_house
+end
+
+class MockPerson < ActiveRecord::Base
+  belongs_to :mock_family
+  acts_as_mappable :through => { :mock_family => :mock_house }
 end
 
 class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
@@ -54,7 +68,7 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   self.pre_loaded_fixtures = true
-  fixtures :companies, :locations, :custom_locations, :stores, :mock_organizations, :mock_addresses
+  fixtures :all
 
   def setup
     @location_a = GeoKit::GeoLoc.new
@@ -178,7 +192,7 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
     locations = Location.count(:origin => @loc_a, :conditions => ["distance < ? and city = ?", 5, 'Coppell'])
     assert_equal 2, locations
   end
-  
+
   def test_find_beyond
     locations = Location.find_beyond(3.95, :origin => @loc_a)
     assert_equal 1, locations.size    
@@ -211,6 +225,13 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
     locations = Location.find(:all, :origin => @loc_a, :range => 0..10, :conditions => ["city = ?", 'Coppell'])
     assert_equal 2, locations.size
     locations = Location.count(:origin => @loc_a, :range => 0..10, :conditions => ["city = ?", 'Coppell'])
+    assert_equal 2, locations
+  end
+
+  def test_find_range_with_token_with_hash_conditions
+    locations = Location.find(:all, :origin => @loc_a, :range => 0..10, :conditions => {:city => 'Coppell'})
+    assert_equal 2, locations.size
+    locations = Location.count(:origin => @loc_a, :range => 0..10, :conditions => {:city => 'Coppell'})
     assert_equal 2, locations
   end
   
@@ -289,7 +310,7 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
   end  
   
   def test_ip_geocoded_distance_column_in_select
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find(:all, :origin => LOCATION_A_IP, :order => "distance ASC")
     assert_equal 6, locations.size
     assert_equal 0, @loc_a.distance_to(locations.first)
@@ -297,62 +318,62 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
   end
   
   def test_ip_geocoded_find_with_distance_condition
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find(:all, :origin => LOCATION_A_IP, :conditions => "distance < 3.97")
     assert_equal 5, locations.size
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.count(:origin => LOCATION_A_IP, :conditions => "distance < 3.97")
     assert_equal 5, locations
   end 
   
   def test_ip_geocoded_find_within
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find_within(3.97, :origin => LOCATION_A_IP)
     assert_equal 5, locations.size    
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.count_within(3.97, :origin => LOCATION_A_IP)
     assert_equal 5, locations
   end
   
   def test_ip_geocoded_find_with_compound_condition
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find(:all, :origin => LOCATION_A_IP, :conditions => "distance < 5 and city = 'Coppell'")
     assert_equal 2, locations.size
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.count(:origin => LOCATION_A_IP, :conditions => "distance < 5 and city = 'Coppell'")
     assert_equal 2, locations
   end
   
   def test_ip_geocoded_find_with_secure_compound_condition
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find(:all, :origin => LOCATION_A_IP, :conditions => ["distance < ? and city = ?", 5, 'Coppell'])
     assert_equal 2, locations.size
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.count(:origin => LOCATION_A_IP, :conditions => ["distance < ? and city = ?", 5, 'Coppell'])
     assert_equal 2, locations
   end
   
   def test_ip_geocoded_find_beyond
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.find_beyond(3.95, :origin => LOCATION_A_IP)
     assert_equal 1, locations.size    
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     locations = Location.count_beyond(3.95, :origin => LOCATION_A_IP)
     assert_equal 1, locations
   end
   
   def test_ip_geocoded_find_nearest
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     assert_equal @loc_a, Location.find_nearest(:origin => LOCATION_A_IP)
   end
   
   def test_ip_geocoded_find_farthest
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with(LOCATION_A_IP).returns(@location_a)
     assert_equal @loc_e, Location.find_farthest(:origin => LOCATION_A_IP)
   end
   
   def test_ip_geocoder_exception
-    GeoKit::Geocoders::IpGeocoder.expects(:geocode).with('127.0.0.1').returns(GeoKit::GeoLoc.new)
+    GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with('127.0.0.1').returns(GeoKit::GeoLoc.new)
     assert_raises GeoKit::Geocoders::GeocodeError do
       Location.find_farthest(:origin => '127.0.0.1')
     end
@@ -476,6 +497,11 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
     assert_equal 1, locations.size
   end
 
+  def test_find_within_bounds_with_hash_conditions
+    locations = Location.find(:all, :bounds=>[@sw,@ne], :conditions=>{:id => locations(:a).id})
+    assert_equal 1, locations.size
+  end
+
   def test_auto_geocode
     GeoKit::Geocoders::MultiGeocoder.expects(:geocode).with("Irving, TX").returns(@location_a)
     store=Store.new(:address=>'Irving, TX')
@@ -493,7 +519,6 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
     assert_equal 1, store.errors.size
   end
   
-  
   # Test :through
     
   def test_find_with_through
@@ -501,5 +526,12 @@ class ActsAsMappableTest < ActiveSupport::TestCase #:nodoc: all
     assert_equal 2, organizations.size
     organizations = MockOrganization.count(:origin => @location_a, :conditions => "distance < 3.97")
     assert_equal 1, organizations
+  end
+
+  def test_find_with_through_with_hash
+    people = MockPerson.find(:all, :origin => @location_a, :order => 'distance ASC')
+    assert_equal 2, people.size
+    people = MockPerson.count(:origin => @location_a, :conditions => "distance < 3.97")
+    assert_equal 2, people
   end 
 end
