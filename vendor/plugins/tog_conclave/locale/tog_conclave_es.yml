@@ -1,0 +1,87 @@
+# {{xxx}}
+es:
+  interface:
+    admin:
+      events: Eventos
+    member:
+      events: Eventos
+    site:
+      events: Eventos  
+  tog_conclave:
+    plugin_name: Conclave
+    plugin_title: Eventos
+    plugin_description: Pequeño plugin para la gestión de eventos
+    event: Evento
+    date: Fecha
+    venue: Lugar
+    map: Mapa
+    page_not_found: Disculpa, la página no puede encontrarse.
+    fields: 
+      title: Título
+      description: Descripción
+      start_date: Fecha de inicio
+      end_date: Fecha de finalización
+      start_time: Hora de inicio
+      end_time: Hora de finalización
+      url: URL
+      venue: Lugar
+      venue_link: Enlace al lugar
+      venue_address: Dirección del lugar
+      used_for_geolocation: Usado para geolocalización
+      capacity: Capacidad
+      unlimited: ilimitada
+      tags: Etiquetas
+      tags_explanation: (separadas por ,)
+      icon: Icono
+      attendants: Asistentes
+      date: Fecha
+      time: Hora
+      errors:
+        venue_address_error: La dirección del lugar no puede ser geolocalizada
+        end_date_before_start_date: La fecha de fin del evento no puede ser anterior a la de comienzo
+    site:
+      events_for: Eventos para el
+      tagged_with: Eventos etiquetados con
+      from_time: De
+      to_time: a
+      from_date: Del
+      to_date: al
+      no_events_for: No hay eventos para
+      see_attendees: Ver asistentes          
+    admin:
+      localization: Localización 
+      datetimes: Fechas y horas   
+      attendance: Asistencia              
+      error: Algunos errores prohibieron guardar el evento
+      event_created: Evento '{{title}}' creado con éxito!
+      event_updated: Evento '{{title}}' actualizado  con éxito!
+      deleted: Evento eliminado      
+      event_details: Detalles del evento
+      portlet_title: Administración
+      edit: Editar
+      edit_event: Editar evento
+      delete: Eliminar
+      delete_confirmation: ¿Está seguro de que quiere eliminar este evento?
+      show: Mostrar evento
+      update_event: Actualizar evento
+      update: Actualizar
+      create_event: Crear evento
+      create: Crear
+      create_new_event: Crear un nuevo evento
+    member:
+      registered: Te has registrado para el evento '{{title}}'!
+      unregistered: Te has borrado del evento '{{title}}'!
+      not_available: No quedan plazas en este evento
+      error: Algunos errores prohibieron guardar el evento
+      event_created: Evento '{{title}}' creado con éxito!
+      event_updated: Evento '{{title}}' actualizado  con éxito!
+      deleted: Evento eliminado  
+      register: Voy a asistir
+      unregister: No voy a asistir          
+    views:
+      index:
+        upcoming: Próximos eventos
+        create_new_event: Crear un nuevo evento           
+      member:
+        index:
+          create_new_event: Crear un nuevo evento     
