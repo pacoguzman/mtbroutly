@@ -233,6 +233,29 @@ El fichero `gestion_de_huertos.feature` tendría:
 
 A diferencia de `generate feature` aquí no se crea un fichero `step_definitions.rb` con definiciones e implementaciones específicas ya que las mismas se encuentran dentro de las tratadas genéricamente dentro del MundoPepino.
 
+### Relación con modelo utilizando un nombre que no se corresponde con el mismo
+Con un ejemplo se entiende mejor, creo. Tenemos un modelo User y un modelo Garden y este último "belongs_to :author, class_name => 'User'", de tal forma que //a_garden.author// nos devuelve un User.
+
+Bien, pues para que la siguiente característica funcione correctamente:
+
+    Dado que tenemos un usuario llamado "Fidel"
+       Y que tenemos un jardín cuyo autor es "Fidel"
+
+Tengo que meter los siguentes mapeos en nuestro entorno:
+* En el mapeo de modelos (model_mappings):
+
+    /^autor(es)?$/i => User
+
+* En el mapeo de campos (field_mappings):
+
+    /^autor(es)?$/i => :author
+
+* Un mapeo adicional entre el nombre del campo en inglés y su modelo asociado (relation_model_mappings):
+
+    'author' => User
+
+Con estos mapeos también deberían funcionar el resto de definiciones de MP en las que se haga referencia a una relación.
+
 ## Definiciones implementadas en MundoPepino
 
 **Cada definición** existente en MundoPepino tiene **al menos un escenario** que comprueba:
@@ -256,6 +279,13 @@ Como **convención general** los nombres correspondientes a modelos y campos pue
 
 En el ejemplo, "artículo" y "título" hacen referencia a un modelo y a un campo respectivamente y no van entre comillas (aunque podrían ir si quisiéramos) mientras que "Título del artículo" es el valor que se asignará en "título" y como tal va entrecomillado (y si quitásemos sus comillas la expresión no sería reconocida o lo sería incorrectamente). 
 
+MundoPepino soporta el uso de **claves I18n** en lugar de literales "a pincho" (o "hardcoded") en la mayoría de interacciones con el navegador (p.e. "Cuando pincho en el botón app.send" en lugar de "Cuando pincho en el botón 'Enviar'") así como en las comprobaciones de existencia de textos (p.e. "Debería ver el texto 'activerecord.models.user'" en lugar de "Debería ver el texto 'Usuario'").
+
+Se puede utilizar la interpolación separando el hash con los parámetros de la clave con una coma sin espacios. Por ejemplo:
+
+    Entonces debería ver la etiqueta H1 con el valor "app.users.new_friend,{:name => 'Lucas'}"
+
+
 ### Dado el contexto (Givens)
 
 Convenciones generales:
@@ -264,6 +294,7 @@ Convenciones generales:
 * creación de nuevos recursos utilizando verbo **tener** en tercena persona plural (p.e. "Dado que **tenemos** tres lechugas")
 * asignación de valores con el verbo **tener** en tercera persona (p.e. "Dado que dichas Acelgas **tienen** como variedad Amarilla de Lyon")
 * todas las definiciones para "Cuando algo ocurre" (o *Then's*, ver más abajo) son válidas también como "Dado el contexto" incorporándoles el prefijo "que" (p.e. "Dado que visito la portada").
+
 
 #### Creación de uno o varios registros asignándoles opcionalmente un nombre
     Dado que tenemos Un Producto llamado "Acelgas" 
