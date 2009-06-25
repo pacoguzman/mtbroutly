@@ -36,6 +36,10 @@ Rails::Initializer.run do |config|
   config.gem 'desert', :lib => 'desert', :version => '0.5'
   config.gem 'crack', :version => '>=0.1.1', :source => 'http://gems.github.com'
 
+  # Tog Conclave gems
+  config.gem 'google-geocode', :version => '~> 1.2.1', :lib => 'google_geocode'
+  config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net"
+
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
