@@ -1,6 +1,6 @@
 class InstallTogConclave < ActiveRecord::Migration
   def self.up
-    migrate_plugin "tog_conclave", 6
+    migrate_plugin "tog_conclave", 7
   end
 
   def self.down
