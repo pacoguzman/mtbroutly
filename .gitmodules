@@ -9,9 +9,6 @@
 [submodule "vendor/plugins/eschaton"]
 	path = vendor/plugins/eschaton
 	url = git://github.com/yawningman/eschaton.git
-[submodule "vendor/plugins/tog_conclave"]
-	path = vendor/plugins/tog_conclave
-	url = git://github.com/pacoguzman/tog_conclave.git
 [submodule "vendor/plugins/later_dude"]
 	path = vendor/plugins/later_dude
 	url = git://github.com/clemens/later_dude.git
