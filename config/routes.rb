@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   map.activate '/activate', :controller => 'users', :action => 'activate'
 
 
-  map.routes_from_plugin 'tog_conclave'
+  #map.routes_from_plugin 'tog_conclave'
   map.routes_from_plugin 'tog_mail'
   map.routes_from_plugin 'tog_social'
   map.routes_from_plugin 'tog_user'
