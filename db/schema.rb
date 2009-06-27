@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090426153333) do
+ActiveRecord::Schema.define(:version => 20090515153215) do
 
   create_table "abuses", :force => true do |t|
     t.string   "email"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20090426153333) do
 
   create_table "comments", :force => true do |t|
     t.string   "title",            :limit => 50, :default => ""
-    t.text     "comment",                        :default => ""
+    t.text     "comment"
     t.datetime "created_at",                                        :null => false
     t.integer  "commentable_id",                 :default => 0,     :null => false
     t.integer  "user_id",                        :default => 0,     :null => false
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20090426153333) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "capacity"
+    t.integer  "capacity",          :default => -1
     t.string   "venue_address"
     t.boolean  "site_wide",         :default => false
     t.string   "icon_file_name"
@@ -210,9 +210,9 @@ ActiveRecord::Schema.define(:version => 20090426153333) do
 
   add_index "oauth_tokens", ["token"], :name => "index_oauth_tokens_on_token", :unique => true
 
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
+  create_table "plugin_schema_migrations", :id => false, :force => true do |t|
+    t.string "plugin_name"
+    t.string "version"
   end
 
   create_table "profiles", :force => true do |t|
@@ -257,7 +257,10 @@ ActiveRecord::Schema.define(:version => 20090426153333) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "distance",    :precision => 10, :scale => 3, :default => 0.0
+    t.decimal  "distance",       :precision => 10, :scale => 3, :default => 0.0
+    t.string   "distance_unit",                                 :default => "km"
+    t.boolean  "loops",                                         :default => false
+    t.string   "encoded_points"
   end
 
   create_table "taggings", :force => true do |t|
@@ -295,7 +298,7 @@ ActiveRecord::Schema.define(:version => 20090426153333) do
     t.string   "address",        :limit => 100
     t.decimal  "lat",                           :precision => 15, :scale => 10
     t.decimal  "lng",                           :precision => 15, :scale => 10
-    t.decimal  "alt",                           :precision => 5,  :scale => 10
+    t.decimal  "alt",                           :precision => 5,  :scale => 5
     t.integer  "locatable_id"
     t.string   "locatable_type"
     t.integer  "position"
