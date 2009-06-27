@@ -1,6 +1,6 @@
-<div class="titleB">Signup</div>
+<div class="titleB"><%= I18n.t('tog_user.user.signup_title') %></div>
 <p>
-    <span class="fontsmaller">Already registered? <%= link_to "Click here to login", login_path %>.</span>  
+    <span class="fontsmaller"><%= I18n.t('tog_user.user.already_registered') %> <%= link_to I18n.t('tog_user.user.click_to_login'), login_path %>.</span>
 </p>
 
 <br />
@@ -10,29 +10,29 @@
     <div class="fields">
       <p>
           <% unless config["plugins.tog_user.email_as_login"] %>
-            <%= f.label :login, "Login" %>
+            <%= f.label :login, I18n.t('tog_user.model.login') %>
             <%= f.text_field :login, :class => "fieldbox", :size => "40" %>
           <% end %>
       </p>
 
       <p>
-        <%= f.label :email, "Email" %>
+        <%= f.label :email, I18n.t('tog_user.model.email') %>
         <%= f.text_field :email, :class => "fieldbox", :size => "40" %>
       </p>
 
       <p>
-        <%= f.label :password, "Password" %>
+        <%= f.label :password, I18n.t('tog_user.model.password') %>
         <%= f.password_field :password, :class => "fieldbox", :size => "40" %>
       </p>
 
       <p>
-        <%= f.label :password_confirmation, "Repeat password" %>
+        <%= f.label :password_confirmation, I18n.t('tog_user.model.password_confirmation') %>
         <%= f.password_field :password_confirmation, :class => "fieldbox", :size => "40" %>
       </p>  
 
        <% if config["plugins.tog_user.captcha_enabled"] %>
           <p>
-            <label for="code">Type the two words</label>
+            <label for="code"><%= I18n.t('tog_user.user.type_two_words') %></label>
             <%= recaptcha_tags(:display =>{:lang => config["plugins.tog_core.language.default"]}) %>
           </p>
        <% end %>
@@ -41,7 +41,7 @@
 
   <br />
   <div class="actions">
-    <%= submit_tag 'Sign up!', :class => "button mainaction" %>
+    <%= submit_tag I18n.t('tog_user.user.signup_title'), :class => "button mainaction" %>
   </div>
      
 <% end -%>

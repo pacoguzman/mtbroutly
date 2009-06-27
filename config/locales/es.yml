@@ -1,12 +1,29 @@
 en:
   search:
-    title_one_click: "Search with one click"
-    title: "Search"
-    distance: "distance"
-    keywords: "keywords"
-    submit: "Search"
+    title_one_click: "Búsquedas con un click"
+    title: "Buscar"
+    distance: "distancia"
+    keywords: "palabras clave"
+    submit: "Buscar"
   interface:
+    routes:
+      titles:
+        default: "Rutas"
+        newest: "Nuevas Rutas"
+        highlighted: "Rutas Estrella"
+        created_by_you: "Rutas creadas por ti"
+        close_to_you: "Rutas cerca de ti"
+        your_favorites: "Tus Rutas Favoritas"
     member:
       routes: "Mis Rutas"
     site:
       routes: "Rutas"
+  views:
+    home:
+      index:
+        events: "Próximos Eventos"
+    shared:
+      logged_footer:
+        my_routes: "Mis Rutas"
+        new_route: "Crear nueva Ruta"
+        routes: "Rutas"
