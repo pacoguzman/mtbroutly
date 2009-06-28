@@ -12,6 +12,7 @@ describe Route do
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
+  it { should validate_presence_of(:encoded_points) }
   it "should validate_presence_of(:owner)"
   it "should_validate_uniqueness_of(:title)"
 

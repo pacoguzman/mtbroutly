@@ -21,6 +21,7 @@ class Route < ActiveRecord::Base
   validates_presence_of :title, :description
   validates_uniqueness_of :title
   validates_numericality_of :distance, :greater_than_or_equal_to => 0
+  validates_presence_of :encoded_points, :message => "You should create a route before save"
   validates_associated :waypoints
 
   before_save :compute_distance, :if => :compute_distance?
