@@ -55,8 +55,17 @@ module RoutesHelper
 
   def init_map_form(options = {})
     run_map_script do
+      #FIXME no funciona la geolocalización poor IP para centrar el mapa
+      #FIXME eschaton no centra el mapa
+      client_location = options[:client_location]
+      if client_location && client_location.is_a?(Geokit::GeoLoc)
+        center = client_location.to_hash.to_eschaton_center if client_location.success?
+      end
+      center ||= :best_fit
+      logger.debug "Center: #{center}"
       map = Google::Map.new(:controls => [:large_map_3D, :map_type],
-        :center => :best_fit)
+                            :center => center, :zoom => 8)
+
 
       map.enable_scroll_wheel_zoom!
       map.disable_double_click_zoom!
