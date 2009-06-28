@@ -63,7 +63,10 @@ Rails::Initializer.run do |config|
 
   # The internationalization framework can be changed to have another default locale (standard is :en) or more load paths.
   # All files from config/locales/*.rb,yml are added automatically.
-  # config.i18n.load_path << Dir[File.join(RAILS_ROOT, 'my', 'locales', '*.{rb,yml}')]
+  Dir[File.dirname(__FILE__) + '/locales/**/*.yml'].each do |file|
+    config.i18n.load_path << file
+  end
+  #config.i18n.load_path << Dir[File.join(RAILS_ROOT, 'config', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 
   # Your secret key for verifying cookie session data integrity.

@@ -11,8 +11,13 @@ es:
         created_by_you: "Rutas creadas por ti"
         close_to_you: "Rutas cerca de ti"
         your_favorites: "Tus Rutas Favoritas"
+        create: "Crear Ruta"
+        create_new: "Crear nueva ruta"
+        your_routes: "Tus Rutas"
+        your_favorites_from_other_users: "Tus Rutas favoritas de otros usuarios"
       buttons:
         create: "Crear nueva Ruta"
+        upload: "Subir Route"
       messages:
         any_yet: "Ninguna Ruta hasta ahora"
       search:
@@ -28,6 +33,9 @@ es:
           close_to_you: "Rutas creadas por ti"
           created_by_you: "Rutas cerca de ti"
           your_favorites: "Tus rutas favoritas"
+      forms:
+        separated_with: "(separadas con ,)"
+        required_fields: "(*) campos obligatorios"
     member:
       routes: "Mis Rutas"
     site:
@@ -41,6 +49,11 @@ es:
         my_routes: "Mis Rutas"
         new_route: "Crear nueva Ruta"
         routes: "Rutas"
+  models:
+      route:
+          title: "Título"
+          description: "Descripción"
+          tags: "Tags"
   tog_core:
     views:
       shared:

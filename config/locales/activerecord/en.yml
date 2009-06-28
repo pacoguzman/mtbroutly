@@ -1,0 +1,10 @@
+es:
+  activerecord:
+    errors:
+      models:
+        route: "Route"
+
+      attributes:
+        route:
+          title: "Title"
+          description: "Description"

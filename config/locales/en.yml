@@ -10,9 +10,14 @@ en:
         highlighted: "Highlighted Routes"
         created_by_you: "Routes Created by you"
         close_to_you: "Routes Close to you"
-        your_favorites: "Your Favorite Routes"
+        your_favorites: "Your Favorites Routes"
+        create: "Create Route"
+        create_new: "Create new Route"
+        your_routes: "Your Routes"
+        your_favorites_from_other_users: "Your Favorites Routes from other users"
       buttons:
         create: "Create new Route"
+        upload: "Upload Route"
       messages:
         any_yet: "There isn't any route yet"
       search:
@@ -28,6 +33,9 @@ en:
           close_to_you: "Routes Close to you"
           created_by_you: "Routes Created by you"
           your_favorites: "Your favorites Routes"
+      forms:
+        separated_with: "(separated with ,)"
+        required_fields: "(*) required fields"
     member:
       routes: "My Routes"
     site:
@@ -41,6 +49,11 @@ en:
         my_routes: "My Routes"
         new_route: "Create a new Route"
         routes: "Routes"
+  models:
+      route:
+          title: "Title"
+          description: "Description"
+          tags: "Tags"
   tog_core:
     views:
       shared:
