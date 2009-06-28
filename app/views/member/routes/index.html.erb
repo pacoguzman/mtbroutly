@@ -1,12 +1,12 @@
 <p>
-  <%= link_to 'Create new route', new_member_route_path,  {:class => "button add", :title => "Create a new route"} %>
-  <%= link_to 'Upload route', upload_member_routes_path,  {:class => "button add", :title => "Upload route"} %>
+  <%= link_to I18n.t("interface.routes.buttons.create"), new_member_route_path,  {:class => "button add", :title => I18n.t("interface.routes.buttons.create")} %>
+  <%= link_to I18n.t("interface.routes.buttons.upload"), upload_member_routes_path,  {:class => "button add", :title => I18n.t("interface.routes.buttons.upload")} %>
 </p>
 
 <%= render :partial => "routes/routes", :object => @routes,
-  :locals => {:routes_title => "Your Routes", :id_route_list => "route_list",
+  :locals => {:routes_title => I18n.t("interface.routes.titles.your_routes"), :id_route_list => "route_list",
   :route_partial => "member/routes/route"} %>
 
 <%= render :partial => "routes/routes", :object => @favorite_routes,
-  :locals => {:routes_title => "Your Favorites Routes from other Users", :id_route_list => "favorite_route_list",
+  :locals => {:routes_title => I18n.t("interface.routes.titles.your_favorites_from_other_users"), :id_route_list => "favorite_route_list",
   :route_partial => "routes/route"} %>

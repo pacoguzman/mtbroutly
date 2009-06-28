@@ -3,18 +3,17 @@
 <% content_for :sidebar do %>
   <%# TODO= render_ajax_messages %>
   <div class="portletE" style="margin-top: 75px;">
-    <h2><%= "Create New Route" %></h2>
+    <h2><%= I18n.t("interface.routes.titles.create_new") %></h2>
     <%= render :partial => "form", :locals => { :route => @route, :method => "post",
-      :url => member_routes_path, :submit_text => "Create Route",
-      :route_encoded_points => ""} %>
+      :url => member_routes_path, :submit_text => I18n.t("interface.routes.buttons.create") } %>
   </div>
 <% end %>
 
 <%= include_google_javascript %>
 <%= javascript_include_tag "route" %>
-<%= init_map_form %>
+<%= init_map_form :client_location => @client_location %>
 
-<div class="titleB">Create route</div>
+<div class="titleB"><%= I18n.t("interface.routes.titles.create") %></div>
 
 <%= render :partial => "shared/map" %>
 

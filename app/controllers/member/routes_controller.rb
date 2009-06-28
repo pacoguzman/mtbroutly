@@ -4,6 +4,7 @@ class Member::RoutesController < Member::BaseController
   
   helper 'routes'
   before_filter :redirect_if_not_current_user, :only => [:create, :update]
+  before_filter :client_ip_to_location, :only => [:new]
 
   def index
     @order = params[:order] || 'updated_at'
@@ -109,7 +110,7 @@ class Member::RoutesController < Member::BaseController
         pos += 1
       end
     else
-      @route.add(:waypoints, "You have to specify a route path")
+      @route.errors.add(:waypoints, "You have to specify a route path")
     end
   end
 
@@ -135,102 +136,4 @@ class Member::RoutesController < Member::BaseController
     false
   end
 
-  #Dependiendo del tipo de fichero su extensión
-  #debemos declarar que entidades se corresponden con que modelos de la aplicación
-  #Y de este modo poder utilizar un parseador general para los diferentes tipos de
-  #ficheros
-  def process_uploaded_file(file_param)
-    filename = file_param.original_filename
-    filedata = file_param.read
-    fileextension = File.extname(filename)
-    logger.info "Filename: #{filename}"
-    logger.info "File extension: #{fileextension}"
-
-    #TODO use Crack for parsing trails files
-    #Crack::XML.parse(filedata)
-
-    @route = Route.new(:user => current_user)
-    doc = REXML::Document.new(filedata)
-    process_doc(doc, filename, fileextension)
-
-    logger.info "#{@route.inspect}"
-    logger.info "#{@route.waypoints.size}"
-
-    @route
-  end
-
-  def process_doc(doc, filename, fileextension)
-    case fileextension
-    when ".gpx" then process_gpx(doc, filename)
-    when ".kml" then process_kml(doc, filename)
-    when ".crs" then process_crs(doc, filename)
-    end
-  end
-
-  # GPX descargados de Wikiloc
-  def process_gpx(doc, filename)
-    # Indicar que debe editar el titulo y la descripción de la ruta si no vienen en el fichero
-    @route.title = doc.elements['gpx/trk[1]/name'].text if doc.elements['gpx/trk[1]/name']
-    @route.title = filename if @route.title.blank?
-    @route.description = doc.elements['gpx/trk[1]/desc'].text if doc.elements['gpx/trk[1]/desc']
-    @route.description = @route.title if @route.description.blank?
-
-    pos = 0
-    doc.elements.each('gpx/trk[1]/trkseg[1]/trkpt') do |trkpt|
-      way = Waypoint.new
-      way.lat = trkpt.attributes['lat']
-      way.lng = trkpt.attributes['lon']
-      way.alt = trkpt.elements['ele'].text
-      #way.at_time = Time.parse(trkpt.elements['time'].text)
-      way.position = pos
-      @route.waypoints << way
-      pos += 1
-    end
-  end
-
-  def process_kml(doc, filename)
-    # Indicar que debe editar el titulo y la descripción de la ruta si no vienen en el fichero
-    @route.title = doc.elements['kml/Document/name'].text if doc.elements['kml/Document/name']
-    @route.title = filename if @route.title.blank?
-    @route.description = doc.elements['kml/Document/description'].text if doc.elements['kml/Document/description']
-    @route.description = @route.title if @route.description.blank?
-
-    pos = 0
-    doc.elements.each('kml/Document/Folder') do |folder|
-      if folder.elements['name'].text == "Waypoints"
-        folder.elements.each('Placemark') do |placemark|
-          way = Waypoint.new
-          coordinates = placemark.elements['Point/coordinates'].text.split(',')
-          way.lng = coordinates[0]
-          way.lat = coordinates[1]
-          way.alt = coordinates[2]
-          #way.at_time = Time.parse(placemark.elements['TimeStamp/when'].text)
-          way.position = pos
-          @route.waypoints << way
-          pos += 1
-        end
-      end
-
-    end
-  end
-
-  # CRS descargado de Wikiloc
-  def process_crs(doc, filename)
-
-    course = doc.elements["//Course[1]"]
-    @route.title = course.elements["Name"].text
-    @route.description = @route.name
-    track = course.elements["Track"]
-    pos = 0
-    track.elements.each("Trackpoint") do |trackpoint|
-      way = Waypoint.new
-      way.lat = trackpoint.elements["Position/LatitudeDegrees"].text
-      way.lng = trackpoint.elements["Position/LongitudeDegrees"].text
-      way.alt = trackpoint.elements["AltitudeMeters"].text
-      way.pos = pos
-      @route.waypoints << way
-      pos += 1
-    end
-
-  end
 end
