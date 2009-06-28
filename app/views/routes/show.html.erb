@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%=  link_to image_tag('/tog_core/images/ico/rss.gif', :alt => 'sindicate'), formatted_route_url(@route, :atom), :class => 'rss'%>
+  <%=  link_to image_tag('/tog_core/images/ico/rss.gif', :alt => 'sindicate'), route_url(@route, :format => :atom), :class => 'rss'%>
   <br/><br/>
   <%= render :partial => 'tag_cloud_single_route', :locals => { :route => @route } %>
   <br/>
@@ -19,16 +19,16 @@
   <%= render :partial => "shared/favorite_of", :locals => {:favoriteable => @route} %>
 <% end %>
 
-<% include_autodiscovery(:atom, formatted_route_url(@route, :atom), :name => @route.title) %>
+<% include_autodiscovery(:atom, route_url(@route, :format => :atom), :name => @route.title) %>
 
 <%= include_google_javascript %>
 <%= init_map_for @route %>
 
 <h2><span><%= @route.title -%></span></h2>
 <div id="format_links">
-  <%= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
-  <%= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
-  <%= link_to "View as CRS", formatted_route_path(:format => :crs) %>
+  <%= link_to "View in Google Earth", route_path(:format => :kml) %>
+  <%= link_to "View as GPX", route_path(:format => :gpx) %>
+  <%= link_to "View as CRS", route_path(:format => :crs) %>
 </div>
 
 <%= google_map :width => 600, :height => 400, :style => 'border: 1px dashed black; margin: 10px' %>

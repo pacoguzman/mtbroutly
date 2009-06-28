@@ -8,9 +8,9 @@
 <h2><span><%= @route.title.upcase -%></span></h2>
 <span><%= link_to "Back to #{@route.title}", route_path(@route) %></span>
 <div id="format_links">
-  <%= link_to "View in Google Earth", formatted_route_path(:format => :kml) %>
-  <%= link_to "View as GPX", formatted_route_path(:format => :gpx) %>
-  <%= link_to "View as CRS", formatted_route_path(:format => :crs) %>
+  <%= link_to "View in Google Earth", route_path(:format => :kml) %>
+  <%= link_to "View as GPX", route_path(:format => :gpx) %>
+  <%= link_to "View as CRS", route_path(:format => :crs) %>
 </div>
 
 <%#= @map.div(:width => 870, :height => 650) %>
