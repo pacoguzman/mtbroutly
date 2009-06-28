@@ -4,11 +4,11 @@
 <%# include_stylesheet "ajaxful_rating" %>
 
 <div class="portlet portletB" id="#{id_route_list}">
-  <h2><span><%= routes_title ||= "Routes" %></span></h2>
+  <h2><span><%= routes_title ||= I18n.t("interface.routes.title.default") %></span></h2>
   <% if routes.empty? -%>
     <div class="detail detail1">
       <div class="text">
-        <p>There isn't any routes yet</p>
+        <p><%= I18n.t("interface.routes.messages.any_yet") %></p>
       </div>
     </div>
   <% else -%>
@@ -18,8 +18,7 @@
   <% if !routes.empty? %>
     <div class="info_results">
       <span class="info_items">
-        Routes <%=routes.size > 0 ? (routes.offset + 1) : '0'%> to
-        <%=routes.size + routes.offset%> of <%=routes.total_entries%>
+        <%= page_entries_info routes, :entry_name => I18n.t("interface.routes.will_paginate.entry_name") %>
       </span>
       <span class="pages_navigation right">
         <%= will_paginate routes %>

@@ -1,14 +1,14 @@
 <div class="portletE">
   <div class="portlet_content">
-    <h2><%= t "search.title_one_click" %></h2>
+    <h2><%= t "interface.routes.search.title_one_click" %></h2>
 
-    <p><%= link_to 'Newest Routes', newest_routes_path,  {:class => "smallarrow blueright", :title => "Newest Routes"} %></p>
-    <p><%= link_to 'Highlighted Routes', highlighted_routes_path,  {:class => "smallarrow blueright", :title => "Highlighted Routes"} %></p>
+    <p><%= link_to I18n.t("interface.routes.search.links.newest"), newest_routes_path,  {:class => "smallarrow blueright", :title => "Newest Routes"} %></p>
+    <p><%= link_to I18n.t("interface.routes.search.links.highlighted"), highlighted_routes_path,  {:class => "smallarrow blueright", :title => "Highlighted Routes"} %></p>
 
     <% if logged_in? -%>
-      <p><%= link_to 'Close to you', close_to_you_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Close To You"} %></p>
-      <p><%= link_to 'Created by you', created_by_you_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Created By You"} %></p>
-      <p><%= link_to 'Your favorites routes', your_favorites_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Your Favorites Routes"} %></p>
+      <p><%= link_to I18n.t("interface.routes.search.links.close_to_you"), close_to_you_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Close To You"} %></p>
+      <p><%= link_to I18n.t("interface.routes.search.links.created_by_you"), created_by_you_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Created By You"} %></p>
+      <p><%= link_to I18n.t("interface.routes.search.links.your_favorites"), your_favorites_user_routes_path(current_user),  {:class => "smallarrow blueright", :title => "Your Favorites Routes"} %></p>
     <% end -%>
   </div>
 </div>

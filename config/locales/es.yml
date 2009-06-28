@@ -1,12 +1,9 @@
-en:
-  search:
-    title_one_click: "Búsquedas con un click"
-    title: "Buscar"
-    distance: "distancia"
-    keywords: "palabras clave"
-    submit: "Buscar"
+es:
   interface:
     routes:
+      will_paginate:
+        entry_name: "Route"
+        entries_name: "Routes"
       titles:
         default: "Rutas"
         newest: "Nuevas Rutas"
@@ -14,6 +11,23 @@ en:
         created_by_you: "Rutas creadas por ti"
         close_to_you: "Rutas cerca de ti"
         your_favorites: "Tus Rutas Favoritas"
+      buttons:
+        create: "Crear nueva Ruta"
+      messages:
+        any_yet: "Ninguna Ruta hasta ahora"
+      search:
+        title_one_click: "Búsquedas con un click"
+        title: "Buscar"
+        distance: "distancia"
+        keywords: "palabras clave"
+        where: "donde"
+        submit: "Buscar"
+        links:
+          newest: "Nuevas Rutas"
+          highlighted: "Rutas Estrella"
+          close_to_you: "Rutas creadas por ti"
+          created_by_you: "Rutas cerca de ti"
+          your_favorites: "Tus rutas favoritas"
     member:
       routes: "Mis Rutas"
     site:
@@ -27,3 +41,8 @@ en:
         my_routes: "Mis Rutas"
         new_route: "Crear nueva Ruta"
         routes: "Rutas"
+  tog_core:
+    views:
+      shared:
+        logged_footer:
+          locale: "Idioma"

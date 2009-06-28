@@ -13,12 +13,12 @@ class CommentsController < ApplicationController
       if @comment.save
         CommentMailer.deliver_new_comment_notification(@comment)
         if @comment.approved
-          message = {:ok => 'Comment added'}
+          message = {:ok => I18n.t("tog_core.site.comment.added")}
         else
-          message = {:warning => "Comments for this entry are moderated, so it won't be shown until a moderator approvesit"}
+          message = {:warning => I18n.t("tog_core.site.comment.left_pending")}
         end
       else
-        message = {:error => 'Error while saving your comment'}
+        message = {:error => I18n.t("tog_core.site.comment.error_comenting")}
       end
       format.html { redirect_to request.referer }
       #FIXME cuando se añade el comentario aparece un bullet
@@ -33,12 +33,12 @@ class CommentsController < ApplicationController
 
     if admin? || comment.commentable.owner == current_user
       if comment.destroy
-        flash[:ok] = 'Comment removed'
+        flash[:ok] = I18n.t("tog_core.site.comment.removed")
       else
-        flash[:error] = 'Error removing comment'
+        flash[:error] = I18n.t("tog_core.site.comment.error_removing")
       end
     else
-      flash[:error] = 'Error removing comment'
+      flash[:error] = I18n.t("tog_core.site.comment.error_removing")
     end
 
     redirect_to request.referer
@@ -50,12 +50,12 @@ class CommentsController < ApplicationController
     if admin? || comment.commentable.owner == current_user
       comment.approved = true
       if comment.save
-        flash[:ok] = 'Comment approved'
+        flash[:ok] = I18n.t("tog_core.site.comment.approved")
       else
-        flash[:error] = 'Error approving comment'
+        flash[:error] = I18n.t("tog_core.site.comment.error_approving")
       end
     else
-      flash[:error] = 'Error approving comment'
+      flash[:error] = I18n.t("tog_core.site.comment.error_approving")
     end
 
     redirect_to request.referer

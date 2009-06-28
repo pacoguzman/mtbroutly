@@ -1,6 +1,6 @@
 <div class="detail detail1">
-    <div class="image"><%=icon_for_profile(@profile, 'big')%></div>
-    <div class="title"><%=@profile.full_name%></div>
+    <div class="image"><%= icon_for_profile(@profile, 'big') %></div>
+    <div class="title"><%= @profile.full_name %></div>
     <div class="subtitle"><%= I18n.t('tog_social.profiles.model.username') %>: <%=@profile.user.login%></div>
     <div class="subtitle">Web Site:  <%=link_to @profile.website, h(@profile.website) %></div>
     <div class="summary"><%= I18n.t('tog_social.profiles.site.summary') %></div>

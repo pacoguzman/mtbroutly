@@ -1,12 +1,9 @@
 en:
-  search:
-    title_one_click: "Search with one click"
-    title: "Search"
-    distance: "distance"
-    keywords: "keywords"
-    submit: "Search"
   interface:
     routes:
+      will_paginate:
+        entry_name: "Route"
+        entries_name: "Routes"
       titles:
         default: "Routes"
         newest: "New Routes"
@@ -14,6 +11,23 @@ en:
         created_by_you: "Routes Created by you"
         close_to_you: "Routes Close to you"
         your_favorites: "Your Favorite Routes"
+      buttons:
+        create: "Create new Route"
+      messages:
+        any_yet: "There isn't any route yet"
+      search:
+        title_one_click: "Search with one click"
+        title: "Search"
+        distance: "distance"
+        keywords: "keywords"
+        where: "where"
+        submit: "Search"
+        links:
+          newest: "Newest Routes"
+          highlighted: "Highlighted Routes"
+          close_to_you: "Routes Close to you"
+          created_by_you: "Routes Created by you"
+          your_favorites: "Your favorites Routes"
     member:
       routes: "My Routes"
     site:
@@ -27,3 +41,8 @@ en:
         my_routes: "My Routes"
         new_route: "Create a new Route"
         routes: "Routes"
+  tog_core:
+    views:
+      shared:
+        logged_footer:
+          locale: "Language"

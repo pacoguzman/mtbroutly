@@ -13,7 +13,7 @@
     <%#= link_to "Edit Group", edit_member_group_path(membership.group) -%>  <%#= link_to "#{membership.group.pending_members.size} members waiting for approval", member_group_pending_members_path(membership.group) %>
   </div>
   <div class="summary">
-    <div style="float: left; width: 90px;"><b>Rating</b> </div>
+    <div style="float: left; width: 90px;"><b>Rating</b></div>
     <div class='star'><div id='rating_total_<%= route.id %>'></div></div><br />
     Distance: <%= number_with_precision(route.distance, :precision => 3) %> kms<br/>
     <%= pluralize(route.comments.size, 'comment') %><br/>

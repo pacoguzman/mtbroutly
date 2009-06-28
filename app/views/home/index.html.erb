@@ -54,12 +54,12 @@
 </div> <!-- /.col_50_50 -->
 
 <%= render :partial => "/routes/routes_without_pag",
-  :locals => {:routes => newest_routes, :routes_title => "Newest Routes",
+  :locals => {:routes => newest_routes, :routes_title => I18n.t("interface.routes.titles.newest"),
   :id_route_list => "newest_routes", :route_partial => "/routes/route"} %>
 
 <%# TODO %>
 <div class="portlet portletG" id="portlet_upcomingEvents">
-  <h2><span><%= I18n.t("views.home.index.events")%></span></h2>
+  <h2><span><%= I18n.t("views.home.index.events") %></span></h2>
   <div class="portlet_content">
     <ul class="clearfix">
       <%#= if upcoming_events.empty? -%>

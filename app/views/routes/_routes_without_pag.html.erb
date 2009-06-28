@@ -2,12 +2,12 @@
 <% include_javascript "starbox" %>
 <% include_stylesheet "starbox" %>
 
-<div class="portlet portletB" id="#{id_route_list}">
-  <h2><span><%= routes_title ||= "Routes" %></span></h2>
+<div class="portlet portletG" id="#{id_route_list}">
+  <h2><span><%= routes_title ||= I18n.t("interface.routes.titles.default") %></span></h2>
   <% if routes.empty? -%>
     <div class="detail detail1">
       <div class="text">
-        <p>There isn't any routes yet</p>
+        <p><%= I18n.t("interface.routes.messages.any_yet") %></p>
       </div>
     </div>
   <% else -%>

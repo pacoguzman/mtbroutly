@@ -3,15 +3,15 @@
 <%# include_javascript "/livepipe-ui/javascripts/window.js" %>
 
 <div class="portletE">
-  <h2><%= t "search.title" %></h2>
+  <h2><%= t "interface.routes.search.title" %></h2>
   <div class="portlet_content">
     <% form_for :search, :url => search_routes_path, :html => {:method => :get} do |f| %>
       <p>
-        <%= f.label :keywords %><br />
+        <%= f.label :keywords, I18n.t("interface.routes.search.keywords") %><br />
         <%= f.text_field :keywords %>
       </p>
       <p>
-        <%= f.label :where %>
+        <%= f.label :where, I18n.t("interface.routes.search.where") %>
         <%= link_to "(?)", "#where_help", :id => "where_help_link" %>
         <div id="where_help" style="display:none; font-size: 0.8em; background-color:#EDF3FD;">
           You can do a complex search by using an easy syntax:
@@ -27,12 +27,12 @@
         <%#= f.text_field :where %>
       </p>
       <p>
-        <%= f.label :distance %><br />
+        <%= f.label :distance, I18n.t("interface.routes.search.distance") %><br />
         <select id="search_distance" name="search[distance]">
           <%= options_for_select(Route::SEARCH_DISTANCE_OPTIONS_SELECT,"0") %>
         </select>
       </p>
-      <p><%= f.submit t("search.submit") %></p>
+      <p><%= f.submit t("interface.routes.search.submit") %></p>
     <% end %>
   </div>
 </div>

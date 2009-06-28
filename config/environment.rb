@@ -40,6 +40,10 @@ Rails::Initializer.run do |config|
   config.gem 'google-geocode', :version => '~> 1.2.1', :lib => 'google_geocode'
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net"
 
+  # Possibly utils gems
+  #config.gem 'settinglogic' #url -> http://github.com/binarylogic/settingslogic
+
+
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named

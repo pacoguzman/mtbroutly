@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <p><%= link_to 'Create new route', new_member_route_path,  {:class => "button add", :title => "Create a new route"} if logged_in? %></p>
+  <p><%= link_to I18n.t('interface.routes.buttons.create'), new_member_route_path,  {:class => "button add", :title => "Create a new route"} if logged_in? %></p>
 
   <%= render :partial => "search_one_click" %>
   <%= render :partial => "search_form" %>

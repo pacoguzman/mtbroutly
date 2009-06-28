@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   end
   
   def activate
-
+    # Added case a TOG
     self.current_user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
     when (!params[:activation_code].blank?) && logged_in? && !current_user.active?
