@@ -30,11 +30,11 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem 'searchlogic', :version => '>=1.6.6', :source => 'http://gems.github.com'
-  config.gem 'geokit', :version => '>=1.3.0', :source => 'http://gems.github.com'
-  config.gem 'tog-tog', :lib => 'tog', :version => '0.5'
+  config.gem 'geokit', :version => '>=1.4.1', :source => 'http://gems.github.com'
+  config.gem 'tog-tog', :lib => 'tog', :version => '0.5.1'
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.3.6'
   config.gem 'desert', :lib => 'desert', :version => '0.5'
-  config.gem 'crack', :version => '>=0.1.1', :source => 'http://gems.github.com'
+  config.gem 'crack', :version => '>=0.1.2', :source => 'http://gems.github.com'
 
   # Tog Conclave gems
   config.gem 'google-geocode', :version => '~> 1.2.1', :lib => 'google_geocode'
