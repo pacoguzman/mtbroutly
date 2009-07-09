@@ -8,7 +8,7 @@ function load_route() {
 
     //$('#zoom_map_link').unbind().click(change_map_zoom)
 
-    createMap(MAP_DIV, 39.774769, -98.085937, 4);
+    //createMap(MAP_DIV, 39.774769, -98.085937, 4);
 
     jQuery("#"+MAP_DIV).ready(function() {
         loadPolyline("route_encoded_points", "#3355ff", 3, .9, "route_lat", "route_lng");
@@ -156,8 +156,8 @@ function showStartIconMarker (latId, lngId) {
             map.removeOverlay(firstPointMarker);
         }
         var icon = new GIcon();
-        icon.image = icon_url + "mrkr_green.png";
-        icon.shadow= icon_url + "mrkr_shadow.png";
+        icon.image = icon_url + "green.png";
+        icon.shadow= icon_url + "shadow.png";
         icon.iconSize = new GSize(12, 20);
         icon.shadowSize = new GSize(22, 20);
         icon.iconAnchor = new GPoint(6, 20);
