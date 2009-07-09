@@ -12,62 +12,61 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'desert'
 Rails::Initializer.run do |config|
-  
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
-  # See Rails::Configuration for more options.
-
-  # Skip frameworks you're not going to use. To use Rails without a database
-  # you must remove the Active Record framework.
-  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
-
-  # Specify gems that this application depends on. 
-  # They can then be installed with "rake gems:install" on new installations.
-  # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem 'searchlogic', :version => '>=1.6.6', :source => 'http://gems.github.com'
-  config.gem 'geokit', :version => '>=1.4.1', :source => 'http://gems.github.com'
-  config.gem 'tog-tog', :lib => 'tog', :version => '0.5.1'
-  config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.3.6'
-  config.gem 'desert', :lib => 'desert', :version => '0.5'
-  config.gem 'crack', :version => '>=0.1.2', :source => 'http://gems.github.com'
-
-  # Tog Conclave gems
-  config.gem 'google-geocode', :version => '~> 1.2.1', :lib => 'google_geocode'
-  config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net"
-
-  # Possibly utils gems
-  #config.gem 'settinglogic' #url -> http://github.com/binarylogic/settingslogic
-
-
-  # Only load the plugins named here, in the order given. By default, all plugins 
-  # in vendor/plugins are loaded in alphabetical order.
-  # :all can be used as a placeholder for all plugins not explicitly named
-  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  # Force all environments to use the same logger level
-  # (by default production uses :info, the others :debug)
-  # config.log_level = :debug
+  # Specify gems that this application depends on and have them installed with rake gems:install
+  # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
+  #config.gem 'ffmike-db_populate', :version => '0.2.3', :source => 'http://gems.github.com'
+  config.gem 'searchlogic', :version => '1.6.6', :source => 'http://gems.github.com'
+  config.gem 'geokit', :version => '>=1.4.1', :source => 'http://gems.github.com'
+  config.gem 'tog-tog', :lib => 'tog', :version => '0.5.3'
+  config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.3.6'
+  config.gem 'desert', :lib => 'desert', :version => '0.5'
+  config.gem 'crack', :version => '>=0.1.2', :source => 'http://gems.github.com'
+  config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net"
 
-  # Make Time.zone default to the specified zone, and make Active Record store time values
-  # in the database in UTC, and return them converted to the specified local zone.
-  # Run "rake -D time" for a list of tasks for finding time zone names. Comment line to use default local time.
+  #TODO use tog_conclave
+  ## Tog Conclave gems
+  #config.gem 'google-geocode', :version => '~> 1.2.1', :lib => 'google_geocode'
+
+  # Possibly utils gems
+  #config.gem 'settinglogic' #url -> http://github.com/binarylogic/settingslogic
+
+  # Only load the plugins named here, in the order given (default is alphabetical).
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+  config.plugins = [:acts_as_abusable, :acts_as_commentable, :acts_as_favoriteable,
+    :acts_as_rateable, :acts_as_scribe, :acts_as_state_machine, :acts_as_taggable_on_steroids,
+    :"ajaxful-rating", :eschaton, :fixture_replacement2, :"geokit-rails", :later_dude,
+    :meta_tags, :"mundo-pepino", :paperclip, :query_reviewer, :seo_urls, :"string-mapper",
+    :cucumber_rails_debug,
+    #:tog_conclave,
+    :tog_core, :tog_mail, :tog_social, :tog_user, :viking
+    #:"ym4r-gm"
+  ]
+
+  # Skip frameworks you're not going to use. To use Rails without a database,
+  # you must remove the Active Record framework.
+  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Activate observers that should always be running
+  # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+
+  # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+  # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'
 
-  # The internationalization framework can be changed to have another default locale (standard is :en) or more load paths.
-  # All files from config/locales/*.rb,yml are added automatically.
+  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   Dir[File.dirname(__FILE__) + '/locales/**/*.yml'].each do |file|
     config.i18n.load_path << file
   end
   #config.i18n.load_path << Dir[File.join(RAILS_ROOT, 'config', 'locales', '*.{rb,yml}')]
-  # config.i18n.default_locale = :de
+  #config.i18n.default_locale = :de
 
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
@@ -78,17 +77,4 @@ Rails::Initializer.run do |config|
     :secret      => '59359f7e9c1a081ba686ae0a84d38b3ab2761c8356dc28e7ac045bf3fde1cf433b56aa856405d976bbcfb483e914c349105ddc6751ce3a64b96a1416baa4c431'
   }
 
-  # Use the database for sessions instead of the cookie-based default,
-  # which shouldn't be used to store highly confidential information
-  # (create the session table with "rake db:sessions:create")
-  # config.action_controller.session_store = :active_record_store
-
-  # Use SQL instead of Active Record's schema dumper when creating the test database.
-  # This is necessary if your schema can't be completely dumped by the schema dumper,
-  # like if you have constraints or database-specific column types
-  # config.active_record.schema_format = :sql
-
-  # Activate observers that should always be running
-  # Please note that observers generated using script/generate observer need to have an _observer suffix
-  # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 end
