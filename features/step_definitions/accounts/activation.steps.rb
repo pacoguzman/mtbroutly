@@ -7,9 +7,7 @@ Given /^I am an activated user$/ do
 end
 
 When /^I activate myself$/ do
-  visit activate_path(@user.activation_code)
-  #get "/activate/#{@user.activation_code }"
-  
+  visit activate_path(@user.activation_code)  
   # Have to do this otherwise variable won't show that its state has changed
   @user.reload
 end               

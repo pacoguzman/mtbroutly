@@ -1,9 +1,9 @@
 Feature: Forgot Password
   In order to recover her password to login in the site
   A user
-  Should be able to recover her password
+  Should be able to recover his password
 
-    Scenario: User ask for her password
+    Scenario: User ask for his password
       Given an activated user Fred exists
       And I am logged out
       When I surf to forgot password

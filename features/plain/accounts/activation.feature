@@ -10,13 +10,12 @@ Feature: Activating an account
      And I should be activated
 
   Scenario: Registered user cannot activate her account without an activation code
-     #No se genera una ruta y no se encuentra sino lleva asociada un código de activación
      Given I am a registered user
      When I activate myself without an activation code
      Then I should see an error
      And I should not be activated
 
-   Scenario: Registered user cannot activate her account with a bogus activation code    
+  Scenario: Registered user cannot activate her account with a bogus activation code    
      Given I am a registered user
      When I activate myself with a bogus activation code
      Then I should see an error

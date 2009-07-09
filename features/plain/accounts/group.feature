@@ -3,6 +3,7 @@ Feature: Gestión de grupos
   As miembro de la aplicación
   I want to poder realizar operaciones sobre grupos
 
+  @focus
   Scenario: Creación de un nuevo grupo
     Given an activated user Fred exists
     When I login as Fred
@@ -13,5 +14,6 @@ Feature: Gestión de grupos
     Then I should see "developers"
     Then I should see "dev"
     Then I should see "init"
-    
+
+  @pending
   Scenario: Editar los datos de un grupo ya completado

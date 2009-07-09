@@ -7,7 +7,14 @@ end
 
 Given /there (?:is|are) (\d+)(?:\s*|\s*more\s*)(\S*)?$/ do |n, object|
   klass = object.singularize.classify.constantize
-  n.to_i.times {Factory "#{klass.name.downcase}_create".to_sym}
+  n.to_i.times {
+    unless klass.name.downcase == "user"
+      Factory "#{klass.name.downcase}_create".to_sym
+    else
+      obj = Factory.build "#{klass.name.downcase}_create".to_sym
+      obj.register!
+    end
+    }
   klass.count.should >= (n.to_i)
 end
 

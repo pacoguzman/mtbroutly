@@ -7,22 +7,22 @@ end
   
 When /^I signup as (\w*)$/ do |user|
   When "I visit signup"
-  When "I fill in #{user} signup details" 
-  click_button "Sign Up"
+  When "I fill in #{user} signup details"
+  click_button "Signup"
 end
 
 When /^I signup as (.*) with wrong confirmation$/ do |user|
   When "I visit signup"
   When "I fill in #{user} signup details" 
   fill_in('user[password_confirmation]', :with => 'poopypoop')
-  click_button "Sign Up"
+  click_button "Signup"
 end           
 
 When /^I signup as (.*) without (.*)$/ do |user, field|
   When "I visit signup"
   When "I fill in #{user} signup details" 
   field == 'password_confirmation' ? fill_in('user[password_confirmation]', :with => '') : fill_in(field, :with => '')  
-  click_button "Sign Up"
+  click_button "Signup"
 end
 
 Then /^there should be an account for Fred$/ do
@@ -37,8 +37,17 @@ When /^I create a user with login (\w*)$/ do |login|
                          :email => login + "@example.com")
 end
 
+When /^I initialize a user with login (\w*)$/ do |login|
+  @user = User.new(:login => login,
+                         :password => login + "pass",
+                         :password_confirmation => login + "pass",
+                         :email => login + "@example.com")
+end
+
 When /^I register a user with login (\w*)$/ do |login|
-  @user = User.find_by_login(login)
+  unless @user.login == login
+    @user = User.find_by_login(login)
+  end
   @user.register! 
   @user.state.should == 'pending'
   @user
@@ -52,18 +61,18 @@ When /^I activate a user with login (\w*)$/ do |login|
 end
 
 Given /^a registered user (\w*) exists$/ do |user|
-  When "I create a user with login #{user}"
+  When "I initialize a user with login #{user}"
    And "I register a user with login #{user}"
 end             
 
 Given /^an activated user (\w*) exists$/ do |user|    
-  When "I create a user with login #{user}"
+  When "I initialize a user with login #{user}"
    And "I register a user with login #{user}"
    And "I activate a user with login #{user}" 
 end              
 
 Given /^an admin user (\w*) exists$/ do |user|    
-  When "I create a user with login #{user}"
+  When "I initialize a user with login #{user}"
    And "I register a user with login #{user}"
    And "I activate a user with login #{user}" 
    @user.admin = true
