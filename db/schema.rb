@@ -33,13 +33,6 @@ ActiveRecord::Schema.define(:version => 20090628141627) do
 
   add_index "activities", ["item_type", "item_id"], :name => "index_activities_on_item_type_and_item_id"
 
-  create_table "attendances", :force => true do |t|
-    t.integer  "event_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "client_applications", :force => true do |t|
     t.string   "name"
     t.string   "url"
@@ -78,28 +71,6 @@ ActiveRecord::Schema.define(:version => 20090628141627) do
   end
 
   add_index "config", ["key"], :name => "key", :unique => true
-
-  create_table "events", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.string   "url"
-    t.string   "venue"
-    t.string   "venue_link"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "capacity",          :default => -1
-    t.string   "venue_address"
-    t.boolean  "site_wide",         :default => false
-    t.string   "icon_file_name"
-    t.string   "icon_content_type"
-    t.integer  "icon_file_size"
-    t.datetime "icon_updated_at"
-  end
 
   create_table "favorites", :force => true do |t|
     t.integer  "user_id"
@@ -259,8 +230,8 @@ ActiveRecord::Schema.define(:version => 20090628141627) do
     t.datetime "updated_at"
     t.decimal  "distance",       :precision => 10, :scale => 3,  :default => 0.0
     t.string   "distance_unit",                                  :default => "km"
-    t.boolean  "loops",                                          :default => false
-    t.string   "encoded_points",                                 :default => ""
+    t.integer  "loops",                                          :default => 1
+    t.text     "encoded_points"
     t.decimal  "lat",            :precision => 15, :scale => 10, :default => 0.0
     t.decimal  "lng",            :precision => 15, :scale => 10, :default => 0.0
   end
