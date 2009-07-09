@@ -30,8 +30,8 @@ es:
         links:
           newest: "Nuevas Rutas"
           highlighted: "Rutas Estrella"
-          close_to_you: "Rutas creadas por ti"
-          created_by_you: "Rutas cerca de ti"
+          close_to_you: "Rutas cerca de ti"
+          created_by_you: "Rutas creadas por ti"
           your_favorites: "Tus rutas favoritas"
       forms:
         separated_with: "(separadas con ,)"
