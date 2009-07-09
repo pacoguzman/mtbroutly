@@ -4,10 +4,8 @@ class Waypoint < ActiveRecord::Base
 
   validates_presence_of :lat
   validates_presence_of :lng
-  #TODO restringir validación a las rutas
   validates_numericality_of :position, :only_integer => true, :greather_than_or_equal_to => 0
-  #TODO un indice para recuperar los waypoints asociados aun locatable
-
+  
   def vertice
     {:latitude => lat, :longitude => lng}
   end
@@ -17,7 +15,7 @@ class Waypoint < ActiveRecord::Base
   end
 
   def coordinates_to_s
-    alt.blank? ? "#{lng.to_s},#{lat.to_s},0.0" : "#{lng.to_s},#{lat.to_s},#{alt.to_s}"
+    alt.blank? ? "#{lat.to_s},#{lng.to_s},0.0" : "#{lat.to_s},#{lng.to_s},#{alt.to_s}"
   end
 
 end

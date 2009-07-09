@@ -43,11 +43,11 @@
           <li><%#= link_to "Create a new Photoset", new_member_picto_photoset_path -%></li>
         </ul>
       </li>-->
-      <li><%= I18n.t("tog_core.views.shared.logged_footer.locale")%>
+      <li><%= I18n.t("tog_core.views.shared.logged_footer.locale") %>
         <ul>
-          <% supported_languages do |l| %>
-             <li><%= link_to l[:name], set_locale_path(:locale => l[:iso_639_1]) %></li>
-          <% end %>
+          <%- supported_languages do |l| -%>
+             <li><%= link_to l[:name], set_locale_path(:locale => l[:iso_639_1]) -%></li>
+          <%- end -%>
         </ul>
       </li>
     </ul>

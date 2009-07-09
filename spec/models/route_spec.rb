@@ -12,7 +12,8 @@ describe Route do
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
-  it { should validate_presence_of(:encoded_points) }
+  it { should validate_presence_of(:distance) }
+  it { should validate_presence_of(:encoded_points).with_message("You should create a route before save") }
   it "should validate_presence_of(:owner)"
   it "should_validate_uniqueness_of(:title)"
 
@@ -43,34 +44,44 @@ describe Route do
     it { should have_many(:tags) }
   end
 
-  describe "computing distance" do
+  describe "creating waypoints" do
     before :each do
       @route = Factory.build(:route, :user_id => 1)
     end
 
-    it "set distance to 0 if the route doesn't have waypoints" do
-      @route.distance.should == BigDecimal.new("0")
+    it "should save the route" do
+      @route.save.should == true
     end
 
-    it "set distance to 0 if the route have only one waypoint" do
-      @route.waypoints << Factory.build(:waypoint, :position => 1)
-      @route.save!
-      @route.distance.should == BigDecimal.new("0")
+    it "should decoded the encoded points in two points" do
+      decoded_points = @route.decoded_points
+      decoded_points.should have(2).items
     end
 
-    it "set distance if the route have at least two waypoints and no distance parameter is passed to route" do
-      @route.waypoints << Factory.build(:waypoint, :position => 1)
-      @route.waypoints << Factory.build(:near_waypoint, :position => 2)
-      @route.save!
-      @route.distance.should_not == BigDecimal.new("0")
+    it "should have two waypoints" do
+      @route.save
+      Route.find_by_title(@route.title).should have(2).waypoints
     end
 
-    it "no modify distance if the route have at least two waypoints and distance parameter is passed to route" do
-      @route.distance = "1.215"
-      @route.waypoints << Factory.build(:waypoint, :position => 1)
-      @route.waypoints << Factory.build(:near_waypoint, :position => 2)
-      @route.save!
-      @route.distance.should == BigDecimal.new("1.215")
+    it "should decode correctly the encoded points in waypoints" do
+      decoded_points = @route.decoded_points
+      decoded_points.first.should be_as_point([40.30720, -3.7957], 0.001)
+      decoded_points.last.should be_as_point([40.30738, -3.79612], 0.001)
+    end
+
+    it "should save correctly the decoded points in waypoints" do
+      @route.save
+      route = Route.find_by_title(@route.title)
+      first_waypoint = route.waypoints.first
+      first_decoded_point = route.decoded_points[0]
+      first_waypoint.lat.should be_close(first_decoded_point[0], 0.001)
+      first_waypoint.lng.should be_close(first_decoded_point[1], 0.001)
+    end
+  end
+
+  describe "computing distance" do
+    before :each do
+      @route = Factory.build(:route, :user_id => 1)
     end
   end
 
@@ -98,13 +109,13 @@ describe Route do
       it "should return no empty array if passed a keywords parameter" do
         search = Route.search(:keywords => "maya")
         search.conditions.sanitize.should be_kind_of(Array)
-        search.conditions.sanitize.size.should == 3
+        search.conditions.sanitize.should have(3).items
       end
 
       it "should return no empty array if passed a keywords parameter" do
         search = Route.search(:keywords => "maya, azteca")
         search.conditions.sanitize.should be_kind_of(Array)
-        search.conditions.sanitize.size.should == 5
+        search.conditions.sanitize.should have(5).items
       end
 
       it "should return empty hash if passed a keywords blank parameter" do
@@ -115,86 +126,154 @@ describe Route do
   end
 
   describe "vertices methods to use with eschaton" do
-    it "should return a array with a hash elements for each waypoint" do
-      @route = Factory.build(:route, :user_id => 1)
-      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
-      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
-
-      @route.vertices.should be_kind_of(Array)
-      @route.vertices.should == [{:latitude => 9.9, :longitude => 9.9},{:latitude=> 9.8, :longitude => 9.8}]
+    describe "using encoded_points" do
+      it "should return a array with a hash elements for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.vertices.should be_kind_of(Array)
+        #FIXME matcher or macro for this kind of comparision
+        #@route.vertices.should == [{:latitude=> 40.30720, :longitude => -3.7957},
+        #  {:latitude => 40.30738, :longitude => -3.79612}]
+        @route.vertices.first.should be_as_vertice([40.30720, -3.7957], 0.001)
+        @route.vertices.last.should be_as_vertice([40.30738, -3.79612], 0.001)
+      end
+    end
+    describe "using waypoints" do
+      it "should return a array with a hash elements for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.save
+        Route.with_waypoints_priority do
+          #FIXME matcher or macro for this kind of comparision
+          #@route.vertices.should == [{:latitude=> 40.30720, :longitude => -3.7957},
+          #  {:latitude => 40.30738, :longitude => -3.79612}]
+          #route = Route.find_by_title(@route.title)
+          @route.vertices(true)
+          @route.vertices.first.should be_as_vertice([40.30720, -3.7957], 0.001)
+          @route.vertices.last.should be_as_vertice([40.30738, -3.79612], 0.001)
+        end
+      end
     end
   end
 
   describe "points methods to use with eschaton" do
-    it "should return a array with a array elements for each waypoint" do
-      @route = Factory.build(:route, :user_id => 1)
-      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
-      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+    describe "using encoded_points" do
+      it "should return a array with a array elements for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.points.should be_kind_of(Array)
+        @route.points.each{ |point| point.should be_kind_of(Array) }
+        #FIXME to compare this kind of object
+        @route.points.first.should be_as_point([40.30720, -3.7957], 0.001)
+        @route.points.last.should be_as_point([40.30738, -3.79612], 0.001)
+      end
+    end
 
-      @route.points.should be_kind_of(Array)
-      @route.points.each{ |point| point.should be_kind_of(Array) }
-      @route.points.should == [[9.9, 9.9],[9.8, 9.8]]
+    describe "using waypoints" do
+      it "should return a array with a array elements for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.save
+        Route.with_waypoints_priority do
+          #FIXME matcher or macro for this kind of comparision
+          #@route.vertices.should == [{:latitude=> 40.30720, :longitude => -3.7957},
+          #  {:latitude => 40.30738, :longitude => -3.79612}]
+          #route = Route.find_by_title(@route.title)
+          @route.points(true)
+          @route.points.should be_kind_of(Array)
+          #FIXME to compare this kind of object
+          @route.points.first.should be_as_point([40.30720, -3.7957], 0.001)
+          @route.points.last.should be_as_point([40.30738, -3.79612], 0.001)
+        end
+      end
     end
   end
 
   describe "coordinates methods to use with downloads" do
-    it "should return a string with a coordinates for each waypoint" do
-      @route = Factory.build(:route, :user_id => 1)
-      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
-      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
+    describe "using encoded_points" do
+      it "should return a string with a coordinates for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.coordinates.should == "40.3072,-3.7957,0.0 40.30738,-3.79612,0.0"
+      end
+    end
 
-      @route.coordinates.should == "9.9,9.9,0.0 9.8,9.8,0.0"
+    describe "using waypoints" do
+      it "should return a string with a coordinates for each waypoint" do
+        @route = Factory.build(:route, :user_id => 1)
+        @route.save
+        Route.with_waypoints_priority do
+          @route.coordinates(true).should == "40.3072,-3.7957,0.0 40.30738,-3.79612,0.0"
+        end
+      end
     end
   end
 
   describe "encoded_vertices methods" do
     it "should return a string with encoded vertices" do
       @route = Factory.build(:route, :user_id => 1)
-      @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
-      @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
-
       @route.encoded_vertices.should be_kind_of(String)
-    end
-
-    it "should return nil for route without waypoints" do
-      @route = Factory.build(:route, :user_id => 1)
-      @route.encoded_vertices.should be_blank
     end
   end
 
   describe "waypoints for static map" do
 
-    describe "in a route with 200 waypoints" do
+    describe "in a route with 585 waypoints" do
       before :each do
-        @route = Factory.build(:route, :user_id => 1)
-        1.upto(200) do |i|
-          @route.waypoints << Factory.build(:waypoint, :position => i)
+        @route = Factory.build(:route_long, :user_id => 1)
+      end
+      
+      describe "using encoded_points" do
+        it "should return less or equal 70 waypoints" do
+          @route.points_for_static_map.should have_at_most(Route::STATIC_MAP_GOOGLE_LIMIT).items
+        end
+
+        it "should return the first waypoint in the first place" do
+          @route.points_for_static_map.first.should == @route.decoded_points.first
+        end
+
+        it "should return the last waypoint in the last place" do
+          @route.points_for_static_map.last.should == @route.decoded_points.last
         end
       end
-     
-      #TODO parámetro de configuración
-      it "should return less or equal 70 waypoints" do
-        @route.waypoints_for_static_map.size.should <= Route::STATIC_MAP_GOOGLE_LIMIT
-      end
 
-      it "should return the first waypoint in the first place" do
-        @route.waypoints_for_static_map.first.should == @route.waypoints.first
-      end
+      describe "using waypoints" do
+        before :each do
+          @route.save
+          @route.waypoints(true)
+        end
+        it "should return less or equal 70 waypoints" do
+          Route.with_waypoints_priority do
+           @route.points_for_static_map.should have_at_most(Route::STATIC_MAP_GOOGLE_LIMIT).items
+          end
+        end
 
-      it "should return the last waypoint in the last place" do
-        @route.waypoints_for_static_map.last.should == @route.waypoints.last
+        it "should return the first waypoint in the first place" do
+          Route.with_waypoints_priority do
+           @route.points_for_static_map.first.should == @route.waypoints.first
+          end
+        end
+
+        it "should return the last waypoint in the last place" do
+          Route.with_waypoints_priority do
+           @route.points_for_static_map.last.should == @route.waypoints.last
+          end
+        end
       end
     end
 
     describe "in a route with 2 waypoints" do
       before :each do
         @route = Factory.build(:route, :user_id => 1)
-        @route.waypoints << Factory.build(:waypoint, :position => 1, :lat => 9.9, :lng => 9.9)
-        @route.waypoints << Factory.build(:waypoint, :position => 2, :lat => 9.8, :lng => 9.8)
       end
-
-      it "should be equal waypoints and waypoints for static map" do
-        @route.waypoints_for_static_map.should == @route.waypoints
+      describe "using encoded_points" do
+        it "should be equal encoded_points and points for static map" do
+          @route.points_for_static_map.should == @route.decoded_points
+        end
+      end
+      describe "using waypoints" do
+        it "should be equal waypoints and points for static map" do
+          @route.save
+          Route.with_waypoints_priority do
+            @route.waypoints(true)
+            @route.points_for_static_map.should == @route.waypoints
+          end
+        end
       end
     end
   end

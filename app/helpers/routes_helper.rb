@@ -25,47 +25,50 @@ module RoutesHelper
   end
 
   def init_map_for(route, options = {})
-    
+    options.reverse_merge!(:mode => "show")
     run_map_script do
       map = Google::Map.new(:controls => [:large_map_3D, :map_type],
-        :center => :best_fit)
+        :center => :best_fit, :zoom => 8)
 
-      if route.waypoints.any?
-        map.add_marker(start_marker(route.waypoints.first))
-        if options[:encoded] == true
-          #FIXME not fit the map
-          encoded_line = Google::Line.new :encoded => {:points => route.encoded_vertices ,
-            :levels => 'PFHFGP'},
-            :colour => 'blue', :opacity => 1, :thickness => 6
+      map.enable_scroll_wheel_zoom!
+      map.disable_double_click_zoom!
+      map.enable_google_bar!
 
-          map.add_line(encoded_line)
-        else
-          generate_js_polyline(route)
+      if Route.encoded_priority
+        if options[:mode] == "show"
+          #FIXME From encoded we lost some points I don't know why
+          #poly =  Google::Line.new :encoded => {:points => route.encoded_points, :levels => 'PFHFGP',
+          #  :num_levels => 18, :zoom_factor => 2}, :colour => 'blue', :opacity => 1, :thickness => 6
+          poly = Google::Line.new :vertices => route.vertices, :colour => 'blue', :opacity => 1, :thickness => 6
+          map.add_line(poly)
+          obj = Eschaton::JavascriptObject.new
+          obj << ''
+          obj << 'poly = line;'
+          obj << 'zoomToPolyline();'
         end
-        map.add_marker(end_marker(route.waypoints.last))
+        if options[:mode] == "new"
+          obj = Eschaton::JavascriptObject.new
+          obj << ''
+          obj << 'distanceMarkers = [];'
+          obj << 'firstPoint = "";'
+          obj << 'firstPointMarker = "";'
+          obj << ''
+          obj << 'load_route();'
+        end
       else
-        map.click do |script, location|
-          map.open_info_window(:location => location, :text => "This route hasn't any waypoints")
-        end
+        map.add_marker(start_marker(route.waypoints.first))
+        generate_js_polyline(route)
+        map.add_marker(end_marker(route.waypoints.last))
       end
-      
     end
-    
   end
 
   def init_map_form(options = {})
     run_map_script do
-      #FIXME no funciona la geolocalización poor IP para centrar el mapa
-      #FIXME eschaton no centra el mapa
-      client_location = options[:client_location]
-      if client_location && client_location.is_a?(Geokit::GeoLoc)
-        center = client_location.to_hash.to_eschaton_center if client_location.success?
-      end
-      center ||= :best_fit
+      center = center_from_client_location(options[:client_location])
       logger.debug "Center: #{center}"
       map = Google::Map.new(:controls => [:large_map_3D, :map_type],
-                            :center => center, :zoom => 8)
-
+        :center => center, :zoom => 8)
 
       map.enable_scroll_wheel_zoom!
       map.disable_double_click_zoom!
@@ -79,6 +82,15 @@ module RoutesHelper
       obj << ''
       obj << 'load_route();'
     end
+  end
+
+  def center_from_client_location(client_location = nil)
+    #FIXME no funciona la geolocalización poor IP para centrar el mapa
+    #FIXME eschaton no centra el mapa
+    if client_location && client_location.is_a?(Geokit::GeoLoc)
+      center = client_location.to_hash.to_eschaton_center if client_location.success?
+    end
+    center ||= :best_fit
   end
 
   def generate_js_polyline(route)
@@ -113,11 +125,11 @@ module RoutesHelper
   # usar mapas normales pero sin posibilidad de edición
   def static_map_img_tag(route, options = {})
     options.symbolize_keys!
-    wpoints = route.waypoints_for_static_map
-    tag("img", build_src_for_static_map(wpoints, options))
+    points = route.points_for_static_map
+    tag("img", build_src_for_static_map(points, options))
   end
 
-  def build_src_for_static_map(wpoints, options = {})
+  def build_src_for_static_map(points, options = {})
     base_options = {
       :size => "320x180",
       :maptype => "satellite",
@@ -125,10 +137,17 @@ module RoutesHelper
       :key => Google::ApiKey.get
     }
     
-    base_options[:markers] = "#{wpoints.first.lat},#{wpoints.first.lng},greens|#{wpoints.last.lat},#{wpoints.last.lng},red"
-    wpoints.each{ |wp|
-      base_options[:path] << "|#{wp.lat},#{wp.lng}"
-    }
+    if points.first.is_a?(Waypoint)
+      base_options[:markers] = "#{points.first.lat},#{points.first.lng},greens|#{points.last.lat},#{points.last.lng},red"
+      points.each{ |wp|
+        base_options[:path] << "|#{wp.lat},#{wp.lng}"
+      }
+    else
+      base_options[:markers] = "#{points.first[0]},#{points.first[1]},greens|#{points.last[0]},#{points.last[1]},red"
+      points.each{ |wp|
+        base_options[:path] << "|#{wp[0]},#{wp[1]}"
+      }
+    end
 
     src = ""
     base_options.each{|k,v| src += "#{k}=#{v}&"}

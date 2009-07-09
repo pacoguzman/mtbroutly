@@ -34,7 +34,7 @@
     <%= f.hidden_field :encoded_points, :value => route.encoded_points %>
     <%= f.hidden_field :distance, :value => route.distance %>
     <%= f.hidden_field :distance_unit, :value => route.distance_unit %>
-    <%= f.hidden_field :loops, :value => route.loops %>
+    <%= f.hidden_field :loops, :value => "1" %>
 
     <div class="actions"><%= submit_tag submit_text, {:class => 'button mainaction' , :accesskey => "s"} %></div>
   <% end -%>

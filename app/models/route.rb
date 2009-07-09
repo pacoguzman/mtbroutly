@@ -1,6 +1,9 @@
 require 'gmap_polyline_encoder'
+require 'polyline_decoder'
 
 class Route < ActiveRecord::Base
+  cattr_accessor :encoded_priority
+  @@encoded_priority = true
   SEARCH_DISTANCE_CODE_RANGE = {"0" => {},"1" => { :distance_lte => 10 },
     "2" => { :distance_gt => 10, :distance_lte => 25 }, "3" => { :distance_gt => 25, :distance_lte => 50 },
     "4" => { :distance_gt => 50 }}
@@ -18,13 +21,15 @@ class Route < ActiveRecord::Base
 
   #FIXME
   #validates_presence_of :owner, :user
-  validates_presence_of :title, :description
+  validates_presence_of :title, :description, :distance
   validates_uniqueness_of :title
   validates_numericality_of :distance, :greater_than_or_equal_to => 0
   validates_presence_of :encoded_points, :message => "You should create a route before save"
+  validates_presence_of :distance_unit
+  validates_inclusion_of :distance_unit, :in => %w( km mi )
   validates_associated :waypoints
 
-  before_save :compute_distance, :if => :compute_distance?
+  after_save :set_waypoints
 
   seo_urls "title"
   ajaxful_rateable :stars => 5, :dimensions => [:difficulty, :landscape]
@@ -36,17 +41,43 @@ class Route < ActiveRecord::Base
   
   acts_as_taggable
 
-  def compute_distance?
-    waypoints.size > 1 && (distance == BigDecimal("0"))
+  #####################################################################
+  # Always use distance and encoded points instead access to the waypoints
+  # Only use waypoints for search capabilities
+  #####################################################################
+  def self.with_waypoints_priority(&block)
+    Route.encoded_priority = false
+    yield  
+    Route.encoded_priority = true
   end
 
+
+  def compute_distance!
+    self.distance = compute_distance
+  end
+
+  # Calculate with geokit usefull functions so we need to save the route and
+  # create its waypoints
+  # Build the waypoints to calculate the distance without saving
   def compute_distance
-    dist = 0
-    nways = waypoints.size
-    waypoints.each_with_index do |w,i|
-      dist += w.distance_to(waypoints[i + 1]) unless i == nways - 1
+    if Route.encoded_priority
+      nways = decoded_points.size
+      wpoints = decoded_points.collect do |dp|
+        Waypoint.new(:lat => dp[0], :lng => dp[1])
+      end
+    else
+      nways = waypoints.size
+      wpoints = waypoints
     end
-    self.distance = dist * 1.609 #No pilla que se utiliza kms por defecto
+
+    dist = 0
+    wpoints.each_with_index do |w,i|
+      dist += w.distance_to(wpoints[i + 1]) unless i == nways - 1
+    end
+    if self.distance_unit == 'km'
+      return dist * 1.609344 #No pilla que se utiliza kms por defecto
+    end
+    dist
   end
 
   def find_near(origin, options = {})
@@ -78,38 +109,63 @@ class Route < ActiveRecord::Base
     search
   end
 
-  def vertices
-    waypoints.collect{|w| w.vertice }
+  # Using reload when use waypoints, to load the waypoints created after save the route
+  def vertices(reload = false)
+    if Route.encoded_priority
+      decoded_points.collect{ |w| {:latitude => w[0], :longitude => w[1]} }
+    else
+      waypoints(reload).map(&:vertice)
+    end
   end
 
-  def points
-    waypoints.collect{|w| w.point}
+  # Using reload when use waypoints, to load the waypoints created after save the route
+  def points(reload = false)
+    if Route.encoded_priority
+      decoded_points.collect{ |w| [w[0].to_f, w[1].to_f] }
+    else
+      waypoints(reload).map(&:point)
+    end
   end
 
-  def coordinates
-    waypoints.collect{ |w| w.coordinates_to_s }.join(" ") unless waypoints.empty?
+  # Using reload when use waypoints, to load the waypoints created after save the route
+  def coordinates(reload = false)
+    if Route.encoded_priority
+      decoded_points.collect{ |w| "#{w[0]},#{w[1]},0.0" }.join(" ")
+    else
+      waypoints(reload).map(&:coordinates_to_s).join(" ")
+    end
   end
 
-  def encoded_vertices
-    encoded = GMapPolylineEncoder.new().encode( points )
+  def encoded_vertices(reload = false)
+    if Route.encoded_priority
+      encoded = { :points => encoded_points }
+    else
+      encoded = GMapPolylineEncoder.new.encode(points(reload))
+    end
     encoded[:points] ||= nil
   end
 
-  #TODO memoize para memorizar métodos en memoria
-  def num_waypoints
-    @num_waypoints ||= waypoints.size
+  def decoded_points
+    @decoded_points ||= PolylineDecoder.new.decode(self.encoded_points)
   end
 
-  def waypoints_for_static_map
-    if num_waypoints > STATIC_MAP_GOOGLE_LIMIT
-      diezmador = (num_waypoints/STATIC_MAP_GOOGLE_LIMIT) + 1
-      a = (0..num_waypoints-1).step(diezmador).collect
-      #FIXME corregir los dos accesos al último por un calculo del indice para saber si se debería incluir o no
-      # Se añade último elemento como fin de la ruta
-      a << num_waypoints-1 unless (a.last == num_waypoints-1)
-      eval("waypoints.values_at(#{a.join(', ')})")
+  def num_points
+    decoded_points.size
+  end
+
+  def points_for_static_map
+    return decoded_points if num_points <= STATIC_MAP_GOOGLE_LIMIT && Route.encoded_priority
+    return waypoints if num_points <= STATIC_MAP_GOOGLE_LIMIT && !Route.encoded_priority
+
+    diezmador = (num_points/STATIC_MAP_GOOGLE_LIMIT) + 1
+    a = (0..num_points-1).step(diezmador).collect
+    # Se añade último elemento como fin de la ruta
+    a << num_points-1 unless (a.last == num_points-1)
+
+    if Route.encoded_priority
+      eval("self.decoded_points.values_at(#{a.join(', ')})")
     else
-      waypoints
+      eval("self.waypoints.values_at(#{a.join(', ')})")
     end
   end
 
@@ -145,5 +201,11 @@ class Route < ActiveRecord::Base
 
   def self.keywords_condition(keywords)
     keywords.blank? ? {} : {:group => [{:title_kw => keywords}, {:or_description_kw => keywords}]}
+  end
+
+  def set_waypoints
+    decoded_points.each_with_index do |decoded_point, index|
+      Waypoint.create!(:locatable => self, :lat => decoded_point[0], :lng => decoded_point[1], :position => index)
+    end
   end
 end

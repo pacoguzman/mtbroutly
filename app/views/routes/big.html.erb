@@ -1,28 +1,3 @@
-<%#= Mapstraction.header(:google) %>
-<%# show_route @route %>
-<%#= @map.to_html %>
 
-<%= include_google_javascript %>
-<%= init_map_for @route %><!-- Equivalente al show_route -->
 
-<h2><span><%= @route.title.upcase -%></span></h2>
-<span><%= link_to "Back to #{@route.title}", route_path(@route) %></span>
-<div id="format_links">
-  <%= link_to "View in Google Earth", route_path(:format => :kml) %>
-  <%= link_to "View as GPX", route_path(:format => :gpx) %>
-  <%= link_to "View as CRS", route_path(:format => :crs) %>
-</div>
-
-<%#= @map.div(:width => 870, :height => 650) %>
-<%= google_map :width => 870, :height => 650, :style => 'border: 1px dashed black; margin: 10px' %>
-
-<div class="detail detail1">
-  <div class="summary">
-    Distance: <%= number_with_precision(@route.distance, :precision => 3) %> kms<br/>
-    <%= pluralize(@route.comments.size, 'comment') %><br/>
-    Favorite of <%= pluralize(@route.favorites.size, 'user') %><br/>
-  </div>
-  <div class="text" style="padding:0px 0px 0px 5px">
-    <p><%= sanitize textilize(@route.description) %></p>
-  </div>
-</div>
+<%= render :partial => "map_show", :locals => {:route => @route, :width => 800, :heigth => 650} %>

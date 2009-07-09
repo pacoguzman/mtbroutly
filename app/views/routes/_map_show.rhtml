@@ -1,0 +1,22 @@
+<%= include_google_javascript %>
+<%= javascript_include_tag("route") %>
+<%= init_map_for(route, :mode => "show") %>
+
+<h2><span><%= route.title %></span></h2>
+<div id="format_links">
+  <%= link_to "View in Google Earth", route_path(:format => :kml) %>
+  <%= link_to "View as GPX", route_path(:format => :gpx) %>
+  <%= link_to "View as CRS", route_path(:format => :crs) %>
+</div>
+
+<%= google_map(:width => width, :height => heigth, :style => 'border: 1px dashed black; margin: 10px')%>
+<%= hidden_field_tag("route_encoded_points", route.encoded_points) %>
+
+<div class="detail detail1">
+  <div class="text"><%= sanitize(textilize(route.description)) %></div>
+  <div class="summary">
+    Distance: <%= number_with_precision(route.distance, :precision => 3) %> kms<br/>
+    Coordinates: <%= route.points.size %><br/>
+    More info TODO<br/>
+  </div>
+</div> <!-- /.detail1 -->

@@ -131,7 +131,7 @@ class RoutesController < ApplicationController
     @page = params[:page] || '1'
     @asc = params[:asc] || 'desc'
     #TODO  #@origin = current_user.profile.location
-    @routes = Routes.paginate :include => :waypoints, :per_page => '10',
+    @routes = Route.paginate :include => :waypoints, :per_page => '10',
       :page => @page,
       :order => @order + " " + @asc
 
