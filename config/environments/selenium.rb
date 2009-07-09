@@ -21,13 +21,18 @@ config.action_controller.allow_forgery_protection    = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# Configuración para selenium procedente de la wiki de Cucumber
+#http://wiki.github.com/aslakhellesoy/cucumber/setting-up-selenium
+config.action_controller.session = { :session_http_only => false }
 
 # These cause problems with irb. Left in for reference
-config.gem 'rspec-rails', :lib => false, :version => '>=1.2.2'
-config.gem 'rspec', :lib => false, :version => '>=1.2.2'
-config.gem 'cucumber', :lib => false, :version => '>=0.2.2'
-config.gem 'webrat', :lib => false, :version => '>=0.4.3'
+config.gem 'rspec-rails', :lib => false, :version => '>=1.2.6'
+config.gem 'rspec', :lib => false, :version => '>=1.2.6'
+config.gem 'cucumber', :lib => false, :version => '>=0.3.3'
+config.gem 'webrat', :lib => false, :version => '>=0.4.4'
 config.gem "thoughtbot-shoulda", :lib => false, :source => "http://gems.github.com", :version => '>=2.10.1'
-config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com", :version => '>=1.2.0'
-config.gem "bmabey-database_cleaner", :lib => "database_cleaner", :source => "http://gems.github.com", :version => '>=0.1.2'
+config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com", :version => '>=1.2.1'
+config.gem "bmabey-database_cleaner", :lib => "database_cleaner", :source => "http://gems.github.com", :version => '>=0.2.2'
+config.gem "mocha"
+config.gem 'selenium-client', :lib => 'selenium/client'
 

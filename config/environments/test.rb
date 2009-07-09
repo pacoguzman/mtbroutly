@@ -12,6 +12,7 @@ config.whiny_nils = true
 # Show full error reports and disable caching
 config.action_controller.consider_all_requests_local = true
 config.action_controller.perform_caching             = false
+config.action_view.cache_template_loading            = true
 
 # Disable request forgery protection in test environment
 config.action_controller.allow_forgery_protection    = false
@@ -21,6 +22,14 @@ config.action_controller.allow_forgery_protection    = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# Use SQL instead of Active Record's schema dumper when creating the test database.
+# This is necessary if your schema can't be completely dumped by the schema dumper,
+# like if you have constraints or database-specific column types
+# config.active_record.schema_format = :sql
+
+# Configuración para selenium procedente de la wiki de Cucumber
+#http://wiki.github.com/aslakhellesoy/cucumber/setting-up-selenium
+config.action_controller.session = { :session_http_only => false }
 
 # These cause problems with irb. Left in for reference
 config.gem 'rspec-rails', :lib => false, :version => '>=1.2.6'
@@ -31,5 +40,6 @@ config.gem "thoughtbot-shoulda", :lib => false, :source => "http://gems.github.c
 config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com", :version => '>=1.2.1'
 config.gem "bmabey-database_cleaner", :lib => "database_cleaner", :source => "http://gems.github.com", :version => '>=0.2.2'
 config.gem "mocha"
+config.gem 'selenium-client', :lib => 'selenium/client'
 
 
